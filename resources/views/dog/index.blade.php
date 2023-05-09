@@ -7,20 +7,42 @@
     <title>Document</title>
 </head>
 <body>
-    En esta vista estaran los perros del usuario
-    @foreach ($dogs as $dog)
-        <h1>Perro:</h1>
-        <p>Nombre: {{ $dog->name }}</p>
-        <p>Sexo: {{ $dog->gender }}</p>
-        <p>Raza: {{ $dog->race }}</p>
-        <p>Descripción: {{ $dog->description }}</p>
-        <p>Fecha de nacimiento: {{ $dog->date_of_birth }}</p>
-        <p>Foto: {{ $dog->photo }}</p>
-        <form method="POST" action="{{ route('dog.destroy', $dog->id) }}">
-            @csrf
-            @method('DELETE')
-            <button type="submit">Eliminar</button>
-        </form>
-    @endforeach
+    <!-- Deberíamos instalar tailwind, la clase table-auto pertenece a esa herramienta -->
+    <table class="table-auto">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Sexo</th>
+            <th>Raza</th>
+            <th>Descripcion</th>
+            <th>Fecha de nacimiento</th>
+            <th>Foto</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        @foreach ($dogs as $dog)
+        <tbody>
+            <td>{{ $dog->name }}</td>
+            <td>{{ $dog->gender }}</td>
+            <td>{{ $dog->race }}</td>
+            <td>{{ $dog->description }}</td>
+            <td>{{ $dog->date_of_birth }}</td>
+            <td>{{ $dog->photo }}</td>
+            <td>
+            <form action="{{ route('dog.destroy', $dog) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Eliminar</button>
+            </form>
+
+            <a href={{ route('dog.edit', $dog) }}>
+                <button>Modificar</button>
+            </a>
+
+            </td>
+        </tbody>
+        @endforeach
+    </table>
+
 </body>
 </html>

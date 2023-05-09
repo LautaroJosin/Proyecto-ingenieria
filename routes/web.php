@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+/*
 Route::controller(DogController::class)->group(function () {
     Route::prefix('/usuario/perros')->group(function () {
         Route::name('dog.')->group(function () {
@@ -29,3 +29,9 @@ Route::controller(DogController::class)->group(function () {
         });
     });
 });
+*/
+
+/*Por si quieren usarlo en español
+Route::resource('usuario/perros', DogController::class)->names('dog')->parameters(['perros' => 'dog']);
+*/
+Route::resource('user/dog', DogController::class);

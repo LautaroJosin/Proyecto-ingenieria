@@ -8,7 +8,7 @@
 </head>
 <body>
     En esta vista van a estar los formularios para crear un perro
-    <form method="POST" action="{{ route('dog.store') }}">
+    <form action="{{ route('dog.store') }}" method="POST">
         @csrf
 
         <label>Nombre:</label>
@@ -29,10 +29,9 @@
 
         <label>Fecha de nacimiento:</label>
         <input type="date" name="date_of_birth" required>
-        <!--
-        <label>Imagen</label>
-        <input type="text">
-        -->
+
+        <label>Foto:</label>
+        <input type="text" name="photo" required>
 
         <button type="submit">Confirmar</button>
     </form>
