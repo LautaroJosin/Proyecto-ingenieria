@@ -2,10 +2,18 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+
+        <!-- Dni -->
+        <div>
+            <x-input-label for="dni" :value="__('Dni')" />
+            <x-text-input id="dni" class="block mt-1 w-full" type="number" name="dni" :value="old('dni')" required />
+            <x-input-error :messages="$errors->get('dni')" class="mt-2" />
+        </div>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
