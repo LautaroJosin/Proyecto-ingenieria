@@ -19,7 +19,7 @@
 
         <!-- Apellido -->
         <div>
-            <x-input-label for="surname" :value="__('Apellido')" />
+            <x-input-label for="surname" :value="__('Surname')" />
             <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname')" required />
             <x-input-error :messages="$errors->get('surname')" class="mt-2" />
         </div>
@@ -33,7 +33,7 @@
 
         <!-- Telefono -->
         <div class="mt-4">
-            <x-input-label for="phone" :value="__('Telefono')" />
+            <x-input-label for="phone" :value="__('Phone')" />
             <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" required  />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
