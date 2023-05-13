@@ -38,6 +38,10 @@
             <a href={{ route('dog.edit', $dog) }}>
                 <button>Modificar</button>
             </a>
+        <br>
+            <a href={{ route('dog.show', $dog) }}>
+                <button>Ver libreta sanitaria</button>
+            </a>
 
             </td>
         </tbody>
