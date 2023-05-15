@@ -46,10 +46,14 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'email' => $request->email,
             'phone' => $request->phone,
-            'password' => Hash::make($this->random_password()),
+            $pass = $this->random_password(),
+            'password_to_show' => $pass,
+            'password' => Hash::make($pass),
         ]);
 
-        event(new Registered($user));
+        //event(new Registered($user));
+        $user->sendEmailVerificationNotification();
+
 
         Auth::login($user);
 
