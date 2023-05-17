@@ -29,7 +29,6 @@ class DogController extends Controller
     public function store(Request $request)
     {
         $this->setDog($request, new Dog)->save();
-
     }
 
     /**
@@ -37,7 +36,7 @@ class DogController extends Controller
      */
     public function show(Dog $dog)
     {
-        //
+        return view('dog.show')->with('dog', $dog);
     }
 
     /**

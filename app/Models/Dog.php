@@ -19,4 +19,8 @@ class Dog extends Model
         'description',
         'photo',
     ];
+
+    public function treatments() {
+        return $this->hasMany(Treatment::class);
+    }
 }
