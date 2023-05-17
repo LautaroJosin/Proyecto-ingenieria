@@ -34,19 +34,16 @@
                 @method('DELETE')
                 <button type="submit">Eliminar</button>
             </form>
-
             <a href={{ route('dog.edit', $dog) }}>
                 <button>Modificar</button>
             </a>
-        <br>
-            <a href={{ route('dog.show', $dog) }}>
-                <button>Ver libreta sanitaria</button>
-            </a>
-
             </td>
         </tbody>
         @endforeach
     </table>
-
+    <br>
+    <a href={{ route('dog.create') }}>
+        <button>Crear</button>
+    </a>
 </body>
 </html>

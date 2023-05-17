@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DogController;
+use App\Http\Controllers\UserDogController;
+use App\Http\Controllers\AdminDogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,21 +30,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-/*
-Route::controller(DogController::class)->group(function () {
-    Route::prefix('/usuario/perros')->group(function () {
-        Route::name('dog.')->group(function () {
-            Route::get('', 'index')->name('');
-            Route::post('', 'store')->name('store');
-            Route::get('/crear', 'create')->name('create');
-            Route::delete('/borrar/{id}', 'destroy')->name('destroy');
-            Route::get('/libreta/{id}', 'showHealthBook')->name('showHealthBook'); //Después se implementará. Se usará un singleton
-        });
-    });
-});
-*/
 
-/*Por si quieren usarlo en español
-Route::resource('usuario/perros', DogController::class)->names('dog')->parameters(['perros' => 'dog']);
-*/
-Route::resource('user/dog', DogController::class);
+
+Route::resource('user/my-dog', UserDogController::class);
+
+Route::resource('admin/dog', AdminDogController::class);

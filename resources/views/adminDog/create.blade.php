@@ -11,6 +11,9 @@
     <form action="{{ route('dog.store') }}" method="POST">
         @csrf
 
+        <label>DNI del Dueño:</label>
+        <input type="number" name="DNI" required>
+
         <label>Nombre:</label>
         <input type="text" name="name" required>
 

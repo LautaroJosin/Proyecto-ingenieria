@@ -50,6 +50,7 @@ class ProfileController extends Controller
 
         Auth::logout();
 
+        $user->dogs()->delete();
         $user->delete();
 
         $request->session()->invalidate();

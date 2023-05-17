@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dog;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class DogController extends Controller
+class AdminDogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('dog.index')->with('dogs', Dog::all());
+        return view('adminDog.index')->with('dogs', Dog::all());
     }
 
     /**
@@ -20,7 +21,7 @@ class DogController extends Controller
      */
     public function create()
     {
-        return view('dog.create');
+        return view('adminDog.create');
     }
 
     /**
@@ -28,15 +29,11 @@ class DogController extends Controller
      */
     public function store(Request $request)
     {
-        $this->setDog($request, new Dog)->save();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Dog $dog)
-    {
-        return view('dog.show')->with('dog', $dog);
+        $dog = new Dog;
+        $user = User::where('dni', $request->input('DNI'))->first();
+        if ($user === null) return redirect()->back()->with('error', 'Usuario no encontrado.');
+        $dog->user_id = $user->id;
+        $this->setDog($request, $dog)->save();
     }
 
     /**
@@ -44,7 +41,7 @@ class DogController extends Controller
      */
     public function edit(Dog $dog)
     {
-        return view('dog.edit')->with('dog', $dog);
+        return view('adminDog.edit')->with('dog', $dog);
     }
 
     /**
@@ -61,6 +58,7 @@ class DogController extends Controller
      */
     public function destroy(Dog $dog)
     {
+        $dog->treatments()->delete();
         $dog->delete();
         return redirect()->route('dog.index');
     }

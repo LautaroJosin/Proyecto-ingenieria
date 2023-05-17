@@ -23,4 +23,8 @@ class Dog extends Model
     public function treatments() {
         return $this->hasMany(Treatment::class);
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
