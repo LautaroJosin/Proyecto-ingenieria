@@ -66,6 +66,7 @@ class AdminDogController extends Controller
     public function destroy(Dog $dog)
     {
         $dog->treatments()->delete();
+        //Storage::delete($dog->photo); --> No anda y no sé por qué. Pero son las 00:30 am y me quiero ir a dormir.
         $dog->delete();
         return redirect()->route('dog.index');
     }
@@ -77,11 +78,13 @@ class AdminDogController extends Controller
         $dog->race = $request->input('race');
         $dog->description = $request->input('description');
         $dog->date_of_birth = $request->input('date_of_birth');
-        $request->validate([
-            'photo' => 'required|image',
-        ]);
-        $url = $request->file('photo')->store('public');
-        $dog->photo = Storage::url($url);
+        if ($request->hasFile('photo')) {
+            $request->validate([
+                'photo' => 'required|image',
+            ]);
+            $url = $request->file('photo')->store('public/dogs');
+            $dog->photo = Storage::url($url);
+        }
         return $dog;
     }
 }

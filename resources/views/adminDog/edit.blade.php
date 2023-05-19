@@ -45,13 +45,13 @@
                                 <label>Fecha de nacimiento</label>
                                 <input type="date" name="date_of_birth" class="form-control" required value="{{ $dog->date_of_birth }}">
                             </div>
-<!-- 
-
                             <div class="form-group">
                                 <label>Foto</label>
-                                <input type="file" name="photo" class="form-control" required value="{{ $dog->photo }}">
+                                @if($dog->photo)
+                                    <img src="{{ $dog->photo }}" alt="Foto actual">
+                                @endif
+                                <input type="file" name="photo" class="form-control">
                             </div>
--->
                             <button type="submit" class="btn btn-primary">Confirmar cambios</button>
                         </form>
                     </div>
