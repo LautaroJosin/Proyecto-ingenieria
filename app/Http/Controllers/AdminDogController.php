@@ -12,7 +12,7 @@ class AdminDogController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
         return view('adminDog.index')->with('dogs', Dog::all());
     }
 
@@ -34,6 +34,7 @@ class AdminDogController extends Controller
         if ($user === null) return redirect()->back()->with('error', 'Usuario no encontrado.');
         $dog->user_id = $user->id;
         $this->setDog($request, $dog)->save();
+        return redirect()->route('dog.index');
     }
 
     /**
