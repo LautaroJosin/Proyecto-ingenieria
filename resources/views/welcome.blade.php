@@ -6,7 +6,7 @@
 
         <div class="relative min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
 
-            <div class="grid-header-welcome pt-5 px-5 col-span-2">
+            <div class="grid-header-welcome pt-5 px-5">
 
             @include('layouts.mainMenu')
 
@@ -26,7 +26,7 @@
 
             </div>
             
-            {{-- Contenido propio del dashboard --}}
+            {{-- Contenido propio del dashboard 
             <div class="p-10">
 
                 <h2 class="font-semibold text-gray-600 dark:text-gray-400 text-xl justify-center text-center">
@@ -38,7 +38,7 @@
                     encontrar perros perdidos, solicitar algun servicio cuidado o paseo e incluso donar a campañas beneficas!
                 </p>
             </div>  
-        
+            --}}
         
         </div>
         @endsection

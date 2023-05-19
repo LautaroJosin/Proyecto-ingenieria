@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-.grid-main-menu {
+.grid-header-welcome {
     display: grid;
     grid-template-columns: 90% 10%;
-    justify-items: center;
+}
+
+.grid-main-menu {
+    display: grid;
+    grid-template-columns: repeat(7,200px);
+}
+
+.text-main-menu {
+    text-align: center;
+    font-size: 1.10rem;
+    line-height: 1.75rem; /* 28px */
 }
