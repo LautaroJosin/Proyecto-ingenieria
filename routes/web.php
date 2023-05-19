@@ -35,7 +35,3 @@ require __DIR__.'/auth.php';
 Route::resource('user/my-dog', UserDogController::class);
 
 Route::resource('admin/dog', AdminDogController::class);
-
-Route::get('/prueba' , function() {
-    return view('prueba');
-})->name('prueba');
