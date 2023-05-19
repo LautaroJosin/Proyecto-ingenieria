@@ -1,0 +1,1 @@
+<h1>Esta es una vista para probar links</h1>

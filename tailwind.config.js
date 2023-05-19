@@ -13,6 +13,9 @@ module.exports = {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            gridAutoColumns: {
+                '2fr': '2fr 0fr',
+              },
         },
     },
 
