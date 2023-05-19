@@ -7,7 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- Deberíamos instalar tailwind, la clase table-auto pertenece a esa herramienta -->
     <table class="table-auto">
         <thead>
           <tr>
@@ -22,12 +21,15 @@
         </thead>
         @foreach ($dogs as $dog)
         <tbody>
+            <tr>
             <td>{{ $dog->name }}</td>
             <td>{{ $dog->gender }}</td>
             <td>{{ $dog->race }}</td>
             <td>{{ $dog->description }}</td>
             <td>{{ $dog->date_of_birth }}</td>
-            <td>{{ $dog->photo }}</td>
+            <td>
+            <img src="{{ asset($dog->photo) }}" width="300px" alt="">
+            </td>
             <td>
             <form action="{{ route('dog.destroy', $dog) }}" method="POST">
                 @csrf
@@ -38,6 +40,7 @@
                 <button>Modificar</button>
             </a>
             </td>
+        </tr>
         </tbody>
         @endforeach
     </table>

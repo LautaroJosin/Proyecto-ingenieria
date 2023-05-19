@@ -14,7 +14,7 @@
                     <div class="card-header">Editar Perro</div>
 
                     <div class="card-body">
-                        <form action="{{ route('dog.update', $dog) }}" method="POST">
+                        <form action="{{ route('dog.update', $dog) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -31,7 +31,6 @@
                                 </select>
                             </div>
 
-
                             <div class="form-group">
                                 <label>Raza</label>
                                 <input type="text" name="race" class="form-control" required value="{{ $dog->race }}">
@@ -46,12 +45,13 @@
                                 <label>Fecha de nacimiento</label>
                                 <input type="date" name="date_of_birth" class="form-control" required value="{{ $dog->date_of_birth }}">
                             </div>
+<!-- 
 
                             <div class="form-group">
                                 <label>Foto</label>
-                                <input type="text" name="photo" class="form-control" required value="{{ $dog->photo }}">
+                                <input type="file" name="photo" class="form-control" required value="{{ $dog->photo }}">
                             </div>
-
+-->
                             <button type="submit" class="btn btn-primary">Confirmar cambios</button>
                         </form>
                     </div>
