@@ -81,7 +81,7 @@ class AdminDogController extends Controller
             'photo' => 'required|image',
         ]);
         $url = $request->file('photo')->store('public');
-        $dog->photo = $url;
+        $dog->photo = Storage::url($url);
         return $dog;
     }
 }
