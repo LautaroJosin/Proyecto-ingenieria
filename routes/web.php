@@ -32,6 +32,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('user/my-dog', UserDogController::class);
+Route::resource('user/my-dog', UserDogController::class)->parameters(['my-dog' => 'dog']);
 
 Route::resource('admin/dog', AdminDogController::class);

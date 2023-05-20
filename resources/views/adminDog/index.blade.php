@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    @vite('resources/css/app.css')
 </head>
 <body>
-    <!-- Deberíamos instalar tailwind, la clase table-auto pertenece a esa herramienta -->
+
     <table class="table-auto">
         <thead>
           <tr>
@@ -29,21 +30,33 @@
             <td>{{ $dog->date_of_birth }}</td>
             <td>{{ $dog->photo }}</td>
             <td>
-            <form action="{{ route('dog.destroy', $dog) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Eliminar</button>
-            </form>
-            <a href={{ route('dog.edit', $dog) }}>
-                <button>Modificar</button>
-            </a>
+                @can('delete dog')
+                <form action="{{ route('dog.destroy', $dog) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">
+                        Eliminar
+                    </button>
+                </form>
+                @endcan
+
+                @can('edit dog')
+                <a href={{ route('dog.edit', $dog) }}>
+                    <button>
+                        Modificar
+                    </button>
+                </a>
+                @endcan
+
+                <a href={{ route('my-dog.show', $dog) }}>
+                    <button>
+                        Ver libreta sanitaria
+                    </button>
+                </a>
             </td>
         </tbody>
         @endforeach
+
     </table>
-    <br>
-    <a href={{ route('dog.create') }}>
-        <button>Crear</button>
-    </a>
 </body>
 </html>
