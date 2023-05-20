@@ -3,8 +3,9 @@
         @section('title','Welcome')
 
         @section('content')
-        <body class="antialiased">
-            <div class="relative min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+        {{-- <body class="antialiased"> --}}
+            
+            {{--<div class="relative min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white"> --}}
 
                 <div class="grid-header-welcome pt-5 px-5">
 
@@ -25,22 +26,9 @@
                 </div>
 
                 </div>
-                
-                {{-- Contenido propio del dashboard 
-                <div class="p-10">
-
-                    <h2 class="font-semibold text-gray-600 dark:text-gray-400 text-xl justify-center text-center">
-                        Bienvenido a Oh my dog!
-                    </h2>
-                    
-                    <p class="font-semibold text-gray-600 dark:text-gray-400">
-                        A traves de la aplicacion usted podra solicitar turnos, adoptar un perro,
-                        encontrar perros perdidos, solicitar algun servicio cuidado o paseo e incluso donar a campañas beneficas!
-                    </p>
-                </div>  
-                --}}
             
-            </div>
-        </body>
+            
+            {{-- </div> --}}
+        {{-- </body> --}}
         @endsection
  

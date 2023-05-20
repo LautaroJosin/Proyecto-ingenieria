@@ -22,7 +22,10 @@
         @vite('resources/css/app.css')
 
     </head>
+
+    <body class="font-sans antialiased min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 bg-dots-darker bg-center dark:bg-dots-lighter dark:bg-gray-900">
     
     @yield('content')
         
+    </body>
 </html>
