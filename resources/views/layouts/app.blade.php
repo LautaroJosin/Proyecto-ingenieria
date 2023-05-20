@@ -1,4 +1,4 @@
-    @extends('layouts.layout-master')
+@extends('layouts.layout-master')
 
     @section('meta1')
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -7,7 +7,6 @@
     @section('title','Usuario')
 
     @section('content')
-        <body class="font-sans antialiased">
             <div class="min-h-screen bg-gray-100">
                 @include('layouts.navigation')
 
@@ -27,5 +26,4 @@
 
                 
             </div>
-        </body>
     @endsection
