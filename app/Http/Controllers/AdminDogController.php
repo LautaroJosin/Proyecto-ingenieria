@@ -8,11 +8,20 @@ use Illuminate\Http\Request;
 
 class AdminDogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:show dog')->only('index', 'show');
+        $this->middleware('can:create dog')->only('create', 'store');
+        $this->middleware('can:edit dog')->only('edit', 'update');
+        $this->middleware('can:delete dog')->only('destroy');
+    }
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {   
+    {
         return view('adminDog.index')->with('dogs', Dog::all());
     }
 
@@ -34,7 +43,6 @@ class AdminDogController extends Controller
         if ($user === null) return redirect()->back()->with('error', 'Usuario no encontrado.');
         $dog->user_id = $user->id;
         $this->setDog($request, $dog)->save();
-        return redirect()->route('dog.index');
     }
 
     /**

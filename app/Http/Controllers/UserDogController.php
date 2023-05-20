@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserDogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('userDog.index')->with('dogs', User::find(Auth::id())->dogs);
@@ -18,6 +23,9 @@ class UserDogController extends Controller
      */
     public function show(Dog $dog)
     {
-        return view('userDog.show')->with('dog', $dog);
+        return view('adminDog.showTreatments')->with('dog', $dog);
     }
 }
+
+/*
+ */
