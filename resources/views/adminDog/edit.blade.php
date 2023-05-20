@@ -20,7 +20,7 @@
 
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" name="name" class="form-control" required value="{{ $dog->name }}">
+                                <input type="text" name="name" class="form-control" pattern="[A-Za-z ]+" required value="{{ $dog->name }}">
                             </div>
 
                             <div class="form-group">
@@ -33,7 +33,7 @@
 
                             <div class="form-group">
                                 <label>Raza</label>
-                                <input type="text" name="race" class="form-control" required value="{{ $dog->race }}">
+                                <input type="text" name="race" class="form-control" pattern="[A-Za-z ]+" required value="{{ $dog->race }}">
                             </div>
 
                             <div class="form-group">
@@ -43,14 +43,17 @@
 
                             <div class="form-group">
                                 <label>Fecha de nacimiento</label>
-                                <input type="date" name="date_of_birth" class="form-control" required value="{{ $dog->date_of_birth }}">
+                                <input type="date" name="date_of_birth" class="form-control" min="2000-01-01" max="{{  date('Y-m-d') }}" required value="{{ $dog->date_of_birth }}">
                             </div>
                             <div class="form-group">
                                 <label>Foto</label>
                                 @if($dog->photo)
-                                    <img src="{{ $dog->photo }}" alt="Foto actual">
+                                    <img src="{{ $dog->photo }}" alt="Foto actual" width="80px">
                                 @endif
-                                <input type="file" name="photo" class="form-control">
+                                <input type="file" name="photo" accept="image/*" class="form-control">
+                                @error('photo')
+                                    <small class="text-danger"> {{$message}} </small>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Confirmar cambios</button>
                         </form>
