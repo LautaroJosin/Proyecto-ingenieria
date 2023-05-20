@@ -8,7 +8,6 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-
     <table class="table-auto">
         <thead>
           <tr>
@@ -23,12 +22,15 @@
         </thead>
         @foreach ($dogs as $dog)
         <tbody>
+            <tr>
             <td>{{ $dog->name }}</td>
             <td>{{ $dog->gender }}</td>
             <td>{{ $dog->race }}</td>
             <td>{{ $dog->description }}</td>
             <td>{{ $dog->date_of_birth }}</td>
-            <td>{{ $dog->photo }}</td>
+            <td>
+            <img src="{{ asset($dog->photo) }}" alt="" width="100" height="100">
+            </td>
             <td>
                 @can('delete dog')
                 <form action="{{ route('dog.destroy', $dog) }}" method="POST">
@@ -48,12 +50,13 @@
                 </a>
                 @endcan
 
-                <a href={{ route('my-dog.show', $dog) }}>
+                <a href={{ route('treatment.show', $dog) }}>
                     <button>
                         Ver libreta sanitaria
                     </button>
                 </a>
             </td>
+        </tr>
         </tbody>
         @endforeach
 

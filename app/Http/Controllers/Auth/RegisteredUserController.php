@@ -53,9 +53,14 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        //Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function __construct()
+    {
+        $this->middleware('can:create user')->only('create', 'store');
     }
 
     private function random_password( $length = 8 ) {

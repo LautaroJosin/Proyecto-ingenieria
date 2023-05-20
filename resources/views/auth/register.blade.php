@@ -6,21 +6,21 @@
         <!-- Dni -->
         <div>
             <x-input-label for="dni" :value="__('Dni')" />
-            <x-text-input id="dni" class="block mt-1 w-full" type="number" name="dni" :value="old('dni')" required />
+            <x-text-input id="dni" class="block mt-1 w-full" type="number" min="0" max="99999999" name="dni" :value="old('dni')" required />
             <x-input-error :messages="$errors->get('dni')" class="mt-2" />
         </div>
 
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" pattern="[A-Za-z ]+" name="name" :value="old('name')" required />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Apellido -->
         <div>
             <x-input-label for="surname" :value="__('Surname')" />
-            <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname')" required />
+            <x-text-input id="surname" class="block mt-1 w-full" type="text" pattern="[A-Za-z ]+" name="surname" :value="old('surname')" required />
             <x-input-error :messages="$errors->get('surname')" class="mt-2" />
         </div>
 
