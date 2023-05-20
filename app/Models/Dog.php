@@ -20,6 +20,10 @@ class Dog extends Model
         'photo',
     ];
 
+    protected $casts = [
+        'date_of_birth' => 'date:Y-m-d',
+    ];
+
     public function treatments() {
         return $this->hasMany(Treatment::class);
     }
@@ -27,4 +31,21 @@ class Dog extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function ageForHumans() {
+        return $this->date_of_birth->longAbsoluteDiffForHumans();
+    }
+
+    public function ageInYears() {
+        return $this->date_of_birth->diffInYears();
+    }
+
+    public function ageInMonths() {
+        return $this->date_of_birth->diffInMonths();
+    }
+
+    public function ageInDays() {
+        return $this->date_of_birth->diffInDays();
+    }
+
 }
