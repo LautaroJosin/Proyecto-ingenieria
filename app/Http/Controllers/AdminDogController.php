@@ -43,6 +43,7 @@ class AdminDogController extends Controller
         if ($user === null) return redirect()->back()->with('error', 'Usuario no encontrado.');
         $dog->user_id = $user->id;
         $this->setDog($request, $dog)->save();
+        return redirect()->route('dog.index');
     }
 
     /**

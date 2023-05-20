@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('user/dog', UserDogController::class)->only('show');
+Route::resource('user/dog', UserDogController::class)->only('index');
 
 Route::resource('dog/treatment', TreatmentController::class)->only('show')
     ->parameters(['treatment' => 'dog',]);
