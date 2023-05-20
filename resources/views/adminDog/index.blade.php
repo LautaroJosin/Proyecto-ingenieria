@@ -48,7 +48,7 @@
                 </a>
                 @endcan
 
-                <a href={{ route('my-dog.show', $dog) }}>
+                <a href={{ route('treatment.show', $dog) }}>
                     <button>
                         Ver libreta sanitaria
                     </button>

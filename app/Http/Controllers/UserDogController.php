@@ -18,13 +18,6 @@ class UserDogController extends Controller
         return view('userDog.index')->with('dogs', User::find(Auth::id())->dogs);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Dog $dog)
-    {
-        return view('userDog.show')->with('dog', $dog);
-    }
 }
 
 /*

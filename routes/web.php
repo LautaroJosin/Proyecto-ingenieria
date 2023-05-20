@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserDogController;
 use App\Http\Controllers\AdminDogController;
+use App\Http\Controllers\TreatmentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +19,7 @@ use App\Http\Controllers\AdminDogController;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -32,6 +34,9 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('user/my-dog', UserDogController::class)->parameters(['my-dog' => 'dog']);
+Route::resource('user/dog', UserDogController::class)->only('show');
 
-Route::resource('admin/dog', AdminDogController::class);
+Route::resource('dog/treatment', TreatmentController::class)->only('show')
+    ->parameters(['treatment' => 'dog',]);
+
+Route::resource('admin/dog', AdminDogController::class)->except('show');

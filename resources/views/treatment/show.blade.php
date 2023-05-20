@@ -7,8 +7,8 @@
     <title>Document</title>
 </head>
 <body>
+    Libreta sanitaria del perro: {{ $dog->name }}
     <table class="table-auto">
-        Libreta sanitaria del perro: {{ $dog->name }}
         <thead>
           <tr>
             <th>Fecha</th>
