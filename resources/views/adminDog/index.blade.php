@@ -29,7 +29,7 @@
             <td>{{ $dog->description }}</td>
             <td>{{ $dog->date_of_birth }}</td>
             <td>
-            <img src="{{ asset($dog->photo) }}" width="300px" alt="">
+            <img src="{{ asset($dog->photo) }}" alt="" width="100" height="100">
             </td>
             <td>
                 @can('delete dog')

@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
-
 class AdminDogController extends Controller
 {
     public function __construct()
@@ -43,9 +42,19 @@ class AdminDogController extends Controller
     {
         $dog = new Dog;
         
-        $user = User::where('dni', $request->input('dni'))->first();
-        if ($user === null) return redirect()->back()->with('error', 'Usuario no encontrado.');
+        $request->validate([
+            'dni' => [
+                'required',
+                Rule::exists('users', 'dni')->where(function ($query) use ($request) {
+                    $query->where('dni', $request->input('dni'));
+                }),
+            ],
+        ], [
+            'dni.required' => 'El campo DNI es obligatorio',
+            'dni.exists' => 'Usuario no encontrado',
+        ]);
 
+        $user = User::where('dni', $request->input('dni'))->first();
         $dog->user_id = $user->id;
         $this->setDog($request, $dog)->save();
         return redirect()->route('dog.index');
@@ -86,6 +95,7 @@ class AdminDogController extends Controller
         $dog->race = $request->input('race');
         $dog->description = $request->input('description');
         $dog->date_of_birth = $request->input('date_of_birth');
+        
         if ($request->hasFile('photo')) {
             $request->validate([
                 'photo' => 'required|image',
@@ -93,6 +103,7 @@ class AdminDogController extends Controller
             $url = $request->file('photo')->store('public/dogs');
             $dog->photo = Storage::url($url);
         }
+        
         return $dog;
     }
 }
