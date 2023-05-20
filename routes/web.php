@@ -40,3 +40,7 @@ Route::resource('dog/treatment', TreatmentController::class)->only('show')
     ->parameters(['treatment' => 'dog',]);
 
 Route::resource('admin/dog', AdminDogController::class)->except('show');
+
+Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create');
+
+Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create');

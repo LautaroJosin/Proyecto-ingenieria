@@ -28,6 +28,10 @@ class Dog extends Model
         return $this->hasMany(Treatment::class);
     }
 
+    public function appointments() {
+        return $this->hasMany(Appointment::class);
+    }
+
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
@@ -47,5 +51,4 @@ class Dog extends Model
     public function ageInDays() {
         return $this->date_of_birth->diffInDays();
     }
-
 }
