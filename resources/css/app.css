@@ -23,3 +23,7 @@
     line-height: 1.75rem; /* 28px */
     text-align: center;
 }
+
+.text-pages {
+    @apply font-sans text-white
+}

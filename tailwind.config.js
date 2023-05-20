@@ -13,9 +13,14 @@ module.exports = {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
-            gridAutoColumns: {
+            gridTemplateColumns: {
                 '2fr': '2fr 0fr',
+                '20-80': '20% 80%',
               },
+            gridTemplateRows: {
+            // Simple 8 row grid
+            '7': 'repeat(7, minmax(0, 1fr))',
+            },
         },
     },
 
