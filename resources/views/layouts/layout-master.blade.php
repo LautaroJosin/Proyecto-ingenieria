@@ -22,10 +22,7 @@
         @vite('resources/css/app.css')
 
     </head>
-    <body class="antialiased">
- 
+    
     @yield('content')
         
-
-    </body>
 </html>
