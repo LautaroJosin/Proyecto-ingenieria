@@ -23,7 +23,7 @@ class UserDogController extends Controller
      */
     public function show(Dog $dog)
     {
-        return view('adminDog.showTreatments')->with('dog', $dog);
+        return view('userDog.show')->with('dog', $dog);
     }
 }
 
