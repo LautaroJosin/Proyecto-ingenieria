@@ -8,11 +8,11 @@
 </head>
 <body>
     En esta vista van a estar los formularios para crear un perro
-    <form action="{{ route('dog.store') }}" method="POST">
+    <form action="{{ route('dog.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <label>DNI del Dueño:</label>
-        <input type="number" name="DNI" required>
+        <input type="number" name="dni" required>
 
         <label>Nombre:</label>
         <input type="text" name="name" required>
@@ -31,10 +31,13 @@
         <input type="text" name="description" required>
 
         <label>Fecha de nacimiento:</label>
-        <input type="date" name="date_of_birth" required>
+        <input type="date" name="date_of_birth" accept="image/" required>
 
         <label>Foto:</label>
-        <input type="text" name="photo" required>
+        <input type="file" name="photo" required>
+        @error('photo')
+            <small class="text-danger"> {{$message}} </small>
+        @enderror
 
         <button type="submit">Confirmar</button>
     </form>

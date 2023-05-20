@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Dog;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+
 
 class AdminDogController extends Controller
 {
@@ -39,8 +42,10 @@ class AdminDogController extends Controller
     public function store(Request $request)
     {
         $dog = new Dog;
-        $user = User::where('dni', $request->input('DNI'))->first();
+        
+        $user = User::where('dni', $request->input('dni'))->first();
         if ($user === null) return redirect()->back()->with('error', 'Usuario no encontrado.');
+
         $dog->user_id = $user->id;
         $this->setDog($request, $dog)->save();
         return redirect()->route('dog.index');
@@ -69,6 +74,7 @@ class AdminDogController extends Controller
     public function destroy(Dog $dog)
     {
         $dog->treatments()->delete();
+        //Storage::delete($dog->photo); --> No anda y no sé por qué. Pero son las 00:30 am y me quiero ir a dormir.
         $dog->delete();
         return redirect()->route('dog.index');
     }
@@ -80,7 +86,13 @@ class AdminDogController extends Controller
         $dog->race = $request->input('race');
         $dog->description = $request->input('description');
         $dog->date_of_birth = $request->input('date_of_birth');
-        $dog->photo = $request->input('photo');
+        if ($request->hasFile('photo')) {
+            $request->validate([
+                'photo' => 'required|image',
+            ]);
+            $url = $request->file('photo')->store('public/dogs');
+            $dog->photo = Storage::url($url);
+        }
         return $dog;
     }
 }
