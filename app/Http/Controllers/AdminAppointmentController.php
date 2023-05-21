@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RejectMaileable;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AdminAppointmentController extends Controller
 {
@@ -40,6 +42,19 @@ class AdminAppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         $appointment->delete();
+        $mail = new RejectMaileable();
+        $to = $appointment->dog->user->email;
+        Mail::to($to)->send($mail);
+        return redirect()->route('appointment.index');
+    }
+
+
+    public function explainAppointmentRejection(Request $request, Appointment $appointment)
+    {
+        $to = $appointment->dog->user->email;
+        $why = $request->input('reason');
+        $mail = $this->buildMailMessage($why);
+        
         return redirect()->route('appointment.index');
     }
 }

@@ -8,9 +8,7 @@ use App\Models\Reason;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Validator;
+
 
 class UserAppointmentController extends Controller
 {
@@ -41,7 +39,7 @@ class UserAppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Dog $dog, Reason $reason)
+    public function store(Request $request)
     {
         $appointment = new Appointment;
 
