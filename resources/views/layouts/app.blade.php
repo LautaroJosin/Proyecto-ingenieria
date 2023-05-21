@@ -4,6 +4,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
+@section('meta2')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+@endsection
+
 @section('title','Usuario')
 
 @section('content')
