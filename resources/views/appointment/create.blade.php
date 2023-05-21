@@ -26,6 +26,11 @@
 
         <label>Fecha del turno:</label>
         <input type="date" name="date" min="{{  date('Y-m-d') }}" required value="{{ old('date') }}">
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <button type="submit">Confirmar</button>
     </form>

@@ -51,82 +51,23 @@ class UserAppointmentController extends Controller
         $appointment->dog_id = $dog->id;
         $appointment->reason_id = $reason->id;
         $appointment->state = "P";
-        if ($this->validateDates($request, $dog, $reason)) $appointment->date = $request->input('date');
+        if ($this->validateDates($dog, $reason)) $appointment->date = $request->input('date');
+        else return redirect()->route('appointment.create')->with('error', 'La edad del perro no es suficiente para la vacuna seleccionada');
         
         $appointment->save();
 
         return redirect()->route('appointment.index');
     }
 
-    private function validateDates(Request $request, Dog $dog, Reason $reason)
+    private function validateDates(Dog $dog, Reason $reason)
     {
-        $dogAgeMonths = $dog->ageInMonths();
-/*
-        $validator = Validator::make(
-            [
-                'date' => $request->date,
-                'reason' => $reason,
-            ],
-            [
-                'date' => ['required', 'after:now'],
-                'reason' => [
-                    'required',
-                    Rule::in(['vacuna antirrábica', 'vacuna contra enfermedades']),
-                        Rule::when($dogAgeMonths < 4, function ($attribute, $value, $fail) use ($reason) {
-                            if ($reason->reason === 'Vacuna antirrábica') {
-                                $fail('El perro no cumple los requisitos para la vacuna antirrábica.');
-                            }
-                        }),
-                        Rule::when($dogAgeMonths < 2, function ($attribute, $value, $fail) use ($reason) {
-                            if ($reason->reason === 'Vacuna contra enfermedades') {
-                                $fail('El perro no cumple los requisitos para la vacuna contra enfermedades.');
-                            }
-                        }),
-                ],
-            ],
-            [
-                'date.required' => 'El campo fecha es obligatorio.',
-                'date.after' => 'El campo fecha debe ser posterior a la fecha actual.',
-                'reason.required' => 'El campo motivo es obligatorio.',
-                'reason.in' => 'El motivo seleccionada no es válida. El perro no tiene la edad necesaria.',
-            ]
-        );
-
-        if ($validator->fails()) throw new ValidationException($validator);
-
-        return true;*/
-/*
-        $validator = Validator::make(
-            [
-                'date' => $request->date,
-                'reason' => $reason,
-                'dogAgeMonths' => $dogAgeMonths,
-            ],
-            [
-                'date' => ['required', 'after:now'],
-                'reason' => [
-                    'required',
-                    Rule::in(['vacuna antirrábica', 'vacuna contra enfermedades']),
-                    Rule::when($dogAgeMonths < 4 && $reason->reason === 'Vacuna antirrábica', function ($attribute, $value, $fail) {
-                        $fail('El perro no cumple los requisitos para la vacuna antirrábica.');
-                    }),
-                    Rule::when($dogAgeMonths < 2 && $reason->reason === 'Vacuna contra enfermedades', function ($attribute, $value, $fail) {
-                        $fail('El perro no cumple los requisitos para la vacuna contra enfermedades.');
-                    }),
-                ],
-            ],
-            [
-                'date.required' => 'El campo fecha es obligatorio.',
-                'date.after' => 'El campo fecha debe ser posterior a la fecha actual.',
-                'reason.required' => 'El campo motivo es obligatorio.',
-                'reason.in' => 'El motivo seleccionado no es válido. El perro no tiene la edad necesaria.',
-            ]
-        );
-    
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
+        if ($reason->id == '1' && $dog->ageInMonths() < 4) {
+            return false;
         }
-    */
+        else if ($reason->id == '2' && $dog->ageInMonths() < 2) {
+            return false;
+        }
+
         return true;
     }
 }

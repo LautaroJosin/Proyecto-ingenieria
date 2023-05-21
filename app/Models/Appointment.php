@@ -24,7 +24,7 @@ class Appointment extends Model
         return $this->belongsTo(Reason::class, 'reason_id', 'id');
     }
 
-    public function dogs() {
+    public function dog() {
         return $this->belongsTo(Dog::class, 'dog_id', 'id');
     }
 }

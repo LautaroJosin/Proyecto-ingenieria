@@ -12,6 +12,7 @@
     <table class="table-auto">
         <thead>
           <tr>
+            <th>Nombre del perro</th>
             <th>Motivo del turno</th>
             <th>Estado</th>
             <th>Fecha</th>
@@ -21,6 +22,7 @@
         @foreach ($appointments as $appointment)
         <tbody>
             <tr>
+            <td>{{ $appointment->dog->name }}</td>
             <td>{{ $appointment->reason->reason }}</td>
             <td>{{ $appointment->state }}</td>
             <td>{{ $appointment->date }}</td>
