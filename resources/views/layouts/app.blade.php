@@ -8,7 +8,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 @endsection
 
-@section('title','Usuario admin')
+@section('meta3')
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+@endsection
+
+@section('title','Usuario')
 
 @section('content')
 

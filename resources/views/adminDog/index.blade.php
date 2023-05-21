@@ -8,6 +8,9 @@
 
     @section('content')
 
+    <x-mainMenu/>
+
+
     <div class="text-pages">
 
         <table class="table-fixed border-2 ">

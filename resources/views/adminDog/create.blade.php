@@ -7,6 +7,9 @@
 @section('title','Cargar perro')
 
 @section('content')
+
+    <x-mainMenu/>
+
     <div class="text-pages font-bold">
 
         <h2 class="text-2xl mb-10">Este es el formulario para almacenar perros en el sistema</h2>
