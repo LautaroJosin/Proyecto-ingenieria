@@ -12,8 +12,8 @@ class AdminAppointmentController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('can:show appointment')->only('index');
-        $this->middleware('can:edit appointment')->only('edit');
-        $this->middleware('can:delete appointment')->only('destroy');
+        $this->middleware('can:edit appointment')->only('confirm');
+        $this->middleware('can:delete appointment')->only('reject');
     }
 
     /**
@@ -31,7 +31,7 @@ class AdminAppointmentController extends Controller
     {
         $appointment->state = "C";
         $appointment->save();
-        return redirect()->route('admin.appointment.index');
+        return redirect()->route('appointment.index');
     }
 
     /**
@@ -40,6 +40,6 @@ class AdminAppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         $appointment->delete();
-        return redirect()->route('admin.appointment.index');
+        return redirect()->route('appointment.index');
     }
 }

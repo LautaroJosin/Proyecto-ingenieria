@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('appointment', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->enum('state', ['P', 'C', 'A']);
+            $table->enum('state', ['P', 'C', 'A']); //Pending, Confirmed, Acomplished
             $table->date('date');
-            //Salvo que se me ocurra algo mejor, acá va a ir un atributo derivado "precioConDescuento en el futuro
+            //Salvo que se me ocurra algo mejor, acá va a ir un atributo derivado "precioConDescuento" en el futuro
             $table->unsignedBigInteger('reason_id')->nullable();
             $table->unsignedBigInteger('dog_id')->nullable();
 

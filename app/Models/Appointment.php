@@ -16,6 +16,10 @@ class Appointment extends Model
         'date',
     ];
 
+    protected $casts = [
+        'date' => 'date:Y-m-d',
+    ];
+
     public function reason() {
         return $this->belongsTo(Reason::class, 'reason_id', 'id');
     }

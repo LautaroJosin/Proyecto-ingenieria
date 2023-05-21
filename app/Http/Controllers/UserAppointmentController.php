@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Dog;
+use App\Models\Reason;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 
 class UserAppointmentController extends Controller
 {
@@ -25,7 +27,7 @@ class UserAppointmentController extends Controller
      */
     public function index()
     {
-        return view('appointment.index')->with('appointments', User::find(Auth::id())->dogs->appointments);
+        return view('appointment.index')->with('appointments', User::find(Auth::id())->dogs->map->appointments->flatten()->sortBy('date'));
     }
 
     /**
@@ -33,36 +35,34 @@ class UserAppointmentController extends Controller
      */
     public function create()
     {
-        //Esto lo hizo copilot, y tiene sentido -> return view('appointment.create')->with('dogs', User::find(Auth::id())->dogs)->with('reasons', Reason::all());
-        return view('appointment.create');
+        return view('appointment.create')->with('dogs', User::find(Auth::id())->dogs)->with('reasons', Reason::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Dog $dog, Reason $reason)
     {
         $appointment = new Appointment;
-        $dog = $request->input('dog');
-        $reason = $request->input('reason');
+
+        $dog = Dog::find($request->input('id_dog'));
+        $reason = Reason::find($request->input('id_reason'));
 
         $appointment->dog_id = $dog->id;
         $appointment->reason_id = $reason->id;
         $appointment->state = "P";
-        if ($this->validateDates($request)) $appointment->date = $request->input('date');
+        if ($this->validateDates($request, $dog, $reason)) $appointment->date = $request->input('date');
         
         $appointment->save();
 
-        return redirect()->route('user.appointment.index');
+        return redirect()->route('appointment.index');
     }
 
-    private function validateDates(Request $request)
+    private function validateDates(Request $request, Dog $dog, Reason $reason)
     {
-        $currentDate = Carbon::now();
-        $dogAgeMonths = $request->dog->ageInMonths();
-        $reason = $request->reason->reason;
-
-        $validator = \Illuminate\Support\Facades\Validator::make(
+        $dogAgeMonths = $dog->ageInMonths();
+/*
+        $validator = Validator::make(
             [
                 'date' => $request->date,
                 'reason' => $reason,
@@ -73,12 +73,12 @@ class UserAppointmentController extends Controller
                     'required',
                     Rule::in(['vacuna antirrábica', 'vacuna contra enfermedades']),
                         Rule::when($dogAgeMonths < 4, function ($attribute, $value, $fail) use ($reason) {
-                            if ($reason === 'Vacuna antirrábica') {
+                            if ($reason->reason === 'Vacuna antirrábica') {
                                 $fail('El perro no cumple los requisitos para la vacuna antirrábica.');
                             }
                         }),
                         Rule::when($dogAgeMonths < 2, function ($attribute, $value, $fail) use ($reason) {
-                            if ($reason === 'Vacuna contra enfermedades') {
+                            if ($reason->reason === 'Vacuna contra enfermedades') {
                                 $fail('El perro no cumple los requisitos para la vacuna contra enfermedades.');
                             }
                         }),
@@ -94,6 +94,39 @@ class UserAppointmentController extends Controller
 
         if ($validator->fails()) throw new ValidationException($validator);
 
+        return true;*/
+/*
+        $validator = Validator::make(
+            [
+                'date' => $request->date,
+                'reason' => $reason,
+                'dogAgeMonths' => $dogAgeMonths,
+            ],
+            [
+                'date' => ['required', 'after:now'],
+                'reason' => [
+                    'required',
+                    Rule::in(['vacuna antirrábica', 'vacuna contra enfermedades']),
+                    Rule::when($dogAgeMonths < 4 && $reason->reason === 'Vacuna antirrábica', function ($attribute, $value, $fail) {
+                        $fail('El perro no cumple los requisitos para la vacuna antirrábica.');
+                    }),
+                    Rule::when($dogAgeMonths < 2 && $reason->reason === 'Vacuna contra enfermedades', function ($attribute, $value, $fail) {
+                        $fail('El perro no cumple los requisitos para la vacuna contra enfermedades.');
+                    }),
+                ],
+            ],
+            [
+                'date.required' => 'El campo fecha es obligatorio.',
+                'date.after' => 'El campo fecha debe ser posterior a la fecha actual.',
+                'reason.required' => 'El campo motivo es obligatorio.',
+                'reason.in' => 'El motivo seleccionado no es válido. El perro no tiene la edad necesaria.',
+            ]
+        );
+    
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+    */
         return true;
     }
 }
