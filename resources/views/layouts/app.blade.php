@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 @endsection
 
-@section('title','Usuario')
+@section('title','Usuario admin')
 
 @section('content')
 
