@@ -41,10 +41,10 @@
                 </td>
                 <td class="w-36">
                     @can('delete dog')
-                    <form action="{{ route('dog.destroy', $dog) }}" method="POST">
+                    <form id="destroy-dog-form" action="{{ route('dog.destroy', $dog) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">
+                        <button type="submit" onclick="event.preventDefault(); confirmDeleteDog();">
                             Eliminar
                         </button>
                     </form>
