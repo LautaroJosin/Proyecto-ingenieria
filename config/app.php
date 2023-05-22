@@ -200,6 +200,10 @@ return [
          */
         Spatie\Permission\PermissionServiceProvider::class,
 
+        /*
+         * Providers developed
+         */
+        App\Providers\TreatmentStrategyServiceProvider::class,
 
     ],
 
