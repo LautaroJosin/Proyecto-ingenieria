@@ -1,14 +1,10 @@
 @extends('layouts.layout-master')
 
-        @section('meta2')
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @endsection
-
         @section('meta')
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endsection
 
-        @section('title','Welcome')
+        @section('title','Bienvenido')
 
         @section('content')
 
