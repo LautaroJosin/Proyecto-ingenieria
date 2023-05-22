@@ -19,7 +19,6 @@ class TreatmentController extends Controller
 
     public function create(Appointment $appointment)
     {
-        $appointment = Appointment::find(1);
         return view('treatment.create')->with('appointment', $appointment);
     }
 
