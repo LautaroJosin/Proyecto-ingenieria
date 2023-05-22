@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ route('appointment.store') }}" method="POST">
+    <form action="{{ route('user.appointment.store') }}" method="POST">
         @csrf
 
         <label>Perro:</label>

@@ -37,12 +37,16 @@ Route::resource('user/dog', UserDogController::class)->only('index')->names([
     'index'=>'my-dog.index'
 ]);
 
-Route::resource('dog/treatment', TreatmentController::class)->only('show', 'create', 'store')
+Route::get('dog/treatment/create/{appointment}', [TreatmentController::class, 'create'])->name('treatment.create');
+Route::resource('dog/treatment', TreatmentController::class)->only('show', 'store')
     ->parameters(['treatment' => 'dog',]);
 
 Route::resource('admin/dog', AdminDogController::class)->except('show');
 
-Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
+Route::name('user.')->group(function () {
+    Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
+});
+
 
 Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentController::class . '@sendMail')->name('appointment.sendMail');
 

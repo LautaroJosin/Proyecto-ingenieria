@@ -30,6 +30,7 @@ class TreatmentController extends Controller
     public function store(Request $request, Appointment $appointment, TreatmentStrategy $treatment) 
     {
         $appointment = Appointment::find($request->input('appointment_id'));
-        return $treatment->store($request, $appointment);
+        $treatment->store($request, $appointment);
+        return redirect()->route('appointment.index');
     }
 }

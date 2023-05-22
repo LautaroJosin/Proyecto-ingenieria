@@ -42,11 +42,6 @@ class AdminAppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //$appointment->delete();
-        //$mail = new RejectMaileable();
-        //$to = $appointment->dog->user->email;
-        //Mail::to($to)->send($mail);
-
         return view('appointment.writeReason')->with('appointment', $appointment);
     }
 
@@ -59,7 +54,9 @@ class AdminAppointmentController extends Controller
                 ->subject('Turno rechazado');
                 //->content($request->input('content'));
         });
+        $appointment->delete();
         return redirect()->route('appointment.index');
+        
     }
 
     /*

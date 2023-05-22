@@ -38,12 +38,21 @@
                 @endcan
 
                 @can('edit appointment')
-                <a href={{ route('appointment.edit', $appointment) }}>
+                <a href="{{ route('appointment.edit', $appointment) }}">
                     <button>
                         Confirmar
                     </button>
                 </a>
                 @endcan
+
+                @role('admin')
+                <a href="{{ route('treatment.create', $appointment) }}">
+                    <button>
+                        Actualizar libreta
+                    </button>
+                </a>
+                @endrole
+
             </td>
         </tr>
         </tbody>
@@ -51,7 +60,7 @@
     </div>
         <div>
         @can('create appointment')
-            <a href={{ route('appointment.create') }}>
+            <a href="{{ route('user.appointment.create') }}">
                 <button>
                     Solicitar turno
                 </button>
