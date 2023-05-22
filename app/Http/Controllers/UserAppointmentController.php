@@ -50,7 +50,7 @@ class UserAppointmentController extends Controller
         $appointment->reason_id = $reason->id;
         $appointment->state = "P";
         if ($this->validateDates($dog, $reason)) $appointment->date = $request->input('date');
-        else return redirect()->route('appointment.create')->with('error', 'La edad del perro no es suficiente para la vacuna seleccionada');
+        else return redirect()->route('user.appointment.create')->with('error', 'La edad del perro no es suficiente para la vacuna seleccionada');
         
         $appointment->save();
 

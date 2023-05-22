@@ -16,7 +16,9 @@
             <th>Motivo del turno</th>
             <th>Estado</th>
             <th>Fecha</th>
+            @role('admin')
             <th>Acciones</th>
+            @endrole
           </tr>
         </thead>
         @foreach ($appointments as $appointment)
@@ -25,7 +27,7 @@
             <td>{{ $appointment->dog->name }}</td>
             <td>{{ $appointment->reason->reason }}</td>
             <td>{{ $appointment->state }}</td>
-            <td>{{ $appointment->date }}</td>
+            <td>{{ $appointment->date->format('Y-m-d') }}</td>
             <td>
                 @can('delete appointment')
                 <form action="{{ route('appointment.destroy', $appointment) }}" method="POST">

@@ -83,6 +83,7 @@ class AdminDogController extends Controller
     public function destroy(Dog $dog)
     {
         $dog->treatments()->delete();
+        $dog->appointments()->delete();
         //Storage::delete($dog->photo); --> No anda y no sé por qué. Pero son las 00:30 am y me quiero ir a dormir.
         $dog->delete();
         return redirect()->route('dog.index');
