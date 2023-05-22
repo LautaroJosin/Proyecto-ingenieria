@@ -23,9 +23,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,13 +33,18 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('user/dog', UserDogController::class)->only('index');
+Route::resource('user/dog', UserDogController::class)->only('index')->names([
+    'index'=>'my-dog.index'
+]);
 
 Route::resource('dog/treatment', TreatmentController::class)->only('show')
     ->parameters(['treatment' => 'dog',]);
 
 Route::resource('admin/dog', AdminDogController::class)->except('show');
+<<<<<<< HEAD
 
 Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
 
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
+=======
+>>>>>>> origin/vistas

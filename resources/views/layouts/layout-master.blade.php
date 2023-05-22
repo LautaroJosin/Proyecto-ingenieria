@@ -8,11 +8,16 @@
         @yield('meta3')
         @yield('meta4')
 
+
         <title>@yield('title')</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+        
+        <script src="{{ asset('js/Confirmations.js') }}"></script>
+        
 
         <!-- Styles -->
         <style>
@@ -22,10 +27,10 @@
         @vite('resources/css/app.css')
 
     </head>
-    <body class="antialiased">
- 
+
+    <body class="font-sans antialiased pt-6 sm:pt-0 bg-gray-100 bg-dots-darker bg-center dark:bg-dots-lighter dark:bg-gray-900">
+    
     @yield('content')
         
-
     </body>
 </html>
