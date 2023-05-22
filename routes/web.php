@@ -38,7 +38,7 @@ require __DIR__.'/auth.php';
 
 Route::resource('user/dog', UserDogController::class)->only('index');
 
-Route::resource('dog/treatment', TreatmentController::class)->only('show')
+Route::resource('dog/treatment', TreatmentController::class)->only('show', 'create', 'store')
     ->parameters(['treatment' => 'dog',]);
 
 Route::resource('admin/dog', AdminDogController::class)->except('show');
