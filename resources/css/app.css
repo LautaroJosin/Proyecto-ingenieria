@@ -2,28 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-.grid-main-menu {
-    padding: 20px;
+.grid-header-welcome {
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 90% 10%;
 }
 
-.grid-sub-menu {
+.grid-main-menu {
     display: grid;
-    grid-template-columns: repeat(7,150px);
-    grid-template-rows: 200px;
-    justify-content: center;
-    align-items: center;
+    grid-template-columns: repeat(7,200px);
 }
 
 .text-main-menu {
+    text-align: center;
     font-size: 1.10rem;
     line-height: 1.75rem; /* 28px */
-    text-align: center;
-}
-
-.text-pages {
-    @apply font-sans text-white
 }
