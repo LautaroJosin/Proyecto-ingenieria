@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
             $pass = $this->random_password(),
             'password_to_show' => $pass,
             'password' => Hash::make($pass),
-        ]);
+        ])->assignRole('user');
 
         event(new Registered($user));
 
