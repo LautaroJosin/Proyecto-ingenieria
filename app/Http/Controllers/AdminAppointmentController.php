@@ -6,6 +6,7 @@ use App\Mail\RejectMaileable;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Expr\Cast\String_;
 
 class AdminAppointmentController extends Controller
 {
@@ -41,10 +42,23 @@ class AdminAppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        $appointment->delete();
-        $mail = new RejectMaileable();
-        $to = $appointment->dog->user->email;
-        Mail::to($to)->send($mail);
+        //$appointment->delete();
+        //$mail = new RejectMaileable();
+        //$to = $appointment->dog->user->email;
+        //Mail::to($to)->send($mail);
+
+        return view('appointment.writeReason')->with('appointment', $appointment);
+    }
+
+    public function sendMail(Request $request, Appointment $appointment) {
+        //String $content = $request->input('content');
+        
+        Mail::raw($request->input('content'), function ($message) use ($appointment) {
+            $to = $appointment->dog->user->email;
+            $message->to($to)
+                ->subject('Turno rechazado');
+                //->content($request->input('content'));
+        });
         return redirect()->route('appointment.index');
     }
 

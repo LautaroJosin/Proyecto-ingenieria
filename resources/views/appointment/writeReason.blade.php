@@ -9,8 +9,8 @@
 <body>
     <form action="{{ route('appointment.sendMail', $appointment) }}" method="POST">
         @csrf
-        <label>Motivo:</label>
-            <input type="text" name="reason" required value="{{ old('reason') }}">
+        <label>Contenido del mail:</label>
+            <input type="text" name="content" required value="{{ old('reason') }}">
         
             <button type="submit">Confirmar</button>
     </form>

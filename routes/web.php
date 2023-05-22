@@ -45,4 +45,6 @@ Route::resource('admin/dog', AdminDogController::class)->except('show');
 
 Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
 
+Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentController::class . '@sendMail')->name('appointment.sendMail');
+
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
