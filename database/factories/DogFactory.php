@@ -25,6 +25,7 @@ class DogFactory extends Factory
             'date_of_birth' => $this->faker->date('Y-m-d', 'now'),
             'description' => $this->faker->colorName,
             'photo' => $this->faker->imageUrl(1080, 720, 'dog'),
+            'user_id' => '2'
         ];
     }
 }

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Reason;
 use Illuminate\Database\Seeder;
 
 
@@ -16,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
+            ReasonSeeder::class,
         ]);
     }
 }

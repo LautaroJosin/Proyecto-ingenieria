@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserDogController;
 use App\Http\Controllers\AdminDogController;
+use App\Http\Controllers\UserAppointmentController;
+use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\TreatmentController;
 
 /*
@@ -40,3 +42,9 @@ Route::resource('dog/treatment', TreatmentController::class)->only('show')
     ->parameters(['treatment' => 'dog',]);
 
 Route::resource('admin/dog', AdminDogController::class)->except('show');
+
+Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
+
+Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentController::class . '@sendMail')->name('appointment.sendMail');
+
+Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');

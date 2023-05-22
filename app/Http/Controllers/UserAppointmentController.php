@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Appointment;
+use App\Models\Dog;
+use App\Models\Reason;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
+
+class UserAppointmentController extends Controller
+{
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('can:show appointment')->only('index');
+        $this->middleware('can:create appointment')->only('create', 'store');
+    }
+    
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return view('appointment.index')->with('appointments', User::find(Auth::id())->dogs->map->appointments->flatten()->sortBy('date'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('appointment.create')->with('dogs', User::find(Auth::id())->dogs)->with('reasons', Reason::all());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $appointment = new Appointment;
+
+        $dog = Dog::find($request->input('id_dog'));
+        $reason = Reason::find($request->input('id_reason'));
+
+        $appointment->dog_id = $dog->id;
+        $appointment->reason_id = $reason->id;
+        $appointment->state = "P";
+        if ($this->validateDates($dog, $reason)) $appointment->date = $request->input('date');
+        else return redirect()->route('appointment.create')->with('error', 'La edad del perro no es suficiente para la vacuna seleccionada');
+        
+        $appointment->save();
+
+        return redirect()->route('appointment.index');
+    }
+
+    private function validateDates(Dog $dog, Reason $reason)
+    {
+        if ($reason->id == '1' && $dog->ageInMonths() < 4) {
+            return false;
+        }
+        else if ($reason->id == '2' && $dog->ageInMonths() < 2) {
+            return false;
+        }
+
+        return true;
+    }
+}
