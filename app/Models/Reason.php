@@ -16,7 +16,7 @@ class Reason extends Model
         'price',
     ];
 
-    public function appointment() {
+    public function appointments() {
         return $this->hasMany(Appointment::class);
     }
 }

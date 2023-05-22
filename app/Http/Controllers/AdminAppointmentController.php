@@ -48,7 +48,7 @@ class AdminAppointmentController extends Controller
         return redirect()->route('appointment.index');
     }
 
-
+    /*
     public function explainAppointmentRejection(Request $request, Appointment $appointment)
     {
         $to = $appointment->dog->user->email;
@@ -57,4 +57,5 @@ class AdminAppointmentController extends Controller
         
         return redirect()->route('appointment.index');
     }
+    */
 }
