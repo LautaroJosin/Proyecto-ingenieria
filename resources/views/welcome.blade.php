@@ -1,6 +1,6 @@
 @extends('layouts.layout-master')
 
-        @section('meta')
+        @section('meta1')
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endsection
 
