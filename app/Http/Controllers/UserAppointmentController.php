@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 
+
 class UserAppointmentController extends Controller
 {
     
@@ -49,8 +50,10 @@ class UserAppointmentController extends Controller
         $appointment->dog_id = $dog->id;
         $appointment->reason_id = $reason->id;
         $appointment->state = "P";
+
+
         if ($this->validateDates($dog, $reason)) $appointment->date = $request->input('date');
-        else return redirect()->route('user.appointment.create')->with('error', 'La edad del perro no es suficiente para la vacuna seleccionada');
+        else return redirect()->route('user.appointment.create')->with('error', 'El perro no cumple los requisitos para el turno');
         
         $appointment->save();
 

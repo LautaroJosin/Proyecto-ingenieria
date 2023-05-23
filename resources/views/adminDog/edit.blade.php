@@ -52,7 +52,7 @@
             <input type="text" name="description" class="form-control" required value="{{ $dog->description }}">
         
 
-            <input type="date" name="date_of_birth" class="form-control" min="2000-01-01" max="{{  date('Y-m-d') }}" required value="{{ $dog->date_of_birth }}">
+            <input type="date" name="date_of_birth" class="form-control" min="2000-01-01" max="{{  date('Y-m-d') }}" required value="{{ $dog->date_of_birth->format('Y-m-d') }}">
 
             
             <input type="file" name="photo" accept="image/*" class="form-control">

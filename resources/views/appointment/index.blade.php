@@ -8,6 +8,12 @@
     @vite('resources/css/app.css')
 </head>
 <body>
+
+    <x-mainMenu/>
+
+    @if($appointments->isEmpty())
+        <h1>No hay turnos para mostrar</h1>
+    @else
     <div>
     <table class="table-auto">
         <thead>
@@ -48,11 +54,13 @@
                 @endcan
 
                 @role('admin')
+                @if($appointment->state == 'C')
                 <a href="{{ route('treatment.create', $appointment) }}">
                     <button>
                         Actualizar libreta
                     </button>
                 </a>
+                @endif
                 @endrole
 
             </td>
@@ -61,9 +69,10 @@
         @endforeach
     </div>
         <div>
+        @endif
         @can('create appointment')
             <a href="{{ route('user.appointment.create') }}">
-                <button>
+                <button class="border-2 border">
                     Solicitar turno
                 </button>
             </a>

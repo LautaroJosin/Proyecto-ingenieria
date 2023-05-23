@@ -24,6 +24,7 @@ class TreatmentStrategyServiceProvider extends ServiceProvider
 
             switch ($treatment) {
                 case 'Vacuna contra enfermedades':
+                case 'Vacuna antirrábica':
                     return new vaccineAgainstDiseases();
                     break;
                 case 'Desparasitación':

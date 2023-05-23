@@ -7,6 +7,8 @@
     <title>Document</title>
 </head>
 <body>
+
+
     <!-- Deberíamos instalar tailwind, la clase table-auto pertenece a esa herramienta -->
     <table class="table-auto">
         <thead>

@@ -20,7 +20,7 @@
                   <th class="text-2xl">Fecha</th>
                   <th class="text-2xl">Razón</th>
                   <th class="text-2xl">Peso</th>
-                  <th class="text-2xl">Vacuna</th>
+                  {{--<th class="text-2xl">Vacuna</th>--}}
                   <th class="text-2xl">Desparasitante</th>
                 </div>
               </tr>
@@ -30,8 +30,8 @@
                 <td class="w-36 text-center">{{ $treatment->date_of_appointment }}</td>
                 <td class="w-36 text-center">{{ $treatment->reason }}</td>
                 <td class="w-36 text-center">{{ $treatment->weight }} Kg</td>
-                <td class="w-36 text-center">{{ $treatment->vaccine }}</td>
-                <td class="w-36 text-center">{{ $treatment->dewormer }} mg</td>
+                {{--<td class="w-36 text-center">{{ $treatment->vaccine }}</td>--}}
+                <td class="w-36 text-center">{{ $treatment->dewormer }}</td>
             </tbody>
             @endforeach
         </table>

@@ -17,13 +17,13 @@
   
         <div class="mb-4">
           <label for="peso" class="block text-white text-sm font-semibold mb-2">Peso:</label>
-          <input type="text" name="weight" id="peso" placeholder="Ingrese el peso" class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-600 text-white text-sm">
+          <input type="number" min="0" max="99999999" required name="weight" id="peso" placeholder="Ingrese el peso" class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-600 text-white text-sm">
         </div>
         
         @if($appointment->reason->reason == 'Desparasitación')
         <div class="mb-4">
           <label for="cantidad_desparasitante" class="block text-white text-sm font-semibold mb-2">Cantidad de desparasitante utilizado:</label>
-          <input type="text" name="amountOfDewormer" placeholder="Ingrese la cantidad de desparasitante" class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-600 text-white text-sm">
+          <input type="number" min="0" max="99999999" required name="amountOfDewormer" placeholder="Ingrese la cantidad de desparasitante" class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-600 text-white text-sm">
         </div>
         @endif()
 
