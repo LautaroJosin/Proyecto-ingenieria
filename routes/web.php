@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminDogController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\TreatmentController;
+use App\Http\Controllers\AdoptionDogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,6 @@ Route::name('user.')->group(function () {
 Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentController::class . '@sendMail')->name('appointment.sendMail');
 
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
+
+
+Route::resource('adoption', AdoptionDogController::class);
