@@ -11,7 +11,7 @@ class AdoptionDogController extends Controller
      */
     public function index()
     {
-        //
+        return view('adoptionDog.index');
     }
 
     /**
@@ -19,7 +19,7 @@ class AdoptionDogController extends Controller
      */
     public function create()
     {
-        //
+        return view('adoptionDog.create');
     }
 
     /**

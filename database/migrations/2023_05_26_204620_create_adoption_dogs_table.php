@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('adoption_dogs', function (Blueprint $table) {
             $table->id();
+            $table->enum('gender', ['M', 'H']);
             $table->string('race');
             $table->string('description');
-            $table->enum('gender', ['S','M','B']);
+            $table->enum('size', ['P','M','G']);
             $table->date('date_of_birth');
             $table->unsignedBigInteger('user_id');            
         });
