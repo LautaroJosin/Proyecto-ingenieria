@@ -17,14 +17,15 @@ class TreatmentController extends Controller
         $this->middleware('auth');
     }
 
-    public function create(Appointment $appointment)
+    public function index(Dog $dog)
     {
-        return view('treatment.create')->with('appointment', $appointment);
+        return view('treatment.index')->with('dog', $dog);
     }
 
-    public function show(Dog $dog)
+    public function create(Appointment $appointment)
     {
-        return view('treatment.show')->with('dog', $dog);
+
+        return view('treatment.create')->with('appointment', $appointment);
     }
 
     public function store(Request $request, Appointment $appointment, TreatmentStrategy $treatment) 

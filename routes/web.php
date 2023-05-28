@@ -37,9 +37,15 @@ Route::resource('user/dog', UserDogController::class)->only('index')->names([
     'index'=>'my-dog.index'
 ]);
 
-Route::get('dog/treatment/create/{appointment}', [TreatmentController::class, 'create'])->name('treatment.create');
-Route::resource('dog/treatment', TreatmentController::class)->only('show', 'store')
-    ->parameters(['treatment' => 'dog',]);
+//==========Treatments==========
+Route::resource('appointment.treatment', TreatmentController::class)->only('create', 'store')->names([
+    'create'=>'treatment.create',
+    'store'=>'treatment.store'
+]);
+Route::resource('dog.treatment', TreatmentController::class)->only('index')->names([
+    'index'=>'treatment.index'
+]);
+//==============================
 
 Route::resource('admin/dog', AdminDogController::class)->except('show');
 
