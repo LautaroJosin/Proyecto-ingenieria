@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Dog;
 use App\Treatment\TreatmentStrategy;
 use App\Models\Appointment;
-use App\Providers\TreatmentStrategyServiceProvider;
+use App\Treatment\TreatmentFactory;
 use App\Models\Reason;
 
 class TreatmentController extends Controller
@@ -28,10 +28,9 @@ class TreatmentController extends Controller
         return view('treatment.create')->with('appointment', $appointment);
     }
 
-    public function store(Request $request, Appointment $appointment, TreatmentStrategy $treatment) 
+    public function store(Request $request, Appointment $appointment) 
     {
-        $appointment = Appointment::find($request->input('appointment_id'));
-        $treatment->store($request, $appointment);
+        TreatmentFactory::create($appointment->reason->reason)->store($request, $appointment);
         return redirect()->route('appointment.index');
     }
 }

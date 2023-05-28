@@ -3,18 +3,16 @@
 namespace App\Treatment;
 
 use App\Mail\NextTreatmentMailable;
-use Illuminate\Http\Request;
-use App\Models\Treatment;
 use App\Models\Appointment;
-use App\Models\Reason;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Treatment;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
-class vaccineAgainstDiseases implements TreatmentStrategy
-{   
+class Vaccine implements TreatmentStrategy
+{
 
-    public function store(Request $request, Appointment $appointment)
+    public function store(Request $request, Appointment $appointment): void
     {
         $this->setTreatment($appointment, $request)->save();
         $userEmail = $appointment->dog->user->email;
@@ -23,12 +21,7 @@ class vaccineAgainstDiseases implements TreatmentStrategy
 
     public function nextTreatmentDate(Appointment $appointment): Carbon
     {
-        if ($appointment->dog->ageInMonths() > 4) {
-            return $appointment->date->addYears(1);
-        }
-        else {
-            return $appointment->date->addDays(21);
-        }
+        return $appointment->dog->ageInMonths() > 4 ? $appointment->date->addYears(1) : $appointment->date->addDays(21);
     }
 
     public function setTreatment(Appointment $appointment, Request $request): Treatment

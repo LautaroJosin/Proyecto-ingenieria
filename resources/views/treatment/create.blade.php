@@ -25,9 +25,7 @@
           <label for="cantidad_desparasitante" class="block text-white text-sm font-semibold mb-2">Cantidad de desparasitante utilizado:</label>
           <input type="number" min="0" max="99999999" required name="amountOfDewormer" placeholder="Ingrese la cantidad de desparasitante" class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-gray-600 text-white text-sm">
         </div>
-        @endif()
-
-        <input type="hidden" name="appointment_id" value="{{ $appointment->id }}">
+        @endif
   
         <div class="flex justify-center">
           <button type="submit" class="bg-blue-400 hover:bg-blue-500 text-white rounded-lg py-2 px-4 font-semibold uppercase tracking-wider transition duration-300 ease-in-out">Confirmar</button>
