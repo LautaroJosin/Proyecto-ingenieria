@@ -13,9 +13,12 @@
 
     <div class="text-pages">
 
+        {{-- Sección vacia --}}
         @if($dogs->isEmpty())
             <h1>No hay perros para mostrar</h1>
         @else
+
+        {{-- Sección con contenido --}}
         <table class="table-fixed border-2 ">
             <thead>
             <tr>
@@ -73,15 +76,15 @@
 
         </table>
         @endif
-        <br>
-        <br>
-        @role('admin')
+
+        @can('create dog')
+        <br> <br>
         <a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700" href="{{ route('dog.create') }}">
             <button>
                 Agregar
             </button>
         </a>
-        @endrole
+        @endcan
 
     </div>
     @endsection
