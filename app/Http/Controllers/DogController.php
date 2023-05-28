@@ -7,8 +7,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class AdminDogController extends Controller
+
+class DogController extends Controller
 {
     public function __construct()
     {
@@ -24,7 +26,12 @@ class AdminDogController extends Controller
      */
     public function index()
     {
-        return view('adminDog.index')->with('dogs', Dog::all());
+        if (Auth::user()->can('have dog')) {
+            return view('dog.index')->with('dogs', User::find(Auth::id())->dogs);
+        }
+        else {
+            return view('dog.index')->with('dogs', Dog::all());
+        }
     }
 
     /**
@@ -32,7 +39,7 @@ class AdminDogController extends Controller
      */
     public function create()
     {
-        return view('adminDog.create');
+        return view('dog.create');
     }
 
     /**
@@ -65,7 +72,7 @@ class AdminDogController extends Controller
      */
     public function edit(Dog $dog)
     {
-        return view('adminDog.edit')->with('dog', $dog);
+        return view('dog.edit')->with('dog', $dog);
     }
 
     /**

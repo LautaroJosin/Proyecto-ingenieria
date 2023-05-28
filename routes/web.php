@@ -2,8 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserDogController;
-use App\Http\Controllers\AdminDogController;
+use App\Http\Controllers\DogController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\TreatmentController;
@@ -34,10 +33,7 @@ require __DIR__.'/auth.php';
 
 
 //=============Dog==============
-Route::name('user.')->group(function () {
-    Route::resource('user/dog', UserDogController::class)->only('index');
-});
-Route::resource('admin/dog', AdminDogController::class)->except('show'); 
+Route::resource('dog', DogController::class)->except('show'); 
 //==============================
 
 //==========Treatments==========

@@ -10,9 +10,8 @@ use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    //To show role's permissions list, execute: php artisan permission:show
+    
     public function run(): void
     {
         // Reset cached roles and permissions
@@ -22,14 +21,15 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin = Role::create(['name' => 'admin']);
         $user = Role::create(['name' => 'user']);
 
-        // role's permissions for users
+        // role's permissions for manage users
         Permission::create(['name' => 'create user'])->syncRoles('admin');
         
         // role's permissions for dogs
         Permission::create(['name' => 'create dog'])->syncRoles('admin');
         Permission::create(['name' => 'delete dog'])->syncRoles('admin');
         Permission::create(['name' => 'edit dog'])->syncRoles('admin');
-        Permission::create(['name' => 'show dog'])->syncRoles('admin');
+        Permission::create(['name' => 'have dog'])->syncRoles('user');
+        Permission::create(['name' => 'show dog'])->syncRoles('admin', 'user');
 
         // role's permissions for appointments
         Permission::create(['name' => 'create appointment'])->syncRoles('user');
@@ -37,9 +37,5 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'edit appointment'])->syncRoles('admin');
         Permission::create(['name' => 'show appointment'])->syncRoles('user', 'admin');
         
-        /*
-         * To show role's permissions list, execute: 
-         * php artisan permission:show
-         */
     }
 }
