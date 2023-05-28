@@ -33,9 +33,12 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('user/dog', UserDogController::class)->only('index')->names([
-    'index'=>'my-dog.index'
-]);
+//=============Dog==============
+Route::name('user.')->group(function () {
+    Route::resource('user/dog', UserDogController::class)->only('index');
+});
+Route::resource('admin/dog', AdminDogController::class)->except('show'); 
+//==============================
 
 //==========Treatments==========
 Route::resource('appointment.treatment', TreatmentController::class)->only('create', 'store')->names([
@@ -46,8 +49,6 @@ Route::resource('dog.treatment', TreatmentController::class)->only('index')->nam
     'index'=>'treatment.index'
 ]);
 //==============================
-
-Route::resource('admin/dog', AdminDogController::class)->except('show');
 
 Route::name('user.')->group(function () {
     Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');

@@ -16,7 +16,6 @@ class UserDogController extends Controller
     {
         return view('adminDog.index')->with('dogs', User::find(Auth::id())->dogs);
     }
-
 }
 
 /*
