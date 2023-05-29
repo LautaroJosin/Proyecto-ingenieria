@@ -33,7 +33,7 @@
             <tr>
                 <td class="w-36 text-center">{{ $dog->gender }}</td>
                 <td class="w-36 text-center">{{ $dog->race }}</td>
-                <td class="w-36 text-center">{{ $dog->size }}</td>
+                <td class="w-36 text-center">{{ $dog->showSize() }}</td>
                 <td class="w-36 text-center">{{ $dog->description }}</td>
                 <td class="w-36 text-center">{{ $dog->ageForHumans() }}</td>
             </tr>
