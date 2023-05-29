@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AdoptionDog;
+use App\Models\User;
+use Illuminate\Validation\Rule;
+
 
 class AdoptionDogController extends Controller
 {
@@ -11,7 +15,7 @@ class AdoptionDogController extends Controller
      */
     public function index()
     {
-        return view('adoptionDog.index');
+        return view('adoptionDog.index')->with('dogs', AdoptionDog::all());
     }
 
     /**
@@ -27,7 +31,19 @@ class AdoptionDogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $dog = new AdoptionDog;
+
+        /*
+        $request->validate([ /* Deberia validar que el perro no exista ya en la lista 
+            
+        ]);
+        */
+				
+        $dog->user_id = auth()->user()->id;
+        $this->setDog($request, $dog)->save();
+		
+        return redirect()->route('adoption.index');
     }
 
     /**
@@ -60,5 +76,17 @@ class AdoptionDogController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+	
+
+	 private function setDog(Request $request, AdoptionDog $dog): AdoptionDog
+    {
+        $dog->gender = $request->input('gender');
+        $dog->race = $request->input('race');
+        $dog->description = $request->input('description');
+		$dog->size = $request->input('size');
+        $dog->date_of_birth = $request->input('date_of_birth');
+				
+        return $dog;
     }
 }

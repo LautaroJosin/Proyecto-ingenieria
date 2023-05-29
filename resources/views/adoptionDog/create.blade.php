@@ -26,7 +26,8 @@
             <label>Fecha de nacimiento:</label>
         </div>
 
-        <div class="grid grid-cols-q grid-rows-7 gap-5 w-10 text-black font-normal"">
+        <div class="grid grid-cols-q grid-rows-7 gap-5 w-10 text-black font-normal">
+		
             <select name="gender" required value="{{ old('gender') }}">
                     <option value="">Seleccione un sexo</option>
                     <option value="M">Macho</option>
@@ -47,11 +48,11 @@
             <input  type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" required value="{{ old('date_of_birth') }}">
 
         </div>
-    
-        <button class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700" type="submit">Confirmar</button>
+
+        <button class="text-2xl border-2 border-solid border-white w-40 hover:bg-sky-700" type="submit">Confirmar</button>
+
 
     </form>
-
 
 </div>
 

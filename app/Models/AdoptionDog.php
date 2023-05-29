@@ -15,10 +15,18 @@ class AdoptionDog extends Model
         'gender',
         'race',
         'date_of_birth',
+        'size',
         'description',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date:Y-m-d',
     ];
+	
+	
+	public function ageForHumans() {
+        return $this->date_of_birth->longAbsoluteDiffForHumans();
+    }
+	
+   
 }
