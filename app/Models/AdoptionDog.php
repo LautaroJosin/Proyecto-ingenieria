@@ -28,5 +28,7 @@ class AdoptionDog extends Model
         return $this->date_of_birth->longAbsoluteDiffForHumans();
     }
 	
+	
+	
    
 }
