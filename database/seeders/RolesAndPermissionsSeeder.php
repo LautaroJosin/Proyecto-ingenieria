@@ -36,7 +36,14 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'delete appointment'])->syncRoles('admin');
         Permission::create(['name' => 'edit appointment'])->syncRoles('admin');
         Permission::create(['name' => 'show appointment'])->syncRoles('user', 'admin');
+		
         
+		// role's permissions for adoption
+		Permission::create(['name' => 'delete adoption dog'])->syncRoles('user');
+		Permission::create(['name' => 'edit adoption dog'])->syncRoles('user');
+		Permission::create(['name' => 'confirm adoption dog'])->syncRoles('user');
+
+		
         /*
          * To show role's permissions list, execute: 
          * php artisan permission:show
