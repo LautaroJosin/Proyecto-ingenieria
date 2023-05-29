@@ -44,6 +44,12 @@
 
     <br>
     <br>
+	
+	<a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
+            <button>
+                Agregar
+            </button>
+        </a>
 
 </div>
 @endsection
