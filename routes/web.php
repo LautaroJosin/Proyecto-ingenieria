@@ -55,3 +55,4 @@ Route::resource('admin/appointment', AdminAppointmentController::class)->except(
 
 
 Route::resource('adoption', AdoptionDogController::class);
+Route::put('adoption/confirm-adoption', [AdoptionDogController::class , 'confirmAdoption'])->name('adoption.confirm');

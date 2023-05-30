@@ -34,11 +34,16 @@ class AdoptionDogController extends Controller
         
         $dog = new AdoptionDog;
 
-        /*
-        $request->validate([ /* Deberia validar que el perro no exista ya en la lista 
-            
-        ]);
-        */
+		
+        $request->validate([
+            'temp_name' => 'required|unique:App\Models\AdoptionDog,temp_name' ,
+			'gender' => 'required',
+			'race' => 'required',
+			'size' => 'required',
+			'date_of_birth' => 'required',
+			'description' => 'required',
+		]);
+		
 				
         $dog->user_id = auth()->user()->id;
         $this->setDog($request, $dog)->save();
@@ -78,9 +83,19 @@ class AdoptionDogController extends Controller
         //
     }
 	
+	
+	/**
+     *  
+     */
+    public function confirmAdoption( )
+    {
+		
+    }
+	
 
 	 private function setDog(Request $request, AdoptionDog $dog): AdoptionDog
     {
+		$dog->temp_name = $request->input('temp_name');
         $dog->gender = $request->input('gender');
         $dog->race = $request->input('race');
         $dog->description = $request->input('description');

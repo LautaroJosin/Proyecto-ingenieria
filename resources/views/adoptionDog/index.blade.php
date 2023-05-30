@@ -19,6 +19,8 @@
         <thead>
         <tr>
             <div class="w-36 text-center">
+				<th class="text-2xl">Publicado por</th>
+				<th class="text-2xl">Nombre temporal</th>
                 <th class="text-2xl">Sexo</th>
                 <th class="text-2xl">Raza</th>
 				<th class="text-2xl">Tamaño</th>
@@ -32,6 +34,8 @@
         @foreach ($dogs as $dog)
         <tbody>
             <tr>
+				<td class="w-36 text-center">{{ $dog->publisher() }}</td>
+				<td class="w-36 text-center">{{ $dog->temp_name }}</td>
                 <td class="w-36 text-center">{{ $dog->gender }}</td>
                 <td class="w-36 text-center">{{ $dog->race }}</td>
                 <td class="w-36 text-center">{{ $dog->showSize() }}</td>
@@ -39,7 +43,7 @@
                 <td class="w-36 text-center">{{ $dog->ageForHumans() }}</td>
 				<td class="w-36 text-center">
 				
-					@can('delete adoption dog')
+					@can('delete adoption')
 							<form id="destroy-adoption-dog-form" action="{{ route('adoption.destroy', $dog) }}" method="POST">
 								@csrf
 								@method('DELETE')
@@ -49,7 +53,7 @@
 							</form>
 						@endcan
 						
-						@can('edit adoption dog')
+						@can('edit adoption')
 							<a href="{{ route('adoption.edit', $dog) }}">
 								<button>
 									Modificar
@@ -57,21 +61,26 @@
 							</a>
 						@endcan
 						
-						@can('confirm adoption dog')
-							<a href="{{ route('adoption.index') }}">
+						
+						@can('confirm adoption')
+						<form action="{{ route('adoption.confirm') }}" method="POST">
+						@method('PUT')
+						@csrf
 								<button>
 									Confirmar adopción
 								</button>
-							</a>
+						</form>
 						@endcan
 						
-						@guest
+						
+						@unlessrole('admin')
+						{{-- NO deberia dejarme adoptar si es mi perro--}}
 							<a href="{{ route('adoption.index') }}">
 								<button>
 									Adoptar
 								</button>
 							</a>
-						@endguest
+						@endunlessrole
 				
 				</td>
 				
@@ -85,12 +94,13 @@
     <br>
     <br>
 	
-	
-	<a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
-            <button>
-                Agregar
-            </button>
+		@can('add adoption')
+		<a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
+			<button>
+				Agregar
+			</button>
         </a>
+		@endcan
 
 </div>
 @endsection

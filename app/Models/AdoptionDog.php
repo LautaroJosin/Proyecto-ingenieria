@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class AdoptionDog extends Model
 {
@@ -43,6 +44,11 @@ class AdoptionDog extends Model
 					break;
 		
 		}
+    }
+	
+	public function publisher() {
+		$user = User::where('id', $this->user_id)->first();
+		return $user->name;
     }
 	
 	

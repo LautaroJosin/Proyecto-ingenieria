@@ -39,9 +39,10 @@ class RolesAndPermissionsSeeder extends Seeder
 		
         
 		// role's permissions for adoption
-		Permission::create(['name' => 'delete adoption dog'])->syncRoles('user');
-		Permission::create(['name' => 'edit adoption dog'])->syncRoles('user');
-		Permission::create(['name' => 'confirm adoption dog'])->syncRoles('user');
+		Permission::create(['name' => 'add adoption'])->syncRoles('user');
+		Permission::create(['name' => 'delete adoption'])->syncRoles('user');
+		Permission::create(['name' => 'edit adoption'])->syncRoles('user');
+		Permission::create(['name' => 'confirm adoption'])->syncRoles('user');
 
 		
         /*

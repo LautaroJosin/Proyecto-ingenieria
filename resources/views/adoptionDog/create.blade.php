@@ -19,6 +19,7 @@
         @csrf
     
         <div class="grid grid-cols-q grid-rows-7 gap-5 mr-20 text-2xl">
+			<label>Nombre temporal:</label>
             <label>Sexo:</label>
             <label>Raza:</label>
             <label>Descripción:</label>
@@ -28,6 +29,12 @@
 
         <div class="grid grid-cols-q grid-rows-7 gap-5 w-10 text-black font-normal">
 		
+			<input type="text" name="temp_name" pattern="[A-Za-z ]+" required value="{{ old('temp_name') }}">
+			@error('temp_name')
+				<small class="text-danger text-red-600 font-bold text-xl"> {{$message}} </small>
+             @enderror
+			
+			
             <select name="gender" required value="{{ old('gender') }}">
                     <option value="">Seleccione un sexo</option>
                     <option value="M">Macho</option>

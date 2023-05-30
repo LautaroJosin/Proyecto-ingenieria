@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('description');
 			$table->enum( 'size', [ 'P' , 'M' , 'G' ] );
             $table->date('date_of_birth');
-            $table->unsignedBigInteger('user_id');            
+            $table->unsignedBigInteger('user_id');   
+			$table->string('temp_name')->unique();
         });
     }
 
