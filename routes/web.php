@@ -54,5 +54,5 @@ Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentControll
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
 
 
-Route::resource('adoption', AdoptionDogController::class);
+Route::resource('adoption', AdoptionDogController::class)->except('show');
 Route::put('adoption/confirm-adoption', [AdoptionDogController::class , 'confirmAdoption'])->name('adoption.confirm');

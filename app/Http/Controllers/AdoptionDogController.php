@@ -2,20 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Models\AdoptionDog;
 use App\Models\User;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 
 
 class AdoptionDogController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. The view receive all the dogs if there is not an authenticated user 
+		and receive all the dogs and the dogs from the user if it is authenticated
      */
     public function index()
     {
-        return view('adoptionDog.index')->with('dogs', AdoptionDog::all());
+		if( Auth::check()) {
+			
+			$dogs = AdoptionDog::all();
+			
+			$my_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
+						
+			$filtered_dogs = $dogs->diff($my_dogs);
+						
+
+			/* Le envio a la vista los perros del usuario y ademas todo el resto de perros excepto los que pertenecen al usuario (que ya fueron mostrados)*/
+			return view('adoptionDog.index')
+				->with('my_dogs', $my_dogs)
+				->with('dogs', $filtered_dogs);
+		}
+		else { 
+			$dogs = AdoptionDog::all();
+			return view('adoptionDog.index')->with('dogs', AdoptionDog::all());
+		}
+		
     }
 
     /**
@@ -51,13 +73,6 @@ class AdoptionDogController extends Controller
         return redirect()->route('adoption.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
