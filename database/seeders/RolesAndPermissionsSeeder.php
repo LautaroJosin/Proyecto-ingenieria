@@ -37,5 +37,9 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'edit appointment'])->syncRoles('admin');
         Permission::create(['name' => 'show appointment'])->syncRoles('user', 'admin');
         
+        // role's permissions for caregivers
+        Permission::create(['name' => 'create caregiver'])->syncRoles('admin');
+        Permission::create(['name' => 'delete caregiver'])->syncRoles('admin');
+        Permission::create(['name' => 'edit caregiver'])->syncRoles('admin');
     }
 }

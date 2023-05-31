@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DogController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\AdminAppointmentController;
+use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\TreatmentController;
 
 /*
@@ -54,3 +55,7 @@ Route::name('user.')->group(function () {
 Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentController::class . '@sendMail')->name('appointment.sendMail');
 
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
+
+//==============================
+Route::resource('caregiver', CaregiverController::class)->except('show');
+//==============================
