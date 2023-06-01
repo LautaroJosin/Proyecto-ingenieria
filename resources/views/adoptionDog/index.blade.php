@@ -55,7 +55,7 @@
 							<form id="destroy-adoption-dog-form" action="{{ route('adoption.destroy', $my_dog) }}" method="POST">
 								@csrf
 								@method('DELETE')
-								<button type="submit" onclick="event.preventDefault(); confirmDeleteDog();">
+								<button type="submit" onclick="event.preventDefault(); confirmDeleteAdoptionDog();">
 									Eliminar
 								</button>
 							</form>
@@ -129,37 +129,7 @@
                 <td class="w-36 text-center">{{ $dog->showSize() }}</td>
                 <td class="w-36 text-center">{{ $dog->description }}</td>
                 <td class="w-36 text-center">{{ $dog->ageForHumans() }}</td>
-				<td class="w-44 text-center">
-				
-					@can('delete adoption')
-							<form id="destroy-adoption-dog-form" action="{{ route('adoption.destroy', $dog) }}" method="POST">
-								@csrf
-								@method('DELETE')
-								<button type="submit" onclick="event.preventDefault(); confirmDeleteDog();">
-									Eliminar
-								</button>
-							</form>
-						@endcan
-						
-						@can('edit adoption')
-							<a href="{{ route('adoption.edit', $dog) }}">
-								<button>
-									Modificar
-								</button>
-							</a>
-						@endcan
-						
-						
-						@can('confirm adoption')
-						<form action="{{ route('adoption.confirm') }}" method="POST">
-						@method('PUT')
-						@csrf
-								<button>
-									Confirmar adopción
-								</button>
-						</form>
-						@endcan
-						
+				<td class="w-44 text-center">				
 						
 						@unlessrole('admin')
 						{{-- NO deberia dejarme adoptar si es mi perro--}}

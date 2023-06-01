@@ -77,25 +77,41 @@ class AdoptionDogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(AdoptionDog $adoption)
     {
-        //
+		
+         return view('adoptionDog.edit')->with(['dog' => $adoption, 'dog_identifier' => $adoption->temp_name]);
     }
 
     /**
      * Update the specified resource in storage.
+	 
+		NO SE COMO HICE PERO FUNCIONA (No termino de entender el orden en que se reciben los parametros xd)
+		
+		Revisar la vista adoptionDog.edit
+	 
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, AdoptionDog $dog , $dog_identifier)
+    {	
+		
+		AdoptionDog::where('temp_name', $dog_identifier)->first()
+			->update(['gender' =>  $request->input('gender') ,
+							'race' =>  $request->input('race') ,
+							'description' =>  $request->input('description') ,
+							'size' =>  $request->input('size') ,
+							'date_of_birth' =>  $request->input('date_of_birth') ,
+							]);
+							
+        return redirect()->route('adoption.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(AdoptionDog $adoption)
     {
-        //
+		$adoption->delete();
+        return redirect()->route('adoption.index');
     }
 	
 	
