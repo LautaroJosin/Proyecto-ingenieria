@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ route('appointment.sendMail', $appointment) }}" method="POST">
+    <form action="{{ route('admin.appointment.sendMail', $appointment) }}" method="POST">
         @csrf
         <label>Contenido del mail:</label>
             <input type="text" name="content" required value="{{ old('reason') }}">

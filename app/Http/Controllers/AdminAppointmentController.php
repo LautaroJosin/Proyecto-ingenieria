@@ -19,28 +19,19 @@ class AdminAppointmentController extends Controller
         $this->middleware('can:delete appointment')->only('reject');
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('appointment.index')->with('appointments', Appointment::all());
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Appointment $appointment)
+    public function confirm(Appointment $appointment)
     {
         $appointment->state = "C";
         $appointment->save();
         return redirect()->route('appointment.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Appointment $appointment)
+    public function reject(Appointment $appointment)
     {
         return view('appointment.writeReason')->with('appointment', $appointment);
     }

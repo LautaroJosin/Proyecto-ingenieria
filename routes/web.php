@@ -34,7 +34,6 @@ require __DIR__.'/auth.php';
 
 //=============Dog==============
 Route::resource('dog', DogController::class)->except('show'); 
-//==============================
 
 //==========Treatments==========
 Route::resource('appointment.treatment', TreatmentController::class)->only('create', 'store')->names([
@@ -44,13 +43,13 @@ Route::resource('appointment.treatment', TreatmentController::class)->only('crea
 Route::resource('dog.treatment', TreatmentController::class)->only('index')->names([
     'index'=>'treatment.index'
 ]);
-//==============================
 
+//========Appointments==========
 Route::name('user.')->group(function () {
     Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
 });
 
-
-Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentController::class . '@sendMail')->name('appointment.sendMail');
-
-Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
+Route::patch('admin/appointment/{appointment}', [AdminAppointmentController::class, 'confirm'])->name('admin.appointment.confirm');
+Route::get('admin/appointment/{appointment}/reject', [AdminAppointmentController::class, 'reject'])->name('admin.appointment.reject');
+Route::post('admin/appointment/{appointment}/reject', [AdminAppointmentController::class, 'sendMail'])->name('admin.appointment.sendMail');
+Route::resource('admin/appointment', AdminAppointmentController::class)->only('index');

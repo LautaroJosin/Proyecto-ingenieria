@@ -35,10 +35,10 @@
             <td>{{ $appointment->state }}</td>
             <td>{{ $appointment->date->format('Y-m-d') }}</td>
             <td>
+
                 @can('delete appointment')
-                <form action="{{ route('appointment.destroy', $appointment) }}" method="POST">
+                <form action="{{ route('admin.appointment.reject', $appointment) }}" method="GET">
                     @csrf
-                    @method('DELETE')
                     <button type="submit">
                         Rechazar
                     </button>
@@ -46,13 +46,13 @@
                 @endcan
 
                 @can('edit appointment')
-                <a href="{{ route('appointment.edit', $appointment) }}">
-                    <button>
-                        Confirmar
-                    </button>
-                </a>
+                <form action="{{ route('admin.appointment.confirm', $appointment) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit">Confirmar</button>
+                </form>
                 @endcan
-
+                
                 @role('admin')
                 @if($appointment->state == 'C')
                 <a href="{{ route('treatment.create', $appointment) }}">
