@@ -63,4 +63,4 @@ Route::name('caregiver')->group(function () {
     Route::post('caregiver/enable/{caregiver}', CaregiverController::class . '@enable')->name('.enable');
     Route::post('caregiver/disable/{caregiver}', CaregiverController::class . '@disable')->name('.disable');
 });
-//==============================
+//============================== 

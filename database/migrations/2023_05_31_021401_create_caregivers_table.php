@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->boolean('is_active')->default(true);
-
+ 
             $table->unsignedBigInteger('park_id')->nullable();
             $table->foreign('park_id')->references('id')->on('parks')->onDelete('set null');
         });

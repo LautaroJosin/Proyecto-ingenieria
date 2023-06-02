@@ -52,7 +52,7 @@
                                         </button>
                                     </a>
                                 @endcan
-
+                                
                                 @can('delete caregiver')
                                     <form action="{{ route('caregiver.destroy', $caregiver) }}" method="POST">
                                         @csrf

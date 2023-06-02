@@ -85,7 +85,7 @@ class CaregiverController extends Controller
         return redirect()->route('caregiver.index');
     }
 
-    /**
+    /** 
      * Enable a caregiver.
      */
     public function enable(Caregiver $caregiver)
