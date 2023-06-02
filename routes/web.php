@@ -49,7 +49,13 @@ Route::name('user.')->group(function () {
     Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
 });
 
-Route::patch('admin/appointment/{appointment}', [AdminAppointmentController::class, 'confirm'])->name('admin.appointment.confirm');
-Route::get('admin/appointment/{appointment}/reject', [AdminAppointmentController::class, 'reject'])->name('admin.appointment.reject');
-Route::post('admin/appointment/{appointment}/reject', [AdminAppointmentController::class, 'sendMail'])->name('admin.appointment.sendMail');
+Route::prefix('admin/appointment')->group(function () {
+    Route::name('admin.appointment.')->group(function () {
+        Route::controller(AdminAppointmentController::class)->group(function () {
+            Route::patch('{appointment}', 'confirm')->name('confirm');
+            Route::get('{appointment}/reject', 'reject')->name('reject');
+            Route::post('{appointment}/reject', 'sendMail')->name('sendMail');
+        });
+    });
+});
 Route::resource('admin/appointment', AdminAppointmentController::class)->only('index');
