@@ -53,7 +53,7 @@
                 </form>
                 @endcan
                 
-                @role('admin')
+                @can('create treatment')
                 @if($appointment->state == 'C')
                 <a href="{{ route('treatment.create', $appointment) }}">
                     <button>
@@ -61,7 +61,7 @@
                     </button>
                 </a>
                 @endif
-                @endrole
+                @endcan
 
             </td>
         </tr>

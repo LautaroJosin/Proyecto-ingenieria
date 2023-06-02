@@ -15,6 +15,7 @@ class TreatmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:create treatment')->only('create', 'store');
     }
 
     public function index(Dog $dog)

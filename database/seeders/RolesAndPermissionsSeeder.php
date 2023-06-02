@@ -36,6 +36,8 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'delete appointment'])->syncRoles('admin');
         Permission::create(['name' => 'edit appointment'])->syncRoles('admin');
         Permission::create(['name' => 'show appointment'])->syncRoles('user', 'admin');
-        
+
+        // role's permissions for treatments
+        Permission::create(['name' => 'create treatment'])->syncRoles('admin');  
     }
 }
