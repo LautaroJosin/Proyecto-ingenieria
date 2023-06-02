@@ -67,7 +67,12 @@ class CaregiverController extends Controller
         $park = Park::find($request->input('id_park'));
         $caregiver->park_id = $park->id;
         $caregiver->name = $request->input('name');
+        
+        $request->validate([
+            'email' => 'required|email|unique:caregivers,email,' . $caregiver->id
+        ]);
         $caregiver->email = $request->input('email');
+        
         return $caregiver;
     }
 
@@ -78,5 +83,37 @@ class CaregiverController extends Controller
     {
         $caregiver->delete();
         return redirect()->route('caregiver.index');
+    }
+
+    /**
+     * Enable a caregiver.
+     */
+    public function enable(Caregiver $caregiver)
+    {
+        $caregiver->is_active = true;
+        $caregiver->save();
+        return redirect()->route('caregiver.index');
+    }
+
+    /**
+     * Disable a caregiver.
+     */
+    public function disable(Caregiver $caregiver)
+    {
+        $caregiver->is_active = false;
+        $caregiver->save();
+        return redirect()->route('caregiver.index');
+    }
+
+    /**
+     * Search by any attribute.
+     */
+    public function search(Request $request)
+    {
+        /*$caregivers = Caregiver::where('name', 'like', '%' . $request->input('search') . '%')
+            ->orWhere('email', 'like', '%' . $request->input('search') . '%')
+            ->orWhere('is_active', 'like', '%' . $request->input('search') . '%')
+            ->get();
+        return view('caregiver.index')->with('caregivers', $caregivers);*/
     }
 }

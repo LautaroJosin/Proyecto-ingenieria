@@ -56,6 +56,11 @@ Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentControll
 
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
 
-//==============================
+
+//==========Caregiver==========
 Route::resource('caregiver', CaregiverController::class)->except('show');
+Route::name('caregiver')->group(function () {
+    Route::post('caregiver/enable/{caregiver}', CaregiverController::class . '@enable')->name('.enable');
+    Route::post('caregiver/disable/{caregiver}', CaregiverController::class . '@disable')->name('.disable');
+});
 //==============================
