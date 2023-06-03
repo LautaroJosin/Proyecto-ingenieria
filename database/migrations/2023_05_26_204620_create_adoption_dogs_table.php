@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->unsignedBigInteger('user_id')->nullable();
 			$table->string('temp_name')->unique();
+			$table->enum('state', ['S' , 'A']);
         });
     }
 

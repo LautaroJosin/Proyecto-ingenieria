@@ -18,6 +18,7 @@ class AdoptionDog extends Model
         'date_of_birth',
         'size',
         'description',
+		'state',
     ];
 
     protected $casts = [
@@ -45,6 +46,24 @@ class AdoptionDog extends Model
 		
 		}
     }
+	
+	public function showState() {
+		
+		switch ($this->state) {
+				
+				case 'S' :
+					return 'Sin adoptar';
+					break;
+				case 'A' :
+					return 'Adoptado';
+					break;
+		}
+    }
+	
+	public function wasAdopted() {
+		if($this->state == 'A') return true;
+		else return false;
+	}
 	
 	public function publisher() {
 		$user = User::where('id', $this->user_id)->first();

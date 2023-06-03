@@ -53,7 +53,7 @@ Route::post('admin/appointment/sendMail/{appointment}', AdminAppointmentControll
 
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
 
-
+/* Las rutas mas genericas van abajo */
 Route::resource('adoption', AdoptionDogController::class)->except('show');
+Route::put('adoption/confirm-adoption/{dog_identifier}', [AdoptionDogController::class , 'confirmAdoption'])->name('adoption.confirm');
 Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class , 'update'])->name('myadoption.update');
-Route::put('adoption/confirm-adoption', [AdoptionDogController::class , 'confirmAdoption'])->name('adoption.confirm');

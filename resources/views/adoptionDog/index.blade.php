@@ -34,6 +34,7 @@
 				<th class="text-2xl">Tamaño</th>
                 <th class="text-2xl">Descripcion</th>
                 <th class="text-2xl">Edad</th>
+				<th class="text-2xl">Estado</th>
 				<th class="text-2xl">Acciones</th>
             </div>
         </tr>
@@ -49,8 +50,13 @@
                 <td class="w-36 text-center">{{ $my_dog->showSize() }}</td>
                 <td class="w-36 text-center">{{ $my_dog->description }}</td>
                 <td class="w-36 text-center">{{ $my_dog->ageForHumans() }}</td>
+				<td class="w-36 text-center">{{ $my_dog->showState() }}</td>
+
 				<td class="w-44 text-center">
-				
+					
+					@if($my_dog->wasAdopted())
+							No hay opciones disponibles
+					@else
 					@can('delete adoption')
 							<form id="destroy-adoption-dog-form" action="{{ route('adoption.destroy', $my_dog) }}" method="POST">
 								@csrf
@@ -71,7 +77,7 @@
 						
 						
 						@can('confirm adoption')
-						<form action="{{ route('adoption.confirm') }}" method="POST">
+						<form action="{{ route('adoption.confirm' , $my_dog->temp_name) }}" method="POST">
 						@method('PUT')
 						@csrf
 								<button>
@@ -79,6 +85,8 @@
 								</button>
 						</form>
 						@endcan
+						
+						@endif
 						
 				</td>
             </tr>
@@ -114,6 +122,7 @@
 				<th class="text-2xl">Tamaño</th>
                 <th class="text-2xl">Descripcion</th>
                 <th class="text-2xl">Edad</th>
+				<th class="text-2xl">Estado</th>
 				<th class="text-2xl">Acciones</th>
             </div>
         </tr>
@@ -129,8 +138,13 @@
                 <td class="w-36 text-center">{{ $dog->showSize() }}</td>
                 <td class="w-36 text-center">{{ $dog->description }}</td>
                 <td class="w-36 text-center">{{ $dog->ageForHumans() }}</td>
+				<td class="w-36 text-center">{{ $dog->showState() }}</td>
 				<td class="w-44 text-center">				
 						
+						@if($dog->wasAdopted())
+							No hay opciones disponibles
+						@else
+							
 						@unlessrole('admin')
 						{{-- NO deberia dejarme adoptar si es mi perro--}}
 							<a href="{{ route('adoption.index') }}">
@@ -139,7 +153,10 @@
 								</button>
 							</a>
 						@endunlessrole
+						
+						@endif
 				</td>
+				
             </tr>
         </tbody>
         @endforeach

@@ -68,6 +68,7 @@ class AdoptionDogController extends Controller
 		
 				
         $dog->user_id = auth()->user()->id;
+		$dog->state = 'S';
         $this->setDog($request, $dog)->save();
 		
         return redirect()->route('adoption.index');
@@ -93,7 +94,7 @@ class AdoptionDogController extends Controller
      */
     public function update(Request $request, AdoptionDog $dog , $dog_identifier)
     {	
-		
+			
 		AdoptionDog::where('temp_name', $dog_identifier)->first()
 			->update(['gender' =>  $request->input('gender') ,
 							'race' =>  $request->input('race') ,
@@ -118,9 +119,12 @@ class AdoptionDogController extends Controller
 	/**
      *  
      */
-    public function confirmAdoption( )
+    public function confirmAdoption($dog_identifier)
     {
-		
+			
+		$dog = AdoptionDog::where('temp_name', $dog_identifier)->first();
+		$dog->update(['state' => 'A']);
+		return redirect()->route('adoption.index');
     }
 	
 
