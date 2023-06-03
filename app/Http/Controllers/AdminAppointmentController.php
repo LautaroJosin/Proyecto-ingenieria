@@ -45,7 +45,8 @@ class AdminAppointmentController extends Controller
                 ->subject('Turno rechazado');
                 //->content($request->input('content'));
         });
-        $appointment->delete();
+        $appointment->state = "R";
+        $appointment->save();
         return redirect()->route('appointment.index');
         
     }

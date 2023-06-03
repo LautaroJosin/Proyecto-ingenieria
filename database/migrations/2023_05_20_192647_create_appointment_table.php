@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->enum('state', ['P', 'C', 'A']); //Pending, Confirmed, Acomplished
+            $table->enum('state', ['P', 'C', 'A', 'R']); //Pending, Confirmed, Acomplished, Rejected
             $table->date('date');
             //Salvo que se me ocurra algo mejor, acá va a ir un atributo derivado "precioConDescuento" en el futuro
             $table->unsignedBigInteger('reason_id')->nullable();
