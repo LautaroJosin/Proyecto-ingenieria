@@ -8,5 +8,10 @@ function confirmDeleteDog() {
     if(window.confirm('¿Estás seguro de que deseas eliminar este perro?')){
         document.getElementById('destroy-dog-form').submit();
     }
-    
+}
+
+function popUpMessage(message) {
+    window.onload = function() {
+        alert(message);
+      };
 }
