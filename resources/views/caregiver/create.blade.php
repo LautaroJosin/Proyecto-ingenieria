@@ -38,7 +38,7 @@
 
                 <input type="email" name="email" required value="{{ old('email') }}">
 
-        <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700">Confirmar cambios</button>
+        <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700">Confirmar</button>
     </form>
 </div>
 @endsection

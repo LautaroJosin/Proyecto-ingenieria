@@ -20,7 +20,9 @@ class CaregiverController extends Controller
      */
     public function index()
     {
-        return view('caregiver.index')->with('caregivers', Caregiver::all());
+        return view('caregiver.index')
+            ->with('caregivers', Caregiver::all())
+            ->with('parks', Park::all());
     }
 
     /**
@@ -47,7 +49,9 @@ class CaregiverController extends Controller
      */
     public function edit(Caregiver $caregiver)
     {
-        return view('caregiver.edit')->with('caregiver', $caregiver)->with('parks', Park::all());
+        return view('caregiver.edit')
+            ->with('caregiver', $caregiver)
+            ->with('parks', Park::all());
     }
 
     /**
@@ -108,12 +112,17 @@ class CaregiverController extends Controller
     /**
      * Search by any attribute.
      */
-    public function search(Request $request)
+    public function filter(Request $request)
     {
-        /*$caregivers = Caregiver::where('name', 'like', '%' . $request->input('search') . '%')
-            ->orWhere('email', 'like', '%' . $request->input('search') . '%')
-            ->orWhere('is_active', 'like', '%' . $request->input('search') . '%')
-            ->get();
-        return view('caregiver.index')->with('caregivers', $caregivers);*/
+        $query = Caregiver::query();
+
+        if ($request->filled('name')) $query->where('name', 'LIKE', '%' . $request->input('name') . '%');
+        if ($request->filled('id_park')) $query->where('park_id', $request->input('id_park'));
+        if ($request->filled('email')) $query->where('email', 'LIKE', '%' . $request->input('email') . '%');
+        if ($request->filled('is_active')) $query->where('is_active', $request->input('is_active'));
+
+        return view('caregiver.index')
+            ->with('caregivers', $query->get())
+            ->with('parks', Park::all());
     }
 }

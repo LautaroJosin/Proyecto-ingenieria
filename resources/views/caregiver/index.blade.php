@@ -18,6 +18,42 @@
             <h1>No hay negocios para mostrar</h1>
         @else
             {{-- Sección con contenido --}}
+
+            <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('caregiver.filter') }}"
+                method="GET" enctype="multipart/form-data">
+                @csrf
+                <div class="grid grid-cols-q grid-rows-4 gap-5 mr-20 text-2xl">
+                    <label>Nombre del negocio:</label>
+                    {{-- <label>Tipo de negocio:</label> --}}
+                    <label>Zona de trabajo:</label>
+                    <label>Email</label>
+                    <label>Estado</label>
+                </div>
+
+                <div class="grid grid-cols-q grid-rows-4 gap-5 w-10 text-black font-normal" >
+
+                    <input type="text" name="name" pattern="[A-Za-z ]+">
+
+                    <select name="id_park">
+                        <option value=""></option>
+                        @foreach ($parks as $park)
+                            <option value={{ $park->id }}> {{ $park->park_name }} </option>
+                        @endforeach
+
+                    <input type="email" name="email">
+
+                    <select name="is_active">
+                        <option value=""></option>
+                        <option value="1">Disponible</option>
+                        <option value="0">No disponible</option>
+                    </select>
+                </div>
+
+                <button type="submit"
+                    class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Filtrar</button>
+            </form>
+
+
             <table class="table-fixed border-2 ">
                 <thead>
                     <tr>
@@ -52,7 +88,7 @@
                                         </button>
                                     </a>
                                 @endcan
-                                
+
                                 @can('delete caregiver')
                                     <form action="{{ route('caregiver.destroy', $caregiver) }}" method="POST">
                                         @csrf
@@ -62,8 +98,8 @@
                                         </button>
                                     </form>
                                 @endcan
-                                
-                                @can('edit caregiver')  
+
+                                @can('edit caregiver')
                                     @if (!$caregiver->is_active)
                                         <form action="{{ route('caregiver.enable', $caregiver) }}" method="POST">
                                             @csrf
@@ -85,6 +121,7 @@
                     </tbody>
                 @endforeach
         @endif
+        </table>
         @can('create caregiver')
             <br> <br>
             <a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700"
@@ -94,6 +131,5 @@
                 </button>
             </a>
         @endcan
-        </table>
     </div>
 @endsection

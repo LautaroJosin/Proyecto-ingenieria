@@ -60,7 +60,8 @@ Route::resource('admin/appointment', AdminAppointmentController::class)->except(
 //==========Caregiver==========
 Route::resource('caregiver', CaregiverController::class)->except('show');
 Route::name('caregiver')->group(function () {
-    Route::post('caregiver/enable/{caregiver}', CaregiverController::class . '@enable')->name('.enable');
-    Route::post('caregiver/disable/{caregiver}', CaregiverController::class . '@disable')->name('.disable');
+    Route::post('caregiver/enable/{caregiver}', [CaregiverController::class, 'enable'])->name('.enable');
+    Route::post('caregiver/disable/{caregiver}', [CaregiverController::class, 'disable'])->name('.disable');
+    Route::get('caregiver/filter', [CaregiverController::class, 'filter'])->name('.filter');
 });
 //============================== 
