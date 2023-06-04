@@ -51,11 +51,15 @@ class UserAppointmentController extends Controller
         $appointment->dog_id = $dog->id;
         $appointment->reason_id = $reason->id;
         $appointment->state = AppointmentStatesEnum::PENDING;
+        $appointment->date = $request->input('date');
 
+        if (! $this->validateDates($dog, $reason)) {
+            return redirect()->route('user.appointment.create')->with('error', 'El perro no cumple los requisitos para el turno');
+        }
+        if (! $this->validateDuplicates($dog, $reason)) {
+            return redirect()->route('user.appointment.create')->with('error', 'El perro ya tiene un turno solicitado para ese servicio');
+        }
 
-        if ($this->validateDates($dog, $reason)) $appointment->date = $request->input('date');
-        else return redirect()->route('user.appointment.create')->with('error', 'El perro no cumple los requisitos para el turno');
-        
         $appointment->save();
 
         return redirect()->route('appointment.index');
@@ -71,5 +75,10 @@ class UserAppointmentController extends Controller
         }
 
         return true;
+    }
+
+    private function validateDuplicates(Dog $dog, Reason $reason): bool
+    {
+        return ! $dog->isWaitingForAppointment($reason);
     }
 }
