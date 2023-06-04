@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 
 use App\Models\AdoptionDog;
 use App\Models\User;
+use App\Models\AdoptionRequested;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Mail;
 
 
 class AdoptionDogController extends Controller
@@ -116,17 +119,68 @@ class AdoptionDogController extends Controller
     }
 	
 	
-	/**
-     *  
+	/*
+     *  S
      */
     public function confirmAdoption($dog_identifier)
     {
-			
 		$dog = AdoptionDog::where('temp_name', $dog_identifier)->first();
 		$dog->update(['state' => 'A']);
 		return redirect()->route('adoption.index');
     }
 	
+	/**
+	*		Recibe la peticion para adoptar de un usuario no autenticado. En el request se recibe :
+	*			- id del usuario que publico el perro
+	*			- nombre del perro que se quiere adoptar
+	*			- email ingresado por el usuario no autenticado
+	*/
+	public function guestAdoption(Request $request) 
+	{
+		$dog_owner = User::where('id', $request->owner_id)->first();
+		$this->sendMail($dog_owner , $request->dog_name, $request->email);
+		
+		return redirect()->route('adoption.index');
+		
+	}
+	
+	/**
+	*		Recibe la peticion para adoptar de un usuario autenticado. Se reciben como parametros :
+	*			- id del usuario que publico el perro
+	*			- nombre del perro que se quiere adoptar
+	*/
+	public function authAdoption(int $owner_id , string $dog_name) 
+	{
+		
+		$dog_owner = User::where('id', $owner_id)->first();
+
+		$this->sendMail($dog_owner , $dog_name, Auth::user()->email);
+
+		/* Se almacena que el usuario Auth::user solicito al perro $dog_name */
+
+		$request = new AdoptionRequested;
+
+		$request->user_id = Auth::user()->id;
+
+			$dog = AdoptionDog::where('temp_name', $dog_name)->first();
+
+		$request->dog_requested = $dog->id;
+
+		$request->save();
+		
+		return redirect()->route('adoption.index');
+	}
+	
+	public function sendMail(User $dog_owner,  $dog_name , $user_email) 
+	{    
+        Mail::raw('El usuario con el mail ' . $user_email . ' desea adoptar a ' . $dog_name , function ($message) use ($dog_owner)  
+		{
+            $message->from('OhMyDog@gmail.com')->subject('Solicitud de adopción');
+			$message ->to($dog_owner->email);
+        });
+		
+	}
+
 
 	 private function setDog(Request $request, AdoptionDog $dog): AdoptionDog
     {
@@ -139,4 +193,12 @@ class AdoptionDogController extends Controller
 				
         return $dog;
     }
+	
+	
+	public function filter (Request $request) 
+	{
+		
+		
+	}
+	
 }

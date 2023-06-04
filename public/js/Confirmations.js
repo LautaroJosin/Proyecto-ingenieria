@@ -15,3 +15,20 @@ function confirmDeleteAdoptionDog() {
         document.getElementById('destroy-adoption-dog-form').submit();
     }
 }
+
+function sendEmail(var1 , var2) {
+ 
+    const input = prompt('Por favor ingresa tu email:');
+
+	d1 = document.getElementById("dato1");
+	d1.value = var1; /* owner_Id */
+	
+	d2 = document.getElementById("dato2");
+	d2.value = var2; /* dog temp_name */
+	
+	d3 = document.getElementById("dato3");
+	d3.value = input; /* user email */
+	
+	var form = document.getElementById("adopt_dog_form").submit();
+	
+}

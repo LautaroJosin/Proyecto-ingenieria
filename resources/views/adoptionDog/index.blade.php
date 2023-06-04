@@ -11,8 +11,6 @@
 <x-mainMenu/>
 
 <div class="text-pages">
-
-    
 		
 	@if(Auth::check())
 		
@@ -142,30 +140,56 @@
 				<td class="w-44 text-center">				
 						
 						@if($dog->wasAdopted())
+
 							No hay opciones disponibles
+
 						@else
+								
+							@if(!Auth::check())
+								<form id="adopt_dog_form" action="{{ route('adoption.adoptNotAuthenticated') }}" method="POST">
 							
-						@unlessrole('admin')
-						{{-- NO deberia dejarme adoptar si es mi perro--}}
-							<a href="{{ route('adoption.index') }}">
-								<button>
-									Adoptar
-								</button>
-							</a>
-						@endunlessrole
-						
-						@endif
+										@csrf
+										<input type='hidden' name='owner_id' id='dato1'>
+										<input type='hidden' name='dog_name' id='dato2' >
+										<input type='hidden' name='email' id='dato3'>
+										
+										<button onclick="event.preventDefault(); sendEmail( '{{$dog->user_id}}' , '{{$dog->temp_name}}' ); ">
+											Adoptar
+										</button>
+										
+								</form>
+									
+							@else 
+									
+								@if(  $dog->wasRequestedBy(Auth::user()->id) )
+									Perro ya solicitado
+								@else
+							
+									<form action="{{ route('adoption.adoptAuthenticated', [$dog->user_id , $dog->temp_name]) }}" method="POST">
+										@csrf
+										<button>
+											Adoptar
+										</button>
+									</form>
+
+								@endif
+									
+									
+							@endif
+							
+					@endif
+
 				</td>
 				
             </tr>
         </tbody>
+
         @endforeach
+
     </table>
+
     @endif
 	
-	
-
-
     <br>
     <br>
 	
@@ -178,4 +202,5 @@
 		@endcan
 
 </div>
+
 @endsection
