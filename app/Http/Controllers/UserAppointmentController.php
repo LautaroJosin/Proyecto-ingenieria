@@ -54,13 +54,13 @@ class UserAppointmentController extends Controller
         $appointment->date = $request->input('date');
 
         if (! $this->validateDates($dog, $reason)) {
-            return redirect()->route('user.appointment.create')->with('error', 'El perro no cumple los requisitos para el turno');
+            return redirect()->route('user.appointment.create')->with('error', 'El perro seleccionado no cumple los requisitos para el turno');
         }
         if (! $this->validateDuplicates($dog, $reason)) {
             return redirect()->route('user.appointment.create')->with('error', 'El perro ya tiene un turno solicitado para ese servicio');
         }
         if (! $this->validateCastrationApplication($dog, $reason)) {
-            return redirect()->route('user.appointment.create')->with('error', 'El perro ya está castrado');
+            return redirect()->route('user.appointment.create')->with('error', 'El perro ya ha sido castrado');
         }
 
         $appointment->save();

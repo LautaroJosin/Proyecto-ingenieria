@@ -23,6 +23,7 @@
             <th>Motivo del turno</th>
             <th>Estado</th>
             <th>Fecha</th>
+            <th>Monto</th>
             @role('admin')
             <th>Acciones</th>
             @endrole
@@ -35,6 +36,7 @@
             <td>{{ $appointment->reason->reason }}</td>
             <td>{{ $appointment->state->value }}</td>
             <td>{{ $appointment->date->format('Y-m-d') }}</td>
+            <td>{{ $appointment->reason->price }}</td>
             <td>
 
                 @if($appointment->state->value == App\Enums\AppointmentStatesEnum::PENDING->value)
