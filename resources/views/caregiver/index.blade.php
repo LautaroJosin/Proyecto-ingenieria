@@ -13,52 +13,58 @@
 
     <div class="text-pages">
 
-        {{-- Sección vacia --}}
-        @if ($caregivers->isEmpty())
-            <h1>No hay negocios para mostrar</h1>
-        @else
-            {{-- Sección con contenido --}}
+        <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('caregiver.filter') }}"
+            method="GET" enctype="multipart/form-data">
+            @csrf
+            <div class="grid grid-cols-q grid-rows-5 gap-5 mr-20 text-2xl">
+                <label>Nombre del negocio:</label>
+                <label>Tipo de negocio:</label>
+                <label>Zona de trabajo:</label>
+                <label>Email</label>
+                <label>Estado</label>
+            </div>
 
-            <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('caregiver.filter') }}"
-                method="GET" enctype="multipart/form-data">
-                @csrf
-                <div class="grid grid-cols-q grid-rows-4 gap-5 mr-20 text-2xl">
-                    <label>Nombre del negocio:</label>
-                    {{-- <label>Tipo de negocio:</label> --}}
-                    <label>Zona de trabajo:</label>
-                    <label>Email</label>
-                    <label>Estado</label>
-                </div>
+            <div class="grid grid-cols-q grid-rows-5 gap-5 w-10 text-black font-normal">
 
-                <div class="grid grid-cols-q grid-rows-4 gap-5 w-10 text-black font-normal" >
+                <input type="text" name="name" pattern="[A-Za-z ]+">
 
-                    <input type="text" name="name" pattern="[A-Za-z ]+">
+                <select name="type">
+                    <option value=""></option>
+                    <option value="W">Paseadores</option>
+                    <option value="C">Cuidadores</option>
+                </select>
 
-                    <select name="id_park">
-                        <option value=""></option>
-                        @foreach ($parks as $park)
-                            <option value={{ $park->id }}> {{ $park->park_name }} </option>
-                        @endforeach
+                <select name="id_park">
+                    <option value=""></option>
+                    @foreach ($parks as $park)
+                        <option value={{ $park->id }}> {{ $park->park_name }} </option>
+                    @endforeach
 
-                    <input type="email" name="email">
+                    <input type="text" name="email">
 
                     <select name="is_active">
                         <option value=""></option>
                         <option value="1">Disponible</option>
                         <option value="0">No disponible</option>
                     </select>
-                </div>
+            </div>
 
-                <button type="submit"
-                    class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Filtrar</button>
-            </form>
+            <button type="submit"
+                class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Filtrar</button>
+        </form>
 
+        {{-- Sección vacia --}}
+        @if ($caregivers->isEmpty())
+            <h1>No hay negocios para mostrar</h1>
+        @else
+            {{-- Sección con contenido --}}
 
             <table class="table-fixed border-2 ">
                 <thead>
                     <tr>
                         <div class="w-36 text-center">
                             <th class="text-2xl">Negocio</th>
+                            <th class="text-2xl">Tipo de negocio</th>
                             <th class="text-2xl">Contacto</th>
                             <th class="text-2xl">Zona de trabajo</th>
                             <th class="text-2xl">Estado</th>
@@ -72,6 +78,15 @@
                     <tbody>
                         <tr>
                             <td class="w-36 text-center">{{ $caregiver->name }}</td>
+                            <td class="w-36 text-center">
+                                @if ($caregiver->type == 'W')
+                                    Paseador
+                                @elseif ($caregiver->type == 'C')
+                                    Cuidador
+                                @else
+                                    Paseador y cuidador
+                                @endif
+                            </td>
                             <td class="w-36 text-center">{{ $caregiver->email }}</td>
                             <td class="w-36 text-center">{{ $caregiver->park->park_name }}</td>
                             <td class="w-36 text-center">
@@ -80,6 +95,7 @@
                                 @else
                                     No disponible
                                 @endif
+                            </td>
                             <td class="w-36">
                                 @can('edit caregiver')
                                     <a href="{{ route('caregiver.edit', $caregiver) }}">
@@ -90,10 +106,10 @@
                                 @endcan
 
                                 @can('delete caregiver')
-                                    <form action="{{ route('caregiver.destroy', $caregiver) }}" method="POST">
+                                    <form id="destroy-caregiver-form" action="{{ route('caregiver.destroy', $caregiver) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit">
+                                        <button type="submit" onclick="event.preventDefault(); confirmDeleteCaregiver();">
                                             Eliminar
                                         </button>
                                     </form>

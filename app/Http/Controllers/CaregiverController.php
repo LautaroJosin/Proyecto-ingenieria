@@ -71,6 +71,7 @@ class CaregiverController extends Controller
         $park = Park::find($request->input('id_park'));
         $caregiver->park_id = $park->id;
         $caregiver->name = $request->input('name');
+        $caregiver->type = $request->input('type');
         
         $request->validate([
             'email' => 'required|email|unique:caregivers,email,' . $caregiver->id
@@ -116,6 +117,7 @@ class CaregiverController extends Controller
     {
         $query = Caregiver::query();
 
+        if ($request->filled('type')) $query->whereIn('type', [$request->input('type'), 'B']);
         if ($request->filled('name')) $query->where('name', 'LIKE', '%' . $request->input('name') . '%');
         if ($request->filled('id_park')) $query->where('park_id', $request->input('id_park'));
         if ($request->filled('email')) $query->where('email', 'LIKE', '%' . $request->input('email') . '%');

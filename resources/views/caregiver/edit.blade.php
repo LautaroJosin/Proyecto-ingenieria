@@ -22,22 +22,29 @@
         @csrf
         @method('PUT')
 
-            <div class="grid grid-cols-q grid-rows-3 gap-5 mr-20 text-2xl">
+            <div class="grid grid-cols-q grid-rows-4 gap-5 mr-20 text-2xl">
                 <label>Nombre del negocio:</label>
+                <label>Tipo de negocio:</label>
                 <label>Zona de trabajo:</label>
                 <label>Email</label>           
             </div>
 
-            <div class="grid grid-cols-q grid-rows-3 gap-5 w-10 text-black font-normal"">
+            <div class="grid grid-cols-q grid-rows-4 gap-5 w-10 text-black font-normal"">
 
             <input type="text" name="name" pattern="[A-Za-z ]+" required value="{{ $caregiver->name }}">
+
+            <select name="type" required value="{{ $caregiver->type }}">
+                <option value="C">Cuidador</option>
+                <option value="W">Paseador</option>
+                <option value="B">Paseador y cuidador</option>
+            </select>
 
             <select name="id_park" required value="{{ $caregiver->park->id }}">
                 @foreach ($parks as $park)
                     <option value={{ $park->id }}> {{ $park->park_name }} </option>
                 @endforeach
 
-                <input type="email" name="email" required value="{{ $caregiver->email }}">
+            <input type="email" name="email" required value="{{ $caregiver->email }}">
         </div>
 
 

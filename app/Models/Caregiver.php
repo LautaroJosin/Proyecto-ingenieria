@@ -14,6 +14,7 @@ class Caregiver extends Model
     protected $fillable = [
         'name',
         'email',
+        'type',
         'is_active', 
         'park_id',
     ];

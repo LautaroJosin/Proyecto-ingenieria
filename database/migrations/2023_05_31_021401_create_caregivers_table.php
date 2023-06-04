@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('caregivers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('type', ['W', 'C', 'B']); // W = walker, C = caregiver, B = both
             $table->string('email')->unique();
             $table->boolean('is_active')->default(true);
  
