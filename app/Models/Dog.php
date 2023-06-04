@@ -49,6 +49,13 @@ class Dog extends Model
                 ->exists();
     }
 
+    public function isCastrated(): bool
+    {
+        return $this->treatments()
+                ->where('reason', '=', 'Castración') //El id 4 es el de castración ¡¡HARDCODEADO!!
+                ->exists();
+    }
+    
     public function ageForHumans() {
         return $this->date_of_birth->longAbsoluteDiffForHumans();
     }

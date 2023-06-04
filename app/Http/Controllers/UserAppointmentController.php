@@ -59,6 +59,9 @@ class UserAppointmentController extends Controller
         if (! $this->validateDuplicates($dog, $reason)) {
             return redirect()->route('user.appointment.create')->with('error', 'El perro ya tiene un turno solicitado para ese servicio');
         }
+        if (! $this->validateCastrationApplication($dog, $reason)) {
+            return redirect()->route('user.appointment.create')->with('error', 'El perro ya está castrado');
+        }
 
         $appointment->save();
 
@@ -75,6 +78,11 @@ class UserAppointmentController extends Controller
         }
 
         return true;
+    }
+
+    private function validateCastrationApplication(Dog $dog, Reason $reason): bool
+    {
+        return $reason->id != '4' || ! $dog->isCastrated();
     }
 
     private function validateDuplicates(Dog $dog, Reason $reason): bool
