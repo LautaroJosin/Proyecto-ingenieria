@@ -4,12 +4,12 @@ namespace App\Enums;
 
 Enum AppointmentStatesEnum: string
 {
-    case PENDING = "Pending";
-    case CONFIRMED = "Confirmed";
-    case ACOMPLISHED = "Acomplished";
-    case REJECTED = "Rejected";
-    case CANCELLED = "Cancelled";
-    case MISSING = "Missing";
+    case PENDING = "Pendiente";
+    case CONFIRMED = "Confirmado";
+    case ACOMPLISHED = "Completado";
+    case REJECTED = "Rechazado";
+    case CANCELLED = "Cancelado";
+    case MISSING = "Perdido";
 
     public static function values(): array
     {

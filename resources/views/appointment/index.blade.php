@@ -76,10 +76,10 @@
                             </button>                            
                         </form>
 
-                        <form action="{{ route('admin.appointment.missing', $appointment) }}" method="POST">
+                        <form id="appointment-missing-form" action="{{ route('admin.appointment.missing', $appointment) }}" method="POST">
                             @csrf
                             @method('PATCH')
-                            <button type="submit">
+                            <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea marcar el turno como perdido? ', 'appointment-missing-form')">
                                 Turno perdido
                             </button>
                         </form>
