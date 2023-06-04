@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AppointmentStatesEnum;
 use App\Mail\RejectMaileable;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use PhpParser\Node\Expr\Cast\String_;
 
 class AdminAppointmentController extends Controller
 {
@@ -26,7 +26,21 @@ class AdminAppointmentController extends Controller
 
     public function confirm(Appointment $appointment)
     {
-        $appointment->state = "C";
+        $appointment->state = AppointmentStatesEnum::CONFIRMED;
+        $appointment->save();
+        return redirect()->route('appointment.index');
+    }
+
+    public function cancel(Appointment $appointment)
+    {
+        $appointment->state = AppointmentStatesEnum::CANCELLED;
+        $appointment->save();
+        return redirect()->route('appointment.index');
+    }
+
+    public function missing(Appointment $appointment)
+    {
+        $appointment->state = AppointmentStatesEnum::MISSING;
         $appointment->save();
         return redirect()->route('appointment.index');
     }
@@ -45,7 +59,7 @@ class AdminAppointmentController extends Controller
                 ->subject('Turno rechazado');
                 //->content($request->input('content'));
         });
-        $appointment->state = "R";
+        $appointment->state = AppointmentStatesEnum::REJECTED;
         $appointment->save();
         return redirect()->route('appointment.index');
         

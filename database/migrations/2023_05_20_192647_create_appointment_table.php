@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\AppointmentStatesEnum;
 
 return new class extends Migration
 {
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->enum('state', ['P', 'C', 'A', 'R']); //Pending, Confirmed, Acomplished, Rejected
+            $table->enum('state', AppointmentStatesEnum::values());
             $table->date('date');
             //Salvo que se me ocurra algo mejor, acá va a ir un atributo derivado "precioConDescuento" en el futuro
             $table->unsignedBigInteger('reason_id')->nullable();

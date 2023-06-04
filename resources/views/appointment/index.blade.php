@@ -8,8 +8,9 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-
     <x-mainMenu/>
+
+    <script src="{{ asset('js/Confirmations.js') }}"></script>
 
     @if($appointments->isEmpty())
         <h1>No hay turnos para mostrar</h1>
@@ -32,11 +33,11 @@
             <tr>
             <td>{{ $appointment->dog->name }}</td>
             <td>{{ $appointment->reason->reason }}</td>
-            <td>{{ $appointment->state }}</td>
+            <td>{{ $appointment->state->value }}</td>
             <td>{{ $appointment->date->format('Y-m-d') }}</td>
             <td>
 
-                @if($appointment->state == 'P')
+                @if($appointment->state->value == App\Enums\AppointmentStatesEnum::PENDING->value)
                     @can('delete appointment')
                         <form action="{{ route('admin.appointment.reject', $appointment) }}" method="GET">
                             @csrf
@@ -57,15 +58,33 @@
                     @endcan
                 @endif
                 
-                @can('create treatment')
-                    @if($appointment->state == 'C')
+                @if($appointment->state->value == App\Enums\AppointmentStatesEnum::CONFIRMED->value)
+                    @can('create treatment')
                         <a href="{{ route('treatment.create', $appointment) }}">
                             <button>
                                 Actualizar libreta
                             </button>
                         </a>
-                    @endif
-                @endcan
+                    @endcan
+
+                    @can('edit appointment')
+                        <form id="appointment-cancelation-form" action="{{ route('admin.appointment.cancel', $appointment) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea cancelar el turno? ', 'appointment-cancelation-form');">
+                                Cancelar
+                            </button>                            
+                        </form>
+
+                        <form action="{{ route('admin.appointment.missing', $appointment) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit">
+                                Turno perdido
+                            </button>
+                        </form>
+                    @endcan
+                @endif
 
             </td>
         </tr>

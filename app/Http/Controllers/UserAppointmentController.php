@@ -8,6 +8,7 @@ use App\Models\Reason;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Enums\AppointmentStatesEnum;
 
 
 
@@ -49,7 +50,7 @@ class UserAppointmentController extends Controller
 
         $appointment->dog_id = $dog->id;
         $appointment->reason_id = $reason->id;
-        $appointment->state = "P";
+        $appointment->state = AppointmentStatesEnum::PENDING;
 
 
         if ($this->validateDates($dog, $reason)) $appointment->date = $request->input('date');

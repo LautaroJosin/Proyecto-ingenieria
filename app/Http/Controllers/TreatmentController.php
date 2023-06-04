@@ -8,6 +8,7 @@ use App\Treatment\TreatmentStrategy;
 use App\Models\Appointment;
 use App\Treatment\TreatmentFactory;
 use App\Models\Reason;
+use App\Enums\AppointmentStatesEnum;
 
 class TreatmentController extends Controller
 {
@@ -32,6 +33,8 @@ class TreatmentController extends Controller
     public function store(Request $request, Appointment $appointment) 
     {
         TreatmentFactory::create($appointment->reason->reason)->store($request, $appointment);
+        $appointment->state = AppointmentStatesEnum::ACOMPLISHED;
+        $appointment->save();
         return redirect()->route('appointment.index');
     }
 }

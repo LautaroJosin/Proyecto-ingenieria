@@ -33,6 +33,7 @@ class Vaccine implements TreatmentStrategy
         $treatment->vaccine = $appointment->reason->reason;
         $treatment->dewormer = null;
         $treatment->dog_id = $appointment->dog->id;
+        $treatment->save();
         return $treatment;
     }
 }

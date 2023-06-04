@@ -52,7 +52,9 @@ Route::name('user.')->group(function () {
 Route::prefix('admin/appointment')->group(function () {
     Route::name('admin.appointment.')->group(function () {
         Route::controller(AdminAppointmentController::class)->group(function () {
-            Route::patch('{appointment}', 'confirm')->name('confirm');
+            Route::patch('{appointment}/confirm', 'confirm')->name('confirm');
+            Route::patch('{appointment}/cancel', 'cancel')->name('cancel');
+            Route::patch('{appointment}/missing', 'missing')->name('missing');
             Route::get('{appointment}/reject', 'reject')->name('reject');
             Route::post('{appointment}/reject', 'sendMail')->name('sendMail');
         });
