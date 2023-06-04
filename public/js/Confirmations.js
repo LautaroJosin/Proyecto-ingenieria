@@ -15,3 +15,9 @@ function popUpMessage(message) {
         alert(message);
       };
 }
+
+function confirmDeleteCaregiver() {
+    if(window.confirm('¿Estás seguro de que deseas eliminar este negocio?')){
+        document.getElementById('destroy-caregiver-form').submit();
+    }
+}

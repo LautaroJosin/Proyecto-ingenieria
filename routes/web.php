@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DogController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\AdminAppointmentController;
+use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\TreatmentController;
 
 /*
@@ -59,3 +60,12 @@ Route::prefix('admin/appointment')->group(function () {
     });
 });
 Route::resource('admin/appointment', AdminAppointmentController::class)->only('index');
+
+//==========Caregiver==========
+Route::resource('caregiver', CaregiverController::class)->except('show');
+Route::name('caregiver')->group(function () {
+    Route::post('caregiver/enable/{caregiver}', [CaregiverController::class, 'enable'])->name('.enable');
+    Route::post('caregiver/disable/{caregiver}', [CaregiverController::class, 'disable'])->name('.disable');
+    Route::get('caregiver/filter', [CaregiverController::class, 'filter'])->name('.filter');
+});
+//============================== 
