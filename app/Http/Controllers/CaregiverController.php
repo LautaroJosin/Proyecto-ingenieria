@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Caregiver;
 use App\Models\Park;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class CaregiverController extends Controller
 {
@@ -40,6 +42,11 @@ class CaregiverController extends Controller
     {
         $caregiver = new Caregiver;
 
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:caregivers,email,' . $caregiver->id,
+        ]);
+        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
+
         $this->setCaregiver($request, $caregiver)->save();
         return redirect()->route('caregiver.index');
     }
@@ -59,6 +66,11 @@ class CaregiverController extends Controller
      */
     public function update(Request $request, Caregiver $caregiver)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:caregivers,email,' . $caregiver->id,
+        ]);
+        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
+
         $this->setCaregiver($request, $caregiver)->save();
         return redirect()->route('caregiver.index');
     }
@@ -72,13 +84,22 @@ class CaregiverController extends Controller
         $caregiver->park_id = $park->id;
         $caregiver->name = $request->input('name');
         $caregiver->type = $request->input('type');
-        
-        $request->validate([
-            'email' => 'required|email|unique:caregivers,email,' . $caregiver->id
-        ]);
         $caregiver->email = $request->input('email');
         
         return $caregiver;
+    }
+
+    private function validateEmail(Request $request, Caregiver $caregiver)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:caregivers,email,' . $caregiver->id,
+        ]);
+
+        //dd($validator->fails());
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
     }
 
     /**
