@@ -7,48 +7,59 @@
 
 @section('content')
 
-    <x-mainMenu/>
+    <x-mainMenu />
 
     <div class="text-pages font-bold">
 
-    <div>
-        <h2 class="text-2xl mb-10">Cargar negocio</h2>
-    </div>
+        <div>
+            <h2 class="text-2xl mb-10">Cargar negocio</h2>
+        </div>
 
-    <br>
-    <br>
+        <br>
+        <br>
 
-    <form class="grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('caregiver.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+        <form class="grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('caregiver.store') }}" method="POST"
+            enctype="multipart/form-data">
+            @csrf
             <div class="grid grid-cols-q grid-rows-4 gap-5 mr-20 text-2xl">
                 <label>Nombre del negocio:</label>
                 <label>Tipo de negocio:</label>
                 <label>Zona de trabajo:</label>
-                <label>Email</label>           
+                <label>Email</label>
             </div>
 
             <div class="grid grid-cols-q grid-rows-4 gap-5 w-10 text-black font-normal">
-            
-            <input type="text" name="name" pattern="[A-Za-z ]+" required value="{{ old('name') }}">
 
-            <select name="type" required value="{{ old('type') }}">
-                <option value="">Seleccione un tipo</option>
-                <option value="C">Cuidador</option>
-                <option value="W">Paseador</option>
-                <option value="B">Paseador y cuidador</option>
-            </select>
+                <input type="text" name="name" pattern="[A-Za-z ]+" required value="{{ old('name') }}">
 
-            <select name="id_park" required value="{{ old('id_park') }}">
-                <option value="">Seleccione una zona</option>
-                @foreach ($parks as $park)
-                    <option value={{ $park->id }}> {{ $park->park_name }} </option>
-                @endforeach
-            </select>
+                <select name="type" required value="{{ old('type') }}">
+                    <option value="">Seleccione un tipo</option>
+                    <option value="C">Cuidador</option>
+                    <option value="W">Paseador</option>
+                    <option value="B">Paseador y cuidador</option>
+                </select>
 
-            <input type="email" name="email" required value="{{ old('email') }}">
-        </div>
+                <select name="id_park" required value="{{ old('id_park') }}">
+                    <option value="">Seleccione una zona</option>
+                    @foreach ($parks as $park)
+                        <option value={{ $park->id }}> {{ $park->park_name }} </option>
+                    @endforeach
+                </select>
 
-            <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700">Confirmar</button>
-    </form>
-</div>
+                <input type="email" name="email" required value="{{ old('email') }}">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
+
+            <button type="submit"
+                class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700">Confirmar</button>
+        </form>
+    </div>
 @endsection
