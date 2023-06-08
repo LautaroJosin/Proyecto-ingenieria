@@ -17,30 +17,32 @@ use Illuminate\Support\Facades\Mail;
 class AdoptionDogController extends Controller
 {
     /**
-     * Display a listing of the resource. The view receive all the dogs if there is not an authenticated user 
-		and receive all the dogs and the dogs from the user if it is authenticated
+     * Display a listing of the resource. The view receive all the dogs except the ones from the user if he is registered.	
      */
     public function index()
     {
+
+    	$dogs = AdoptionDog::all();
+
 		if( Auth::check()) {
 			
-			$dogs = AdoptionDog::all();
-			
-			$my_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
+			$user_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
+				
+			$filtered_dogs = $dogs->diff($user_dogs);
 						
-			$filtered_dogs = $dogs->diff($my_dogs);
-						
-
-			/* Le envio a la vista los perros del usuario y ademas todo el resto de perros excepto los que pertenecen al usuario (que ya fueron mostrados)*/
+			/* Le envio a la vista todos perros excepto los que pertenecen al usuario */
 			return view('adoptionDog.index')
-				->with('my_dogs', $my_dogs)
 				->with('dogs', $filtered_dogs);
 		}
-		else { 
-			$dogs = AdoptionDog::all();
-			return view('adoptionDog.index')->with('dogs', AdoptionDog::all());
-		}
+		else return view('adoptionDog.index')->with('dogs', $dogs);
 		
+    }
+
+    public function userDogs() {
+
+    	$user_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
+
+		return view('adoptionDog.userDogs')->with('dogs', $user_dogs);
     }
 
     /**
@@ -195,10 +197,27 @@ class AdoptionDogController extends Controller
     }
 	
 	
-	public function filter (Request $request) 
-	{
-		
-		
-	}
+	/* ¿Que pasa si un campo de un perro es nulo? */
+
+	public function filter(Request $request)
+    {
+
+        $query = AdoptionDog::query();
+
+        $dogs = AdoptionDog::all();
+
+        $user_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
+
+
+        if ($request->filled('gender')) $query->whereIn('gender', $request->input('gender'));
+        if ($request->filled('size')) $query->where('size', $request->input('size'));
+        if ($request->filled('race')) $query->where('race', $request->input('race'));
+
+        /*
+        return view('adoptionDog.index')
+            ->with('caregivers', $query->get())
+            ->with('parks', Park::all());
+        */
+    }
 	
 }
