@@ -61,7 +61,7 @@ Route::get('adoption/userDogs', [AdoptionDogController::class,'userDogs'])->name
 
 Route::resource('adoption', AdoptionDogController::class)->except('show');
 
-Route::post('adoption/filter', [AdoptionDogController::class , 'filter'])->name('adoption.filter');
+Route::get('adoption/filter', [AdoptionDogController::class , 'filter'])->name('adoption.filter');
 
 Route::post('adoption/adoptNotAuthenticated', [AdoptionDogController::class , 'guestAdoption'])->name('adoption.adoptNotAuthenticated');
 Route::post('adoption/adoptAuthenticated/{owner_id}/{dog_name}', [AdoptionDogController::class , 'authAdoption'])->name('adoption.adoptAuthenticated');

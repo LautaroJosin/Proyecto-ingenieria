@@ -27,15 +27,15 @@
 
             <div class="grid grid-cols-q grid-rows-3 gap-5 w-10 text-black font-normal">
 
-                <select name="gender" required value="{{ old('gender') }}">
+                <select name="gender" value="{{ old('gender') }}">
                     <option value="">Seleccione un sexo</option>
                     <option value="M">Macho</option>
                     <option value="H">Hembra</option>
             	</select>
 
-            	<input type="text" name="race" pattern="[A-Za-z ]+" required value="{{ old('race') }}">
+            	<input type="text" name="race" pattern="[A-Za-z ]+"  value="{{ old('race') }}">
 
-            	<select name="size" required value="{{ old('size') }}">
+            	<select name="size" value="{{ old('size') }}">
                     <option value="">Seleccione un tamaño</option>
                     <option value="P">Pequeño</option>
                     <option value="M">Mediano</option>
@@ -147,14 +147,6 @@
 	
     <br>
     <br>
-	
-		@can('add adoption')
-		<a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
-			<button>
-				Agregar
-			</button>
-        </a>
-		@endcan
 
 </div>
 

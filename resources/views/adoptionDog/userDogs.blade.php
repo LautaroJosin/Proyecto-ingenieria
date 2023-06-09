@@ -134,8 +134,21 @@
         </tbody>
         @endforeach
 
-
     </table>
+
+    <br>
+    <br>
+    <br>
+
+    @can('add adoption')
+	<a class="text-2xl border-2 border-solid border-white w-40 mt-40 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
+		<button>
+			Publicar adopción
+		</button>
+    </a>
+	@endcan
+
+
     @endif
 
 @endsection

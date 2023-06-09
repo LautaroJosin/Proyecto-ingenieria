@@ -204,20 +204,26 @@ class AdoptionDogController extends Controller
 
         $query = AdoptionDog::query();
 
-        $dogs = AdoptionDog::all();
 
-        $user_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
-
-
-        if ($request->filled('gender')) $query->whereIn('gender', $request->input('gender'));
+        if ($request->filled('gender')) $query->where('gender', $request->input('gender'));
         if ($request->filled('size')) $query->where('size', $request->input('size'));
         if ($request->filled('race')) $query->where('race', $request->input('race'));
 
-        /*
-        return view('adoptionDog.index')
-            ->with('caregivers', $query->get())
-            ->with('parks', Park::all());
-        */
+        
+        if(Auth::check()) {
+
+        	/* Devuelvo los perros filtrados que no pertenecen al usuario autenticado */
+
+        	if(Auth::check()) $filtered_dogs = $query->whereNotIn('user_id', [Auth::user()->id]);
+        	else
+        		$filtered_dogs = $query;
+
+        	return view('adoptionDog.index')->with('dogs', $filtered_dogs->get());
+        }
+        else {
+       		return view('adoptionDog.index')->with('dogs', $query->get());
+        }
+        
     }
 	
 }
