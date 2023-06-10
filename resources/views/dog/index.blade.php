@@ -23,6 +23,10 @@
             <thead>
             <tr>
                 <div class="w-36 text-center">
+                    @role('admin')
+                        <th class="text-2xl">Dueño</th>
+                        <th class="text-2xl">Dni</th>
+                    @endrole
                     <th class="text-2xl">Nombre</th>
                     <th class="text-2xl">Sexo</th>
                     <th class="text-2xl">Raza</th>
@@ -37,6 +41,10 @@
             @foreach ($dogs as $dog)
             <tbody>
                 <tr>
+                @role('admin')
+                    <td class="w-36 text-center">{{ $dog->user->name }}</td>
+                    <td class="w-36 text-center">{{ $dog->user->dni }}</td>
+                @endrole
                 <td class="w-36 text-center">{{ $dog->name }}</td>
                 <td class="w-36 text-center">{{ $dog->gender }}</td>
                 <td class="w-36 text-center">{{ $dog->race }}</td>
