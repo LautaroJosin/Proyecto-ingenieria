@@ -158,8 +158,8 @@ class AdoptionDogController extends Controller
     public function destroy(AdoptionDog $adoption)
     {
 		$adoption->delete();
-		/* No deberia pasar los perros tmb ? */
-        return redirect()->route('adoption.index');
+		
+        return redirect()->route('adoption.userdogs');
     }
 
 
