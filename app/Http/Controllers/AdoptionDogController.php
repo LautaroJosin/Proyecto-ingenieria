@@ -215,7 +215,7 @@ class AdoptionDogController extends Controller
 		}
 
 		else return redirect()->route('adoption.index')
-			->with('error_dog_already_requested', 'Usted ya solicito este perro!')
+			->with('error_dog_already_requested', 'Usted ya solicito este perro!');
 			
 		
 	}
