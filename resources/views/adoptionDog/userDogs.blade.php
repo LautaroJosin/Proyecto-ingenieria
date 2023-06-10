@@ -152,7 +152,8 @@
 					@if($my_dog->wasAdopted())
 							No hay opciones disponibles
 					@else
-					@can('delete adoption')
+
+						@can('delete adoption')
 							<form id="destroy-adoption-dog-form" action="{{ route('adoption.destroy', $my_dog) }}" method="POST">
 								@csrf
 								@method('DELETE')
@@ -170,18 +171,19 @@
 							</a>
 						@endcan
 						
-						
-						@can('confirm adoption')
-						<form action="{{ route('adoption.confirm' , $my_dog->temp_name) }}" method="POST">
-						@method('PUT')
-						@csrf
-								<button>
-									Confirmar adopción
-								</button>
-						</form>
-						@endcan
-						
+						@if( $my_dog->wasRequested() )
+							@can('confirm adoption')
+							<form action="{{ route('adoption.confirm' , $my_dog->temp_name) }}" method="POST">
+							@method('PUT')
+							@csrf
+									<button>
+										Confirmar adopción
+									</button>
+							</form>
+							@endcan
 						@endif
+
+					@endif
 						
 				</td>
             </tr>

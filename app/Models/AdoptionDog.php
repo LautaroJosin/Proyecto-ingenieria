@@ -97,5 +97,13 @@ class AdoptionDog extends Model
     }
 
 
+    public function wasRequested () {
+
+    	return AdoptionRequested::where('dog_requested', $this->id)->exists();
+    }
+
+
+
+
 
 }

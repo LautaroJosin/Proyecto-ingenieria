@@ -94,15 +94,15 @@ class AdoptionDogController extends Controller
 		if(AdoptionDog::where('user_id', Auth::user()->id)
 				->where('temp_name', $request->temp_name)->exists())
 
-			return redirect()->route('adoption.userdogs')->with('error_adding_new_adoption' , 'Ya tienes un perro publicado con ese nombre!');
+			return redirect()->route('adoption.userdogs')
+				->with('error_adding_new_adoption' , 'Ya tienes un perro publicado con ese nombre!');
 
 		else {
 			$dog->user_id = auth()->user()->id;
 			$dog->state = 'S';
         	$this->setDog($request, $dog)->save();
 		
-			/* No deberia pasar los perros tmb? */
-        	return redirect()->route('adoption.index')->with('filtered_result' , false);
+        	return redirect()->route('adoption.userdogs');
 		}
     }
 
@@ -144,7 +144,7 @@ class AdoptionDogController extends Controller
 							]);
 							
 		
-        return redirect()->route('adoption.index')->with('filtered_result' , false);
+        return redirect()->route('adoption.userdogs');
     }
 
 
@@ -159,7 +159,7 @@ class AdoptionDogController extends Controller
     {
 		$adoption->delete();
 		/* No deberia pasar los perros tmb ? */
-        return redirect()->route('adoption.index')->with('filtered_result' , false);
+        return redirect()->route('adoption.index');
     }
 
 
@@ -173,8 +173,8 @@ class AdoptionDogController extends Controller
     {
 		$dog = AdoptionDog::where('temp_name', $dog_identifier)->first();
 		$dog->update(['state' => 'A']);
-		/* No deberia pasar los perros tmb ? */
-		return redirect()->route('adoption.index')->with('filtered_result' , false);
+		
+		return redirect()->route('adoption.userdogs');
     }
 
 
@@ -210,13 +210,13 @@ class AdoptionDogController extends Controller
 
 			$aux->save();
 
-			/* NO deberia pasar los perros tmb ? */
-			return redirect()->route('adoption.index')->with('filtered_result' , false);
+			
+			return redirect()->route('adoption.index');
 		}
 
 		else return redirect()->route('adoption.index')
 			->with('error_dog_already_requested', 'Usted ya solicito este perro!')
-			->with('filtered_result' , false);
+			
 		
 	}
 
@@ -249,8 +249,7 @@ class AdoptionDogController extends Controller
 
 		$request->save();
 		
-		/* No deberia pasar los perros tmb ? */
-		return redirect()->route('adoption.index')->with('filtered_result' , false);
+		return redirect()->route('adoption.index');
 	}
 
 
