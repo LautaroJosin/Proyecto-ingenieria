@@ -313,8 +313,6 @@ class AdoptionDogController extends Controller
 
         if ($request->filled('race')) $query->where('race', $request->input('race'));
 
-        if ($request->filled('date_of_birth')) $query->where('date_of_birth', $request->input('date_of_birth'));
-
         /* No creo poder hacer la consulta por nombre de usuario que publico, puede traer quilombo xd.
        	   Que sucederia si hay mas de un usuario con el mismo nombre? Traeria los perros de solo uno de ellos
        	   ya que en el filtrado pregunto por el id del usuario con el nombre ingresado */

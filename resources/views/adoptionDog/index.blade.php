@@ -55,8 +55,6 @@
                     <option value="A">Adoptado</option>
                     <option value="S">Sin adoptar</option>
             	</select>
-
-            	<input  type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" value="{{ old('date_of_birth') }}">
             	
             </div>
 
