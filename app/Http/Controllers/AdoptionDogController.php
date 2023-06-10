@@ -32,9 +32,12 @@ class AdoptionDogController extends Controller
 						
 			/* Le envio a la vista todos perros excepto los que pertenecen al usuario */
 			return view('adoptionDog.index')
-				->with('dogs', $filtered_dogs);
+				->with('dogs', $filtered_dogs)
+				->with('filtered_result' , false);
 		}
-		else return view('adoptionDog.index')->with('dogs', $dogs);
+		else return view('adoptionDog.index')
+				->with('dogs', $dogs)
+				->with('filtered_result' , false);
 		
     }
 
@@ -42,7 +45,9 @@ class AdoptionDogController extends Controller
 
     	$user_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
 
-		return view('adoptionDog.userDogs')->with('dogs', $user_dogs);
+		return view('adoptionDog.userDogs')
+			->with('dogs', $user_dogs)
+			->with('filtered_result' , false);
     }
 
     /**
@@ -76,7 +81,9 @@ class AdoptionDogController extends Controller
 		$dog->state = 'S';
         $this->setDog($request, $dog)->save();
 		
-        return redirect()->route('adoption.index');
+		/* No deberia pasar los perros tmb? */
+        return redirect()->route('adoption.index')
+        	->->with('filtered_result' , false);
     }
 
 
@@ -108,7 +115,8 @@ class AdoptionDogController extends Controller
 							'date_of_birth' =>  $request->input('date_of_birth') ,
 							]);
 							
-        return redirect()->route('adoption.index');
+		/* No deberia pasar los perros tmb ? */
+        return redirect()->route('adoption.index')->with('filtered_result' , false);
     }
 
     /**
@@ -117,7 +125,8 @@ class AdoptionDogController extends Controller
     public function destroy(AdoptionDog $adoption)
     {
 		$adoption->delete();
-        return redirect()->route('adoption.index');
+		/* No deberia pasar los perros tmb ? */
+        return redirect()->route('adoption.index')->with('filtered_result' , false);
     }
 	
 	
@@ -128,7 +137,8 @@ class AdoptionDogController extends Controller
     {
 		$dog = AdoptionDog::where('temp_name', $dog_identifier)->first();
 		$dog->update(['state' => 'A']);
-		return redirect()->route('adoption.index');
+		/* No deberia pasar los perros tmb ? */
+		return redirect()->route('adoption.index')->with('filtered_result' , false);
     }
 	
 	/**
@@ -159,10 +169,13 @@ class AdoptionDogController extends Controller
 
 			$aux->save();
 
-			return redirect()->route('adoption.index');
+			/* NO deberia pasar los perros tmb ? */
+			return redirect()->route('adoption.index')->with('filtered_result' , false);
 		}
 
-		else return redirect()->route('adoption.index')->with('alert', 'Usted ya solicito este perro!');
+		else return redirect()->route('adoption.index')
+			->with('alert', 'Usted ya solicito este perro!')
+			->with('filtered_result' , false);
 		
 	}
 	
@@ -190,7 +203,8 @@ class AdoptionDogController extends Controller
 
 		$request->save();
 		
-		return redirect()->route('adoption.index');
+		/* No deberia pasar los perros tmb ? */
+		return redirect()->route('adoption.index')->with('filtered_result' , false);
 	}
 	
 	public function sendMail(User $dog_owner,  $dog_name , $user_email) 
@@ -225,24 +239,55 @@ class AdoptionDogController extends Controller
         $query = AdoptionDog::query();
 
 
+        if ($request->filled('state')) $query->where('state', $request->input('state'));
+
+        if ($request->filled('name')) $query->where('temp_name', $request->input('name'));
+
         if ($request->filled('gender')) $query->where('gender', $request->input('gender'));
+
         if ($request->filled('size')) $query->where('size', $request->input('size'));
+
         if ($request->filled('race')) $query->where('race', $request->input('race'));
 
+        if ($request->filled('date_of_birth')) $query->where('date_of_birth', $request->input('date_of_birth'));
+
+        /* No creo poder hacer la consulta por nombre de usuario que publico, puede traer quilombo xd.
+       	   Que sucederia si hay mas de un usuario con el mismo nombre? Traeria los perros de solo uno de ellos
+       	   ya que en el filtrado pregunto por el id del usuario con el nombre ingresado */
+        /*
+        if ($request->filled('dog_owner')) 
+        		$query->where('user_id', User::where('id' , $request->input('dog_owner'))->name->first());
+		*/
+
         
-        if(Auth::check()) {
+        /* Debo comprobar de qué vista viene el formulario del filtrado */
 
-        	/* Devuelvo los perros filtrados que no pertenecen al usuario autenticado */
+        if($request->input('filter-form') == 'from-index') {
 
-        	if(Auth::check()) $filtered_dogs = $query->whereNotIn('user_id', [Auth::user()->id]);
+        	if(Auth::check()) {
+
+        		$filtered_dogs = $query->whereNotIn('user_id', [Auth::user()->id]);
+
+        		return view('adoptionDog.index')
+        			->with('dogs', $filtered_dogs->get())
+        			->with('filtered_result' , true);
+        	}
+
         	else
-        		$filtered_dogs = $query;
+        		return view('adoptionDog.index')
+        			->with('dogs', $query->get())
+        			->with('filtered_result' , true);
 
-        	return view('adoptionDog.index')->with('dogs', $filtered_dogs->get());
         }
-        else {
-       		return view('adoptionDog.index')->with('dogs', $query->get());
+
+        else if ($request->input('filter-form') == 'from-userdogs') {
+
+        	$filtered_dogs = $query->where('user_id', [Auth::user()->id]);
+        	return view('adoptionDog.userDogs')
+        		->with('dogs', $filtered_dogs->get())
+        		->with('filtered_result' , true);
         }
+        
         
     }
 	

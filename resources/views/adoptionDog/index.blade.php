@@ -19,13 +19,20 @@
         <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('adoption.filter') }}"
             method="GET" enctype="multipart/form-data">
             @csrf
-            <div class="grid grid-cols-q grid-rows-3 gap-5 mr-20 text-2xl">
+            <input type="hidden" name="filter-form" value="from-index">
+
+            <div class="grid grid-cols-q grid-rows-6 gap-5 mr-20 text-2xl">
+            	<label>Nombre temporal del perro:</label>
                 <label>Sexo:</label>
                 <label>Raza:</label>
                 <label>Tamaño:</label>
+                <label>Estado:</label>
+                <label>Fecha de nacimiento:</label>
             </div>
 
-            <div class="grid grid-cols-q grid-rows-3 gap-5 w-10 text-black font-normal">
+            <div class="grid grid-cols-q grid-rows-6 gap-5 w-10 text-black font-normal">
+
+            	<input type="text" name="name" pattern="[A-Za-z ]+"  value="{{ old('name') }}">	
 
                 <select name="gender" value="{{ old('gender') }}">
                     <option value="">Seleccione un sexo</option>
@@ -42,6 +49,15 @@
                     <option value="G">Grande</option>
             	</select>
 
+            	
+            	<select name="state" value="{{ old('state') }}">
+                    <option value="">Seleccione una opción</option>
+                    <option value="A">Adoptado</option>
+                    <option value="S">Sin adoptar</option>
+            	</select>
+
+            	<input  type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" value="{{ old('date_of_birth') }}">
+            	
             </div>
 
             <button type="submit"
@@ -58,8 +74,20 @@
 	<br>
 
 
-	@if($dogs->isEmpty())
-        <h1>No hay perros para mostrar</h1>
+	@if( $dogs->isEmpty() )
+
+        {{-- Si no llegaron perros a la vista , se verifica si fue por el resultado de un filtrado o porque no hay perros en adopcion --}}
+
+        @if( $filtered_result )
+        
+            <h1>No hay perros que coincidan con el criterio de filtrado</h1>
+
+        @else
+
+            <h1>No tienes perros propios publicados</h1>
+
+        @endif
+
     @else
 	
 	

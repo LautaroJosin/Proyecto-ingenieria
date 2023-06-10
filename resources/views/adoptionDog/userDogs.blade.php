@@ -19,29 +19,46 @@
         <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('adoption.filter') }}"
             method="GET" enctype="multipart/form-data">
             @csrf
-            <div class="grid grid-cols-q grid-rows-3 gap-5 mr-20 text-2xl">
+
+            <input type="hidden" name="filter-form" value="from-userdogs">
+
+           <div class="grid grid-cols-q grid-rows-6 gap-5 mr-20 text-2xl">
+            	<label>Nombre temporal del perro:</label>
                 <label>Sexo:</label>
                 <label>Raza:</label>
                 <label>Tamaño:</label>
+                <label>Estado:</label>
+                <label>Fecha de nacimiento:</label>
             </div>
 
-            <div class="grid grid-cols-q grid-rows-3 gap-5 w-10 text-black font-normal">
+            <div class="grid grid-cols-q grid-rows-6 gap-5 w-10 text-black font-normal">
 
-                <select name="gender" required value="{{ old('gender') }}">
+            	<input type="text" name="name" pattern="[A-Za-z ]+"  value="{{ old('name') }}">	
+
+                <select name="gender" value="{{ old('gender') }}">
                     <option value="">Seleccione un sexo</option>
                     <option value="M">Macho</option>
                     <option value="H">Hembra</option>
             	</select>
 
-            	<input type="text" name="race" pattern="[A-Za-z ]+" required value="{{ old('race') }}">
+            	<input type="text" name="race" pattern="[A-Za-z ]+"  value="{{ old('race') }}">
 
-            	<select name="size" required value="{{ old('size') }}">
+            	<select name="size" value="{{ old('size') }}">
                     <option value="">Seleccione un tamaño</option>
                     <option value="P">Pequeño</option>
                     <option value="M">Mediano</option>
                     <option value="G">Grande</option>
             	</select>
 
+            	
+            	<select name="state" value="{{ old('state') }}">
+                    <option value="">Seleccione una opción</option>
+                    <option value="A">Adoptado</option>
+                    <option value="S">Sin adoptar</option>
+            	</select>
+
+            	<input  type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" value="{{ old('date_of_birth') }}">
+            	
             </div>
 
             <button type="submit"
@@ -56,21 +73,45 @@
     <br>
     <br>
 
+
 		
-	@if($dogs->isEmpty())
-        <h1>No tienes perros propios publicados</h1>
+	@if( $dogs->isEmpty() )
 
-        <br>
-        <br>
-        <br>
+		{{-- Si no llegaron perros a la vista , se verifica si fue por el resultado de un filtrado o porque no hay perros en adopcion --}}
 
-		@can('add adoption')
-		<a class="text-2xl border-2 border-solid border-white w-40 mt-40 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
-			<button>
-				Publicar adopción
-			</button>
-	    </a>
-		@endcan
+		@if( $filtered_result )
+		
+			<h1>No hay perros que coincidan con el criterio de filtrado</h1>
+
+			<br>
+	        <br>
+	        <br>
+
+			@can('add adoption')
+			<a class="text-2xl border-2 border-solid border-white w-40 mt-40 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
+				<button>
+					Publicar adopción
+				</button>
+		    </a>
+			@endcan
+
+		@else
+
+        	<h1>No tienes perros propios publicados</h1>
+
+	        <br>
+	        <br>
+	        <br>
+
+			@can('add adoption')
+			<a class="text-2xl border-2 border-solid border-white w-40 mt-40 p-5 hover:bg-sky-700" href="{{ route('adoption.create') }}">
+				<button>
+					Publicar adopción
+				</button>
+		    </a>
+			@endcan
+
+		@endif
 
     @else
 		
