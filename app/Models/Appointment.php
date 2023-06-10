@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\AppointmentStatesEnum;
 
 class Appointment extends Model
 {
@@ -17,6 +18,7 @@ class Appointment extends Model
     ];
 
     protected $casts = [
+        'state' => AppointmentStatesEnum::class,
         'date' => 'date:Y-m-d',
     ];
 

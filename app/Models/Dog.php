@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Reason;
+use App\Enums\AppointmentStatesEnum;
 
 class Dog extends Model
 {
@@ -36,6 +38,24 @@ class Dog extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function isWaitingForAppointment(Reason $reason): bool
+    {
+        return $this->appointments()
+                ->where('reason_id', '=', $reason->id)
+                ->where(function($query) {
+                    $query->where('state', '=', AppointmentStatesEnum::PENDING->value)
+                        ->orWhere('state', '=', AppointmentStatesEnum::CONFIRMED->value);
+                })
+                ->exists();
+    }
+
+    public function isCastrated(): bool
+    {
+        return $this->treatments()
+                ->where('reason', '=', 'Castración') //El id 4 es el de castración ¡¡HARDCODEADO!!
+                ->exists();
+    }
+    
     public function ageForHumans() {
         return $this->date_of_birth->longAbsoluteDiffForHumans();
     }

@@ -10,6 +10,26 @@ function confirmDeleteDog() {
     }
 }
 
+function confirmationPopUp(message, formId) {
+    if (window.confirm(message)) {
+        document.getElementById(formId).submit();
+    }
+}
+/*
+function confirmationPopUp(message, formId, buttonId) {
+    document.getElementById(buttonId).addEventListener("click", (event) =>
+    {
+        if(window.confirm(message)){
+            document.getElementById(formId).submit();
+        }
+        else {
+            event.preventDefault();
+        }
+        event.stopPropagation();
+    });
+}
+*/
+
 function popUpMessage(message) {
     window.onload = function() {
         alert(message);
