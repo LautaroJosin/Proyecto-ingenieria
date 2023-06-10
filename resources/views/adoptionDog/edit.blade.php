@@ -57,7 +57,7 @@
         <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700">Confirmar cambios</button>
     </form>
 	
-		 <div class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700"><a href="{{ route('adoption.index') }}">Cancelar</a></div>
+		 <div class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700"><a href="{{ route('adoption.userdogs') }}">Cancelar</a></div>
 	
 </div>
 @endsection
