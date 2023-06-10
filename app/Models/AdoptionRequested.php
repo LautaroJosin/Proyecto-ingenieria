@@ -13,6 +13,7 @@ class AdoptionRequested extends Model
 
 	protected $fillable=[
         'user_id',
+        'guest_email',
         'dog_requested',
     ];
 }

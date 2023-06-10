@@ -96,4 +96,6 @@ class AdoptionDog extends Model
         ->exists();
     }
 
+
+
 }

@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('adoption_requesteds', function (Blueprint $table) {
             
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('dog_requested');
+            /* Tengo que hacer nullables tanto a user_id como user_email porque cuando registro una adopcion solicitada, la registro usando user_id + dog_requested o user_email + dog_requested, siempre uno de los campos quedará vacio */
 
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('dog_requested');
+            $table->string('user_email')->nullable();
 
             $table->unique(['user_id', 'dog_requested'])->id();
+            $table->unique(['user_email', 'dog_requested'])->id();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('dog_requested')->references('id')->on('adoption_dogs');

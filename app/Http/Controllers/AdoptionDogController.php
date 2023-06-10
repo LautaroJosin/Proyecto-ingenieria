@@ -139,10 +139,30 @@ class AdoptionDogController extends Controller
 	*/
 	public function guestAdoption(Request $request) 
 	{
+
 		$dog_owner = User::where('id', $request->owner_id)->first();
-		$this->sendMail($dog_owner , $request->dog_name, $request->email);
+
+		$result = AdoptionRequested::where('user_email', $request->email)
+        		->where('dog_requested', AdoptionDog::where('temp_name', $request->dog_name)->first()->id)
+        		->exists();
+
+        /* Si el guest utiliza un mail no registrado, se realiza el pedido de adopcion */
+        if(! $result) {
 		
-		return redirect()->route('adoption.index');
+			$this->sendMail($dog_owner , $request->dog_name, $request->email);
+
+			$aux = new AdoptionRequested;
+
+				$aux->user_email = $request->email;
+				
+				$aux->dog_requested = AdoptionDog::where('temp_name', $request->dog_name)->first()->id;
+
+			$aux->save();
+
+			return redirect()->route('adoption.index');
+		}
+
+		else return redirect()->route('adoption.index')->with('alert', 'Usted ya solicito este perro!');
 		
 	}
 	
