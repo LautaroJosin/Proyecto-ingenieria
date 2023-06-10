@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Mail;
 
 class AdoptionDogController extends Controller
 {
+
+
     /**
      * Display a listing of the resource. The view receive all the dogs except the ones from the user if he is registered.	
      */
@@ -41,6 +43,11 @@ class AdoptionDogController extends Controller
 		
     }
 
+
+
+
+    /* Retorna la cartelera de perros en adopcion de un usuario autenticado con sus perros */
+
     public function userDogs() {
 
     	$user_dogs = AdoptionDog::where('user_id', Auth::user()->id)->get();
@@ -50,6 +57,10 @@ class AdoptionDogController extends Controller
 			->with('filtered_result' , false);
     }
 
+
+
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -57,6 +68,10 @@ class AdoptionDogController extends Controller
     {
         return view('adoptionDog.create');
     }
+
+
+
+
 
     /**
      * Store a NEWLY created resource in storage. (Almacena por primera vez)
@@ -68,23 +83,32 @@ class AdoptionDogController extends Controller
 
 		
         $request->validate([
-            'temp_name' => 'required|unique:App\Models\AdoptionDog,temp_name' ,
+            'temp_name' => 'required' ,
 			'gender' => 'required',
 			'race' => 'required',
 			'size' => 'required',
 			'date_of_birth' => 'required',
 			'description' => 'required',
 		]);
+
+		if(AdoptionDog::where('user_id', Auth::user()->id)
+				->where('temp_name', $request->temp_name)->exists())
+
+			return redirect()->route('adoption.userdogs')->with('error_adding_new_adoption' , 'Ya tienes un perro publicado con ese nombre!');
+
+		else {
+			$dog->user_id = auth()->user()->id;
+			$dog->state = 'S';
+        	$this->setDog($request, $dog)->save();
 		
-				
-        $dog->user_id = auth()->user()->id;
-		$dog->state = 'S';
-        $this->setDog($request, $dog)->save();
-		
-		/* No deberia pasar los perros tmb? */
-        return redirect()->route('adoption.index')
-        	->->with('filtered_result' , false);
+			/* No deberia pasar los perros tmb? */
+        	return redirect()->route('adoption.index')->with('filtered_result' , false);
+		}
     }
+
+
+
+
 
 
     /**
@@ -95,6 +119,10 @@ class AdoptionDogController extends Controller
 		
          return view('adoptionDog.edit')->with(['dog' => $adoption, 'dog_identifier' => $adoption->temp_name]);
     }
+
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -115,9 +143,14 @@ class AdoptionDogController extends Controller
 							'date_of_birth' =>  $request->input('date_of_birth') ,
 							]);
 							
-		/* No deberia pasar los perros tmb ? */
+		
         return redirect()->route('adoption.index')->with('filtered_result' , false);
     }
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -128,10 +161,13 @@ class AdoptionDogController extends Controller
 		/* No deberia pasar los perros tmb ? */
         return redirect()->route('adoption.index')->with('filtered_result' , false);
     }
-	
+
+
+
+
 	
 	/*
-     *  S
+     *  Confirma una adopcion, cambia el estado del perro y te redirige a la vista index
      */
     public function confirmAdoption($dog_identifier)
     {
@@ -140,6 +176,11 @@ class AdoptionDogController extends Controller
 		/* No deberia pasar los perros tmb ? */
 		return redirect()->route('adoption.index')->with('filtered_result' , false);
     }
+
+
+
+
+
 	
 	/**
 	*		Recibe la peticion para adoptar de un usuario no autenticado. En el request se recibe :
@@ -174,10 +215,15 @@ class AdoptionDogController extends Controller
 		}
 
 		else return redirect()->route('adoption.index')
-			->with('alert', 'Usted ya solicito este perro!')
+			->with('error_dog_already_requested', 'Usted ya solicito este perro!')
 			->with('filtered_result' , false);
 		
 	}
+
+
+
+
+
 	
 	/**
 	*		Recibe la peticion para adoptar de un usuario autenticado. Se reciben como parametros :
@@ -206,7 +252,14 @@ class AdoptionDogController extends Controller
 		/* No deberia pasar los perros tmb ? */
 		return redirect()->route('adoption.index')->with('filtered_result' , false);
 	}
+
+
+
+
+
 	
+	/* Envia un mail a dog_ownner informando que un usuario quiere adoptar uno de sus perros*/
+
 	public function sendMail(User $dog_owner,  $dog_name , $user_email) 
 	{    
         Mail::raw('El usuario con el mail ' . $user_email . ' desea adoptar a ' . $dog_name , function ($message) use ($dog_owner)  
@@ -216,6 +269,12 @@ class AdoptionDogController extends Controller
         });
 		
 	}
+
+
+
+
+
+
 
 
 	 private function setDog(Request $request, AdoptionDog $dog): AdoptionDog
@@ -229,9 +288,15 @@ class AdoptionDogController extends Controller
 				
         return $dog;
     }
+
+
+
+
+
 	
 	
-	/* ¿Que pasa si un campo de un perro es nulo? */
+	/* Recibe un formulario de filtrado, filtra las adopciones y redirige a la vista correspondiente
+	   con los perros filtrados  */
 
 	public function filter(Request $request)
     {

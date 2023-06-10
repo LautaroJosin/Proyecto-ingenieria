@@ -84,7 +84,7 @@
 
         @else
 
-            <h1>No tienes perros propios publicados</h1>
+            <h1>No hay perros para mostrar</h1>
 
         @endif
 
