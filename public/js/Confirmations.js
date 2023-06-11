@@ -40,6 +40,15 @@ function popUpMessage(message) {
     alert(message);
 }
 
+function buttonDisable(formId, buttonId) {
+    var form = document.getElementById(formId);
+    var button = document.getElementById(buttonId);
+  
+    form.addEventListener("submit", function() {
+      button.disabled = true;
+    });
+}
+
 function confirmDeleteCaregiver() {
     if(window.confirm('¿Estás seguro de que deseas eliminar este negocio?')){
         document.getElementById('destroy-caregiver-form').submit();
