@@ -7,6 +7,7 @@ use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\TreatmentController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,8 @@ Route::resource('dog.treatment', TreatmentController::class)->only('index')->nam
 Route::name('user.')->group(function () {
     Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
 });
+
+Route::get('appointment/filter', [AppointmentController::class, 'filter'])->name('appointment.filter');
 
 Route::prefix('admin/appointment')->group(function () {
     Route::name('admin.appointment.')->group(function () {

@@ -9,8 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Enums\AppointmentStatesEnum;
-
-
+use Carbon\Carbon;
 
 class UserAppointmentController extends Controller
 {
@@ -53,7 +52,7 @@ class UserAppointmentController extends Controller
         $appointment->state = AppointmentStatesEnum::PENDING;
         $appointment->date = $request->input('date');
 
-        if (! $this->validateDates($dog, $reason)) {
+        if (! $this->validateDates($dog, $reason, Carbon::parse($request->input('date')))) {
             return redirect()->route('user.appointment.create')->with('error', 'El perro seleccionado no cumple los requisitos para el turno');
         }
         if (! $this->validateDuplicates($dog, $reason)) {
@@ -68,12 +67,13 @@ class UserAppointmentController extends Controller
         return redirect()->route('appointment.index');
     }
 
-    private function validateDates(Dog $dog, Reason $reason)
+    private function validateDates(Dog $dog, Reason $reason, Carbon $date)
     {
-        if ($reason->id == '1' && $dog->ageInMonths() < 4) {
+        $ageInDays = $dog->ageInDays() + $date->diffInDays(Carbon::now());
+        if ($reason->id == '1' && $ageInDays < 120) {
             return false;
         }
-        else if ($reason->id == '2' && $dog->ageInMonths() < 2) {
+        else if ($reason->id == '2' && $ageInDays < 60) {
             return false;
         }
 

@@ -4,12 +4,35 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @endsection
     
-    @section('title','Perros admin')
+    @section('title','Turnos')
 
     @section('content')
 
         <div class="text-pages">
             <x-mainMenu/>
+
+            <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('appointment.filter') }}"
+                method="GET" enctype="multipart/form-data">
+                @csrf
+                
+                <div class="grid grid-cols-q grid-rows-1 gap-5 mr-20 text-2xl">
+                    <label>Estado: </label>
+                </div>
+
+                <div class="grid grid-cols-q grid-rows-1 gap-5 w-5 text-black font-normal">
+                    <select name="state">
+                        <option value="">Todo</option>
+                        @foreach (App\Enums\AppointmentStatesEnum::values() as $state)
+                            <option value={{ $state }}> {{ $state }} </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <button type="submit"
+                    class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Filtrar
+                </button>
+
+            </form>
 
             @if($appointments->isEmpty())
                 <h1>No hay turnos para mostrar</h1>
@@ -17,20 +40,28 @@
             <div>
             <table class="table-fixe border-separate border-spacing-6 border-2" >
                 <thead>
-                  <tr>
+                    <tr>
+                    @role('admin')
+                        <th>Dueño</th>
+                        <th>Dni</th>
+                    @endrole
                     <th>Nombre del perro</th>
                     <th>Motivo del turno</th>
                     <th>Estado</th>
                     <th>Fecha</th>
                     <th>Monto</th>
                     @role('admin')
-                    <th>Acciones</th>
+                        <th>Acciones</th>
                     @endrole
-                  </tr>
+                    </tr>
                 </thead>
                 @foreach ($appointments as $appointment)
                 <tbody>
-                    <tr class="border-2">
+                <tr class="border-2">
+                    @role('admin')
+                        <td>{{ $appointment->dog->user->name }}</td>
+                        <td>{{ $appointment->dog->user->dni }}</td>
+                    @endrole
                     <td>{{ $appointment->dog->name }}</td>
                     <td>{{ $appointment->reason->reason }}</td>
                     <td>{{ $appointment->state->value }}</td>
