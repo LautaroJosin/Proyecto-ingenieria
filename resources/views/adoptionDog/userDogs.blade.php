@@ -22,7 +22,7 @@
 
             <input type="hidden" name="filter-form" value="from-userdogs">
 
-           <div class="grid grid-cols-q grid-rows-6 gap-5 mr-20 text-2xl">
+           <div class="grid grid-cols-q grid-rows-5 gap-5 mr-20 text-2xl">
             	<label>Nombre temporal del perro:</label>
                 <label>Sexo:</label>
                 <label>Raza:</label>
@@ -30,7 +30,7 @@
                 <label>Estado:</label>
             </div>
 
-            <div class="grid grid-cols-q grid-rows-6 gap-5 w-10 text-black font-normal">
+            <div class="grid grid-cols-q grid-rows-5 gap-5 w-10 text-black font-normal">
 
             	<input type="text" name="name" pattern="[A-Za-z ]+"  value="{{ old('name') }}">	
 
