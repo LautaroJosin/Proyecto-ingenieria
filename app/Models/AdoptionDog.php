@@ -72,7 +72,7 @@ class AdoptionDog extends Model
 	
 	public function publisher() {
 		$user = User::where('id', $this->user_id)->first();
-		return $user->name;
+		return $user->email;
     }
 
     /* Consulta si el perro en adopcion ya fue solicitado por el usuario pasado por parametro 
