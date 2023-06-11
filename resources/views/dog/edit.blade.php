@@ -57,7 +57,7 @@
             
             <input type="file" name="photo" accept="image/*" class="form-control">
             @error('photo')
-                <small class="text-danger"> {{$message}} </small>
+                <small class="text-danger text-red-600 font-bold text-xl"> {{$message}} </small>
             @enderror
 
         </div>

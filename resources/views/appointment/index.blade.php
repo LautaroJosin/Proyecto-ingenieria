@@ -128,7 +128,7 @@
                 @endif
                 @can('create appointment')
                     <a href="{{ route('user.appointment.create') }}">
-                        <button class="border-2 border">
+                        <button class="border-2">
                             Solicitar turno
                         </button>
                     </a>

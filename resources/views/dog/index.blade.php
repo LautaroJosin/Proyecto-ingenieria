@@ -42,7 +42,7 @@
             <tbody>
                 <tr>
                 @role('admin')
-                    <td class="w-36 text-center">{{ $dog->user->name }}</td>
+                    <td class="w-36 text-center">{{ $dog->user->name }} {{ $dog->user->surname }}</td>
                     <td class="w-36 text-center">{{ $dog->user->dni }}</td>
                 @endrole
                 <td class="w-36 text-center">{{ $dog->name }}</td>

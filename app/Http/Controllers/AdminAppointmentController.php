@@ -57,22 +57,10 @@ class AdminAppointmentController extends Controller
             $to = $appointment->dog->user->email;
             $message->to($to)
                 ->subject('Turno rechazado');
-                //->content($request->input('content'));
         });
         $appointment->state = AppointmentStatesEnum::REJECTED;
         $appointment->save();
         return redirect()->route('appointment.index');
         
     }
-
-    /*
-    public function explainAppointmentRejection(Request $request, Appointment $appointment)
-    {
-        $to = $appointment->dog->user->email;
-        $why = $request->input('reason');
-        $mail = $this->buildMailMessage($why);
-        
-        return redirect()->route('appointment.index');
-    }
-    */
 }
