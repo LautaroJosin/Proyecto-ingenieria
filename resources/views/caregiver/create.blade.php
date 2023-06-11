@@ -48,7 +48,7 @@
 
                 <input type="email" name="email" required value="{{ old('email') }}">
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="text-danger text-red-600 font-bold text-xl">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
