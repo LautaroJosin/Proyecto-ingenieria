@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AdoptionDogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +75,24 @@ Route::name('caregiver')->group(function () {
     Route::get('caregiver/filter', [CaregiverController::class, 'filter'])->name('.filter');
 });
 //============================== 
+Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
+
+
+
+/* ============== Adoption ============== */
+
+Route::get('adoption/userDogs', [AdoptionDogController::class,'userDogs'])->name('adoption.userdogs');
+
+Route::resource('adoption', AdoptionDogController::class)->except('show');
+
+Route::get('adoption/filter', [AdoptionDogController::class , 'filter'])->name('adoption.filter');
+
+Route::post('adoption/adoptNotAuthenticated', [AdoptionDogController::class , 'guestAdoption'])->name('adoption.adoptNotAuthenticated');
+
+Route::post('adoption/adoptAuthenticated/{owner_id}/{dog_name}', [AdoptionDogController::class , 'authAdoption'])->name('adoption.adoptAuthenticated');
+
+Route::put('adoption/confirm-adoption/{dog_identifier}', [AdoptionDogController::class , 'confirmAdoption'])->name('adoption.confirm');
+
+Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class , 'update'])->name('myadoption.update');
+
+/* ====================================== */

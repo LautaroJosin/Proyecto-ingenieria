@@ -18,6 +18,21 @@
         
         <script src="{{ asset('js/Confirmations.js') }}"></script>
 
+         <script>
+            var msg = '{{Session::get('error_adding_new_adoption')}}';
+            var exist = '{{Session::has('error_adding_new_adoption')}}';
+
+            if(exist) window.alert(msg);
+        
+
+            var msg2 = '{{Session::get('error_dog_already_requested')}}';
+            var exist2 = '{{Session::has('error_dog_already_requested')}}';
+
+            if(exist2) window.alert(msg2);
+
+        </script>
+        
+
         {{-- Welcome Message --}}
         @if(session('success login'))
             @role('admin')

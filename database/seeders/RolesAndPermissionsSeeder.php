@@ -44,5 +44,18 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'create caregiver'])->syncRoles('admin');
         Permission::create(['name' => 'delete caregiver'])->syncRoles('admin');
         Permission::create(['name' => 'edit caregiver'])->syncRoles('admin');
+		
+        
+		// role's permissions for adoption
+		Permission::create(['name' => 'add adoption'])->syncRoles('user');
+		Permission::create(['name' => 'delete adoption'])->syncRoles('user');
+		Permission::create(['name' => 'edit adoption'])->syncRoles('user');
+		Permission::create(['name' => 'confirm adoption'])->syncRoles('user');
+
+		
+        /*
+         * To show role's permissions list, execute: 
+         * php artisan permission:show
+         */
     }
 }
