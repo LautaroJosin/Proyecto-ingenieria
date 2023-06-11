@@ -8,15 +8,6 @@
 
         @section('content')
 
-        {{-- Welcome Message --}}
-        @if(session('success login'))
-            @role('admin')
-                <script> popUpMessage("Bienvenido Ha ingresado como administrador") </script>
-            @else
-                <script> popUpMessage("Bienvenido Ha ingresado como usuario") </script>
-            @endrole
-        @endif
-
         <div class="flex justify-end text-center p-10">
             @if (Route::has('login'))
                 @auth 

@@ -30,10 +30,14 @@ function confirmationPopUp(message, formId, buttonId) {
 }
 */
 
-function popUpMessage(message) {
+function popUpMessageDelay(message) {
     window.onload = function() {
         alert(message);
       };
+}
+
+function popUpMessage(message) {
+    alert(message);
 }
 
 function confirmDeleteCaregiver() {

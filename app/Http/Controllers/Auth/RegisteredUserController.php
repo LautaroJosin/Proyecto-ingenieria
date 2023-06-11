@@ -55,7 +55,7 @@ class RegisteredUserController extends Controller
 
         //Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME)->with('success register', 'success');
     }
 
     public function __construct()
