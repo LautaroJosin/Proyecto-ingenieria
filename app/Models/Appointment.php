@@ -20,6 +20,7 @@ class Appointment extends Model
     protected $casts = [
         'state' => AppointmentStatesEnum::class,
         'date' => 'date:Y-m-d',
+        'time' => 'datetime',
     ];
 
     public function reason() {

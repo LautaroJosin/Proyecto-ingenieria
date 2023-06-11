@@ -51,6 +51,7 @@ class UserAppointmentController extends Controller
         $appointment->reason_id = $reason->id;
         $appointment->state = AppointmentStatesEnum::PENDING;
         $appointment->date = $request->input('date');
+        $appointment->time = $request->input('time');
 
         if (! $this->validateDates($dog, $reason, Carbon::parse($request->input('date')))) {
             return redirect()->route('user.appointment.create')->with('error', 'El perro seleccionado no cumple los requisitos para el turno');

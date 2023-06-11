@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->enum('state', AppointmentStatesEnum::values());
             $table->date('date');
+            $table->time('time');
             //Salvo que se me ocurra algo mejor, acá va a ir un atributo derivado "precioConDescuento" en el futuro
             $table->unsignedBigInteger('reason_id')->nullable();
             $table->unsignedBigInteger('dog_id')->nullable();
