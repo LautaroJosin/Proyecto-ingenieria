@@ -63,6 +63,10 @@ class UserAppointmentController extends Controller
             return redirect()->route('user.appointment.create')->with('error', 'El perro ya ha sido castrado');
         }
 
+        if( $this->validateDateTime($dog, $request->input('date') , $request->input('time')) ) {
+            return redirect()->route('user.appointment.create')->with('error', 'El perro ya tiene un turno para esta fecha y horario');
+        }
+
         $appointment->save();
 
         return redirect()->route('appointment.index');
@@ -90,4 +94,10 @@ class UserAppointmentController extends Controller
     {
         return ! $dog->isWaitingForAppointment($reason);
     }
+
+
+    private function validateDateTime(Dog $dog , $date , $time) {
+        return $dog->hasThisDateTimeAppointment($date,$time);
+    }
+
 }

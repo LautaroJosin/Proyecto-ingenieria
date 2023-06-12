@@ -49,6 +49,17 @@ class Dog extends Model
                 ->exists();
     }
 
+    public function hasThisDateTimeAppointment ($date , $time) {
+        return $this->appointments()
+            ->where('date', '=' , $date)
+            ->where('time' , '=' , $time)
+            ->where(function($query) {
+                    $query->where('state', '=', AppointmentStatesEnum::PENDING->value)
+                        ->orWhere('state', '=', AppointmentStatesEnum::CONFIRMED->value);
+                })
+                ->exists();
+    }
+
     public function isCastrated(): bool
     {
         return $this->treatments()
