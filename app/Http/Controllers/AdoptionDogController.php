@@ -305,13 +305,13 @@ class AdoptionDogController extends Controller
 
         if ($request->filled('state')) $query->where('state', $request->input('state'));
 
-        if ($request->filled('name')) $query->where('temp_name', $request->input('name'));
+        if ($request->filled('name')) $query->where('temp_name', 'like', '%' . $request->input('name') . '%');
 
         if ($request->filled('gender')) $query->where('gender', $request->input('gender'));
 
         if ($request->filled('size')) $query->where('size', $request->input('size'));
 
-        if ($request->filled('race')) $query->where('race', $request->input('race'));
+        if ($request->filled('race')) $query->where('race', 'like', '%' . $request->input('race') . '%');
 
         /* No creo poder hacer la consulta por nombre de usuario que publico, puede traer quilombo xd.
        	   Que sucederia si hay mas de un usuario con el mismo nombre? Traeria los perros de solo uno de ellos
