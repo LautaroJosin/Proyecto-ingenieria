@@ -22,6 +22,7 @@ return new class extends Migration
 			$table->string('temp_name');
 			$table->enum('state', ['S' , 'A']);
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->unique(['user_id', 'temp_name'])->id();
         });
     }

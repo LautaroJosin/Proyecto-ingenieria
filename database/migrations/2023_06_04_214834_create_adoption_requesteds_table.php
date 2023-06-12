@@ -16,14 +16,14 @@ return new class extends Migration
             /* Tengo que hacer nullables tanto a user_id como user_email porque cuando registro una adopcion solicitada, la registro usando user_id + dog_requested o user_email + dog_requested, siempre uno de los campos quedará vacio */
 
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('dog_requested');
+            $table->unsignedBigInteger('dog_requested')->nullable();
             $table->string('user_email')->nullable();
 
             $table->unique(['user_id', 'dog_requested'])->id();
             $table->unique(['user_email', 'dog_requested'])->id();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('dog_requested')->references('id')->on('adoption_dogs');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('dog_requested')->references('id')->on('adoption_dogs')->onDelete('set null');
         });
     }
 
