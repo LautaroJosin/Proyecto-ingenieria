@@ -170,10 +170,10 @@
 						
 						@if( $my_dog->wasRequested() )
 							@can('confirm adoption')
-							<form action="{{ route('adoption.confirm' , $my_dog->temp_name) }}" method="POST">
+							<form id="confirm-adoption" action="{{ route('adoption.confirm' , $my_dog->temp_name) }}" method="POST">
 							@method('PUT')
 							@csrf
-									<button>
+									<button onclick="event.preventDefault(); confirmationPopUp('Está seguro que desea confirmar la adopción?', 'confirm-adoption');">
 										Confirmar adopción
 									</button>
 							</form>
