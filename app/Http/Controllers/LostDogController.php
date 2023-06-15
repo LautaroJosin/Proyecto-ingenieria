@@ -6,7 +6,7 @@ use App\Models\LostDog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class LostLostDogController extends Controller
+class LostDogController extends Controller
 {
     public function __construct()
     {
