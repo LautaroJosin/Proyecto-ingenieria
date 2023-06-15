@@ -110,7 +110,7 @@ class LostLostDogController extends Controller
             $url = $request->file('photo')->store('public/lostDogs');
             $dog->photo = Storage::url($url);
         }
-        
+         
         return $dog;
     }
 }

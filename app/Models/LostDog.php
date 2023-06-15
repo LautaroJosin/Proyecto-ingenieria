@@ -41,7 +41,7 @@ class LostDog extends Model
     public function ageInMonths() {
         return $this->date_of_birth->diffInMonths();
     }
-
+ 
     public function ageInDays() {
         return $this->date_of_birth->diffInDays();
     }
