@@ -75,11 +75,10 @@ Route::name('caregiver')->group(function () {
     Route::get('caregiver/filter', [CaregiverController::class, 'filter'])->name('.filter');
 });
 //============================== 
+
 Route::resource('admin/appointment', AdminAppointmentController::class)->except('show', 'create', 'store');
 
-
-
-/* ============== Adoption ============== */
+//==========Adoption===========
 
 Route::get('adoption/userDogs', [AdoptionDogController::class,'userDogs'])->name('adoption.userdogs');
 
@@ -95,4 +94,13 @@ Route::put('adoption/confirm-adoption/{dog_identifier}', [AdoptionDogController:
 
 Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class , 'update'])->name('myadoption.update');
 
-/* ====================================== */
+//==========LostDog============
+
+Route::resource('lostDog', LostDogController::class)->except('show');
+Route::name('lostDog')->group(function() {
+    Route::get('lostDog/filter', [LostDogController::class, 'filter'])->name('.filter');
+    Route::get('lostDog/foundIndex', [LostDogController::class, 'foundIndex'])->name('.foundIndex');
+    Route::post('lostDog/foundCreate', [LostDogController::class, 'foundCreate'])->name('.foundCreate');
+});
+
+//=============================
