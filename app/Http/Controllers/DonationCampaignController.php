@@ -17,6 +17,15 @@ class DonationCampaignController extends Controller
         return view('donationCampaign.create');
     }
 
+    public function edit(DonationCampaign $campaign) {
+        return view('donationCampaign.edit')->with('campaign', $campaign);
+    }
+
+    public function update(DonationCampaign $campaign, Request $request) {
+        $this->setCampaign($campaign, $request)->save();
+        return redirect()->route('donation-campaign.index');
+    }
+
     public function store(Request $request)
     {
         $this->setCampaign(new DonationCampaign, $request)->save();
@@ -25,19 +34,21 @@ class DonationCampaignController extends Controller
 
     private function setCampaign(DonationCampaign $campaign, Request $request): DonationCampaign
     {
-        $request->validate([
-            'photo' => 'required|image',
-        ], 
-        [
-            'photo.image' => 'La foto debe ser una imagen',
-        ]);
-
         $campaign->name = $request->input('name');
         $campaign->start_date = Carbon::now()->toDateString();
         $campaign->end_date = $request->input('end_date');
         $campaign->description = $request->input('description');
         $campaign->fundraising_goal = $request->input('fundraising_goal');
-        $url = $request->file('photo')->store('public/donationCampaigns'); $campaign->photo = Storage::url($url);
+        if ($request->hasFile('photo')) {
+            $request->validate([
+                'photo' => 'required|image',
+            ], 
+            [
+                'photo.image' => 'La foto debe ser una imagen',
+            ]);
+            $url = $request->file('photo')->store('public/donationCampaigns'); 
+            $campaign->photo = Storage::url($url);
+        }
         return $campaign;
     }
 }

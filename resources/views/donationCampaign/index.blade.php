@@ -57,19 +57,19 @@
                                 <td class="w-36 text-center">
                                     <img src="{{ asset($campaign->photo) }}" alt="" width="100" height="100">
                                 </td>
-                                @role('admin')
-                                    <td class="w-36">
-                                        <button type="submit">
-                                            Modificar
-                                        </button>
-                                    </td>
-                                @else
-                                    <td class="w-36">
+                                <td class="w-36">
+                                    @role('admin')
+                                        <a href="{{ route('donation-campaign.edit', $campaign) }}">
+                                            <button type="submit">
+                                                Modificar
+                                            </button>
+                                        </a>
+                                    @else
                                         <button type="submit">
                                             Donar
                                         </button>
-                                    </td>
-                                @endrole
+                                    @endrole
+                                </td>
                             </tr>
                         </tbody>
                     @endforeach
