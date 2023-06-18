@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class DonationCampaignController extends Controller
 {
     public function index() {
-        return view('donationCampaign.index');
+        return view('donationCampaign.index')->with('campaigns', DonationCampaign::all());
     }
 
     public function create() {
