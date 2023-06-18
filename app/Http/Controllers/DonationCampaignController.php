@@ -19,11 +19,11 @@ class DonationCampaignController extends Controller
 
     public function store(Request $request)
     {
-        $this->createCampaign($request)->save();
+        $this->setCampaign(new DonationCampaign, $request)->save();
         return redirect()->route('donation-campaign.index')->with('success campaign register', 'La publicación ha sido exitosa');
     }
 
-    private function createCampaign(Request $request): DonationCampaign
+    private function setCampaign(DonationCampaign $campaign, Request $request): DonationCampaign
     {
         $request->validate([
             'photo' => 'required|image',
@@ -32,7 +32,6 @@ class DonationCampaignController extends Controller
             'photo.image' => 'Publicación fallida, la foto es inválida',
         ]);
 
-        $campaign = new DonationCampaign();
         $campaign->name = $request->input('name');
         $campaign->start_date = Carbon::now()->toDateString();
         $campaign->end_date = $request->input('end_date');
