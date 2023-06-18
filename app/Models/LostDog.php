@@ -21,6 +21,7 @@ class LostDog extends Model
         'date_of_birth',
         'description',
         'place',
+        //fecha de perdida no es mala idea. Me la dió copilot
         'photo',
     ];
 
@@ -34,17 +35,5 @@ class LostDog extends Model
     
     public function ageForHumans() {
         return $this->date_of_birth->longAbsoluteDiffForHumans();
-    }
-
-    public function ageInYears() {
-        return $this->date_of_birth->diffInYears();
-    }
-
-    public function ageInMonths() {
-        return $this->date_of_birth->diffInMonths();
-    }
- 
-    public function ageInDays() {
-        return $this->date_of_birth->diffInDays();
     }
 }

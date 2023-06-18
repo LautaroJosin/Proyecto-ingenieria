@@ -97,11 +97,17 @@ Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class
 
 //==========LostDog============
 
-Route::resource('lostDog', LostDogController::class)->except('show');
+Route::resource('lostDog', LostDogController::class)->except('show', 'store');
 Route::name('lostDog')->group(function() {
-    Route::get('lostDog/filter', [LostDogController::class, 'filter'])->name('.filter');
     Route::get('lostDog/foundIndex', [LostDogController::class, 'foundIndex'])->name('.foundIndex');
-    Route::post('lostDog/foundCreate', [LostDogController::class, 'foundCreate'])->name('.foundCreate');
+    Route::get('lostDog/myLostDogsIndex/', [LostDogController::class, 'myLostDogsIndex'])->name('.myLostDogsIndex');
+    Route::get('lostDog/myFoundDogsIndex', [LostDogController::class, 'myFoundDogsIndex'])->name('.myFoundDogsIndex');
+    Route::get('lostDog/filterLost', [LostDogController::class, 'filterLost'])->name('.filterLost');
+    Route::get('lostDog/filterFound', [LostDogController::class, 'filterFound'])->name('.filterFound');
+    Route::get('lostDog/foundCreate', [LostDogController::class, 'foundCreate'])->name('.foundCreate');
+    Route::post('lostDog/store/{type}', [LostDogController::class, 'store'])->name('.store');
+    Route::post('lostDog/{lostDog}/found', [LostDogController::class, 'found'])->name('.found');
+    Route::post('lostDog/{lostDog}/reunited', [LostDogController::class, 'reunited'])->name('.reunited');
 });
 
 //=============================

@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 @endsection
 
-@section('title', 'Perros encontrados')
+@section('title', 'Perros pérdidos')
 
 @section('content')
 
@@ -13,7 +13,7 @@
 
     <div class="text-pages">
 
-        <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('lostDog.filterFound') }}"
+        {{-- <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('lostDog.filterLost') }}"
             method="GET" enctype="multipart/form-data">
             @csrf
             <div class="grid grid-cols-q grid-rows-6 gap-5 mr-20 text-2xl">
@@ -21,7 +21,7 @@
                 <label>Genero:</label>
                 <label>Raza:</label>
                 <label>Descripción</label>
-                {{-- <label>Edad</label> --}}
+                {{-- <label>Edad</label> --}}{{--
                 <label>Zona de pérdida</label>
                 <label>Estado</label>
             </div>
@@ -51,13 +51,7 @@
 
             <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Filtrar
             </button>
-        </form>
-
-        @if (Auth::check())
-            <button class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700"><a
-                    href="{{ route('lostDog.myFoundDogsIndex') }}">Mis perros encontrados</a>
-            </button>
-        @endif
+        </form> --}}
 
         {{-- Sección vacia --}}
         @if ($lostDogs->isEmpty())
@@ -69,8 +63,7 @@
                 <thead>
                     <tr>
                         <div class="w-36 text-center">
-                            <th class="text-2xl">Usuario:</th>
-                            <th class="text-2xl">Nombre del perro:</th>
+                            <th class="text-2xl">Nombre:</th>
                             <th class="text-2xl">Genero:</th>
                             <th class="text-2xl">Raza:</th>
                             <th class="text-2xl">Descripción</th>
@@ -84,13 +77,11 @@
                         </div>
                     </tr>
                 </thead>
+                <tbody>
                 @foreach ($lostDogs as $lostDog)
-                    <tbody>
                         <tr>
-                            <td class="w-36 text-center">{{ $lostDog->user->name }} {{ $lostDog->user->surname }}</td>
-                            
                             <td class="w-36 text-center">{{ $lostDog->name }}</td>
-                            
+
                             <td class="w-36 text-center">
                                 @if ($lostDog->gender == 'M')
                                     Macho
@@ -98,11 +89,11 @@
                                     Hembra
                                 @endif
                             </td>
-                            
+
                             <td class="w-36 text-center">{{ $lostDog->race }}</td>
-                           
+
                             <td class="w-36 text-center">{{ $lostDog->description }}</td>
-                            
+
                             <td class="w-36 text-center">{{ $lostDog->ageForHumans() }}</td>
                             
                             <td class="w-36 text-center">{{ $lostDog->place }}</td>
@@ -110,8 +101,10 @@
                             <td class="w-36 text-center">
                                 @if ($lostDog->reunited)
                                     Reunido con su dueño
+                                @elseif ($type == 'L')
+                                    Perdido
                                 @else
-                                    buscando a su dueño
+                                    Buscando a su dueño
                                 @endif
                             </td>
 
@@ -120,21 +113,57 @@
                             <td class="w-36">
                                 @can('manage lost dog')
                                     @if (!$lostDog->reunited)
-                                    <form action="{{ route('lostDog.found', $lostDog) }}" method="POST">
-                                        @csrf
-                                        <button type="submit">
-                                            Es mi perro
-                                        </button>
-                                    </form>
+                                        <form action="{{ route('lostDog.edit', $lostDog) }}" method="GET">
+                                            @csrf
+                                            <button type="submit">
+                                                Editar
+                                            </button>
+                                        </form>
+
+                                        <form id="delete-lost-{{ $lostDog->id }}" action="{{ route('lostDog.destroy', $lostDog) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea eliminar este perro?', 'delete-lost-{{ $lostDog->id }}');">
+                                                Eliminar
+                                            </button>
+                                        </form>
+
+                                        @if ($lostDog->found)
+                                            <form id="confirm-reunited-{{ $lostDog->id }}" action="{{ route('lostDog.reunited', $lostDog) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" onclick="event.preventDefault(); confirmationPopUp('Esto marcará al perro como reunido con su dueño en las carteleras y finalizará su búsqueda. ¿Está seguro?', 'confirm-reunited-{{ $lostDog->id }}')">
+                                                    Finalizar búsqueda
+                                                </button>
+                                            </form>
+                                        @endif
                                     @else
                                         ¡Este perro ya está con su dueño!
                                     @endif
                                 @endcan
                             </td>
                         </tr>
-                    </tbody>
                 @endforeach
-            </table>
+                </tbody>
         @endif
+        </table>
+        @can('manage lost dog')
+            <br> <br>
+            @if ($type == 'L')
+                <a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700"
+                    href="{{ route('lostDog.create') }}">
+                    <button>
+                        Publicar perro perdido
+                    </button>
+                </a>
+            @else
+                <a class="text-2xl border-2 border-solid border-white w-40 mt-10 p-5 hover:bg-sky-700"
+                    href="{{ route('lostDog.foundCreate') }}">
+                    <button>
+                        Publicar perro encontrado
+                    </button>
+                </a>
+            @endif
+        @endcan
+
     </div>
 @endsection

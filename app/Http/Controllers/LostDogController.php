@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\LostDog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class LostDogController extends Controller
 {
@@ -20,7 +22,13 @@ class LostDogController extends Controller
     public function index()
     {
         $lostDogs = LostDog::where('type', 'L')->get();
-        return view('lostDog.index')->with('dogs', $lostDogs);
+        if (Auth::check()) {
+            $lostDogs = $lostDogs->filter(function ($dog) {
+                return $dog->user_id != auth()->user()->id;
+            });
+            return view('lostDog.index')->with('lostDogs', $lostDogs);
+        }
+        else return view('lostDog.index')->with('lostDogs', $lostDogs);
     }
 
     /**
@@ -28,8 +36,38 @@ class LostDogController extends Controller
      */
     public function foundIndex()
     {
-        $foundDogs = LostDog::where('type', 'F')->get();
-        return view('lostDog.foundIndex')->with('dogs', $foundDogs);
+        $lostDogs = LostDog::where('type', 'F')->get();
+        if (Auth::check()) {
+            $lostDogs = $lostDogs->filter(function ($dog) {
+                return $dog->user_id != auth()->user()->id;
+            });
+            return view('lostDog.foundIndex')->with('lostDogs', $lostDogs);
+        }
+        else return view('lostDog.foundIndex')->with('lostDogs', $lostDogs);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function myLostDogsIndex()
+    {
+        $lostDogs = LostDog::where('user_id', auth()->user()->id)->get();
+        $lostDogs = $lostDogs->filter(function ($dog) {
+            return $dog->type == 'L';
+        });
+        return view('lostDog.myDogsIndex')->with('lostDogs', $lostDogs)->with('type', 'L');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function myFoundDogsIndex()
+    {
+        $lostDogs = LostDog::where('user_id', auth()->user()->id)->get();
+        $lostDogs = $lostDogs->filter(function ($dog) {
+            return $dog->type == 'F';
+        });
+        return view('lostDog.myDogsIndex')->with('lostDogs', $lostDogs)->with('type', 'F');
     }
 
     /**
@@ -51,75 +89,86 @@ class LostDogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $type)
     {
-        $dog = new LostDog;
+        $lostDog = new LostDog;
 
-        $dog->user_id = auth()->user()->id;
+        $lostDog->user_id = auth()->user()->id;
+        $lostDog->type = $type;
 
-        $this->setLostDog($request, $dog)->save();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:lost_dogs,name,' . $lostDog->id,
+        ]);
+        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
 
-        if ($dog->type == 'L') return redirect()->route('lostDog.index');
-        else return redirect()->route('lostDog.foundIndex');
+        $this->setLostDog($request, $lostDog)->save();
+
+        if ($lostDog->type == 'L') return redirect()->route('lostDog.myLostDogsIndex');
+        else return redirect()->route('lostDog.myFoundDogsIndex');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LostDog $dog)
+    public function edit(LostDog $lostDog)
     {
-        return view('lostDog.edit')->with('dog', $dog);
+        return view('lostDog.edit')->with('lostDog', $lostDog);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, LostDog $dog)
+    public function update(Request $request, LostDog $lostDog)
     {
-        $this->setLostDog($request, $dog)->save();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:lost_dogs,name,' . $lostDog->id, //Esto está mal, tendría que preguntar solo por MIS perros
+        ]);
+        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
+
+        $this->setLostDog($request, $lostDog)->save();
         
-        if ($dog->type == 'L') return redirect()->route('lostDog.index');
-        else return redirect()->route('lostDog.foundIndex');
+        if ($lostDog->type == 'L') return redirect()->route('lostDog.myLostDogsIndex');
+        else return redirect()->route('lostDog.myFoundDogsIndex');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LostDog $dog)
+    public function destroy(LostDog $lostDog)
     {
-        $type = $dog->type;
+        $dogType = $lostDog->type;
 
-        $dog->delete();
+        $lostDog->delete();
 
-        if ($type == 'L') return redirect()->route('lostDog.index');
-        else return redirect()->route('lostDog.foundIndex');
+        if ($dogType == 'L') return redirect()->route('lostDog.myLostDogsIndex');
+        else return redirect()->route('lostDog.myFoundDogsIndex');
     }
 
     /**
      * To show than a user has found a dog.
      */
-    public function found(LostDog $dog)
+    public function found(LostDog $lostDog)
     {
-        if ($dog->type == 'L') $this->sendMailLost($dog->user->email, $dog->name, auth()->user()->email);
-        else $this->sendMailFound(auth()->user()->email, $dog->name, $dog->user->email);
+        if ($lostDog->type == 'L') $this->sendMailLost($lostDog->user->email, $lostDog->name, auth()->user()->email);
+        else $this->sendMailFound(auth()->user()->email, $lostDog->name, $lostDog->user->email);
 
-        $dog->found = true;
-        $dog->save();
+        $lostDog->found = true;
+        $lostDog->save();
 
-        if ($dog->type == 'L') return redirect()->route('lostDog.index');
+        if ($lostDog->type == 'L') return redirect()->route('lostDog.index');
         else return redirect()->route('lostDog.foundIndex');
     }
 
     /**
      * To show that a dog is reunited with its owner.
      */
-    public function reunited(LostDog $dog)
+    public function reunited(LostDog $lostDog)
     {
-        $dog->reunited = true;
-        $dog->save();
+        $lostDog->reunited = true;
+        $lostDog->save();
 
-        if ($dog->type == 'L') return redirect()->route('lostDog.index');
-        else return redirect()->route('lostDog.foundIndex');
+        if ($lostDog->type == 'L') return redirect()->route('lostDog.myLostDogsIndex');
+        else return redirect()->route('lostDog.myFoundDogsIndex');
     }
 
     /**
@@ -147,17 +196,17 @@ class LostDogController extends Controller
 	}
 
     public function filterLost(Request $request) {
-        return view('lostDog.index')->with('dogs', $this->filter($request)->get());
+        return view('lostDog.index')->with('lostDogs', $this->filter($request));
     }
 
     public function filterFound(Request $request) {
-        return view('lostDog.foundIndex')->with('dogs', $this->filter($request)->get());
+        return view('lostDog.foundIndex')->with('lostDogs', $this->filter($request));
     }
 
     /**
      * Filter the specified resource from storage.
      */
-    private function filter(Request $request) {
+    public function filter(Request $request) {
         $query = LostDog::query();
 
         if ($request->filled('name')) $query->where('name' , 'like' , '%' . $request->input('name') . '%');
@@ -168,27 +217,27 @@ class LostDogController extends Controller
         if ($request->filled('reunited')) $query->where('reunited' , '=' , $request->input('reunited'));
         //Acá tendría que filtrar por edad, pero no sé cómo hacerlo. Porque comparar la fecha de nacimiento es una cagada
 
-        return $query;
+        return $query->get();
     }
 
-    private function setLostDog(Request $request, LostDog $dog): LostDog
+    private function setLostDog(Request $request, LostDog $lostDog): LostDog
     {
-        $dog->name = $request->input('name');
-        $dog->type = $request->input('type');
-        $dog->gender = $request->input('gender');
-        $dog->race = $request->input('race');
-        $dog->description = $request->input('description');
-        $dog->date_of_birth = $request->input('date_of_birth');
-        $dog->place = $request->input('place');
+        $lostDog->name = $request->input('name');
+        
+        $lostDog->gender = $request->input('gender');
+        $lostDog->race = $request->input('race');
+        $lostDog->description = $request->input('description');
+        $lostDog->date_of_birth = $request->input('date_of_birth');
+        $lostDog->place = $request->input('place');
         
         if ($request->hasFile('photo')) {
             $request->validate([
-                'photo' => 'image',
+                'photo' => 'required|image',
             ]);
             $url = $request->file('photo')->store('public/lostDogs');
-            $dog->photo = Storage::url($url);
+            $lostDog->photo = Storage::url($url);
         }
          
-        return $dog;
+        return $lostDog;
     }
 }
