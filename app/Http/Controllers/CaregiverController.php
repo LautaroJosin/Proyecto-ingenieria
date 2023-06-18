@@ -6,7 +6,6 @@ use App\Models\Caregiver;
 use App\Models\Park;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class CaregiverController extends Controller
 {
@@ -87,19 +86,6 @@ class CaregiverController extends Controller
         $caregiver->email = $request->input('email');
         
         return $caregiver;
-    }
-
-    private function validateEmail(Request $request, Caregiver $caregiver)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:caregivers,email,' . $caregiver->id,
-        ]);
-
-        //dd($validator->fails());
-        
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
     }
 
     /**

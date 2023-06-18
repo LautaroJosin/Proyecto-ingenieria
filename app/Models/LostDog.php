@@ -12,8 +12,10 @@ class LostDog extends Model
     public $timestamps = false;
 
     protected $fillable=[
-        //'name', //y vamo a ver qué dice Tadeo
+        'name', //y vamo a ver qué dice Tadeo
         'type',
+        'found',
+        'reunited',
         'gender',
         'race',
         'date_of_birth',

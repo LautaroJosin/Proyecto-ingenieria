@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('lost_dogs', function (Blueprint $table) {
             $table->id();
-            //$table->string('name');
+            $table->string('name');
             $table->enum('type', ['L', 'F']);
+            $table->boolean('found')->default(false);
+            $table->boolean('reunited')->default(false);
             $table->enum('gender', ['M', 'H']);
             $table->string('race');
             $table->string('description');
