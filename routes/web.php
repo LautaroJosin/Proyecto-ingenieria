@@ -9,6 +9,7 @@ use App\Http\Controllers\CaregiverController;
 use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdoptionDogController;
+use App\Http\Controllers\DonationCampaignController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,3 +97,6 @@ Route::put('adoption/confirm-adoption/{dog_identifier}', [AdoptionDogController:
 Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class , 'update'])->name('myadoption.update');
 
 /* ====================================== */
+
+/* ============== DonationCampaigns ============== */
+Route::resource('donation-campaign', DonationCampaignController::class)->only('index', 'create', 'store');
