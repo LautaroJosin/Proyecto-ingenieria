@@ -29,7 +29,7 @@ class DonationCampaignController extends Controller
             'photo' => 'required|image',
         ], 
         [
-            'photo.image' => 'Publicación fallida, la foto es inválida',
+            'photo.image' => 'La foto debe ser una imagen',
         ]);
 
         $campaign->name = $request->input('name');
