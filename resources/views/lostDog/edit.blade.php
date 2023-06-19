@@ -27,10 +27,10 @@
                 <label>Nombre del perro:</label>
                 <label>Genero:</label>
                 <label>Raza:</label>
-                <label>Descripción</label>
-                <label>Fecha de nacimiento aproximada</label>
-                <label>Zona de pérdida</label>
-                <label>Foto</label>
+                <label>Descripción:</label>
+                <label>Fecha de nacimiento aproximada:</label>
+                <label>Zona de pérdida:</label>
+                <label>Foto:</label>
             </div>
 
             <div class="grid grid-cols-q grid-rows-7 gap-5 w-10 text-black font-normal">

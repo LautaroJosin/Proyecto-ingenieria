@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\LostDog;
+use App\Models\LostRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class LostDogController extends Controller
 {
@@ -22,6 +22,7 @@ class LostDogController extends Controller
     public function index()
     {
         $lostDogs = LostDog::where('type', 'L')->get();
+
         if (Auth::check()) {
             $lostDogs = $lostDogs->filter(function ($dog) {
                 return $dog->user_id != auth()->user()->id;
@@ -37,6 +38,7 @@ class LostDogController extends Controller
     public function foundIndex()
     {
         $lostDogs = LostDog::where('type', 'F')->get();
+
         if (Auth::check()) {
             $lostDogs = $lostDogs->filter(function ($dog) {
                 return $dog->user_id != auth()->user()->id;
@@ -55,6 +57,7 @@ class LostDogController extends Controller
         $lostDogs = $lostDogs->filter(function ($dog) {
             return $dog->type == 'L';
         });
+
         return view('lostDog.myDogsIndex')->with('lostDogs', $lostDogs)->with('type', 'L');
     }
 
@@ -67,6 +70,7 @@ class LostDogController extends Controller
         $lostDogs = $lostDogs->filter(function ($dog) {
             return $dog->type == 'F';
         });
+
         return view('lostDog.myDogsIndex')->with('lostDogs', $lostDogs)->with('type', 'F');
     }
 
@@ -96,10 +100,7 @@ class LostDogController extends Controller
         $lostDog->user_id = auth()->user()->id;
         $lostDog->type = $type;
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:lost_dogs,name,' . $lostDog->id,
-        ]);
-        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
+        if(LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->exists()) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
 
         $this->setLostDog($request, $lostDog)->save();
 
@@ -120,11 +121,8 @@ class LostDogController extends Controller
      */
     public function update(Request $request, LostDog $lostDog)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:lost_dogs,name,' . $lostDog->id, //Esto está mal, tendría que preguntar solo por MIS perros
-        ]);
-        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
-
+        if(LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->exists()) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
+        
         $this->setLostDog($request, $lostDog)->save();
         
         if ($lostDog->type == 'L') return redirect()->route('lostDog.myLostDogsIndex');
@@ -149,11 +147,16 @@ class LostDogController extends Controller
      */
     public function found(LostDog $lostDog)
     {
-        if ($lostDog->type == 'L') $this->sendMailLost($lostDog->user->email, $lostDog->name, auth()->user()->email);
-        else $this->sendMailFound(auth()->user()->email, $lostDog->name, $lostDog->user->email);
+        $request = new LostRequest();
+        $request->user_id = auth()->user()->id;
+        $request->dog_requested = $lostDog->id;
+        $request->save();
 
         $lostDog->found = true;
         $lostDog->save();
+
+        if ($lostDog->type == 'L') $this->sendMailLost($lostDog->user->email, $lostDog->name, auth()->user()->email);
+        else $this->sendMailFound(auth()->user()->email, $lostDog->name, $lostDog->user->email);
 
         if ($lostDog->type == 'L') return redirect()->route('lostDog.index');
         else return redirect()->route('lostDog.foundIndex');
@@ -196,19 +199,36 @@ class LostDogController extends Controller
 	}
 
     public function filterLost(Request $request) {
-        return view('lostDog.index')->with('lostDogs', $this->filter($request));
+        $query = LostDog::query()->where('type', 'L');
+        if (Auth::check()) $query->where('user_id', '!=', auth()->user()->id);
+        
+        $filteredDogs = $this->filter($query, $request);
+    
+        return view('lostDog.index')->with('lostDogs', $filteredDogs);
     }
-
+    
     public function filterFound(Request $request) {
-        return view('lostDog.foundIndex')->with('lostDogs', $this->filter($request));
+        $query = LostDog::query()->where('type', 'F');
+        if (Auth::check()) $query->where('user_id', '!=', auth()->user()->id);
+        
+        $filteredDogs = $this->filter($query, $request);
+        
+        return view('lostDog.foundIndex')->with('lostDogs', $filteredDogs);
     }
+    
+    public function filterMyDogs($type, Request $request) {
+        $query = LostDog::query()->where('type', $type);
+        $query->where('user_id', '=', auth()->user()->id);
+        
+        $filteredDogs = $this->filter($query, $request);
 
+        return view('lostDog.myDogsIndex')->with('lostDogs', $filteredDogs)->with('type', $type);
+    }
+    
     /**
      * Filter the specified resource from storage.
      */
-    public function filter(Request $request) {
-        $query = LostDog::query();
-
+    public function filter($query, Request $request) {
         if ($request->filled('name')) $query->where('name' , 'like' , '%' . $request->input('name') . '%');
         if ($request->filled('gender')) $query->where('gender' , 'like' , '%' . $request->input('gender') . '%');
         if ($request->filled('race')) $query->where('race' , 'like' , '%' . $request->input('race') . '%');
@@ -223,13 +243,12 @@ class LostDogController extends Controller
     private function setLostDog(Request $request, LostDog $lostDog): LostDog
     {
         $lostDog->name = $request->input('name');
-        
         $lostDog->gender = $request->input('gender');
         $lostDog->race = $request->input('race');
         $lostDog->description = $request->input('description');
         $lostDog->date_of_birth = $request->input('date_of_birth');
         $lostDog->place = $request->input('place');
-        
+
         if ($request->hasFile('photo')) {
             $request->validate([
                 'photo' => 'required|image',

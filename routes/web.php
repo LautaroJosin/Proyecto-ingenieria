@@ -104,6 +104,7 @@ Route::name('lostDog')->group(function() {
     Route::get('lostDog/myFoundDogsIndex', [LostDogController::class, 'myFoundDogsIndex'])->name('.myFoundDogsIndex');
     Route::get('lostDog/filterLost', [LostDogController::class, 'filterLost'])->name('.filterLost');
     Route::get('lostDog/filterFound', [LostDogController::class, 'filterFound'])->name('.filterFound');
+    Route::get('lostDog/filterMyDogs/{type}', [LostDogController::class, 'filterMyDogs'])->name('.filterMyDogs');
     Route::get('lostDog/foundCreate', [LostDogController::class, 'foundCreate'])->name('.foundCreate');
     Route::post('lostDog/store/{type}', [LostDogController::class, 'store'])->name('.store');
     Route::post('lostDog/{lostDog}/found', [LostDogController::class, 'found'])->name('.found');

@@ -69,10 +69,10 @@
                 <thead>
                     <tr>
                         <div class="w-36 text-center">
-                            <th class="text-2xl">Usuario:</th>
-                            <th class="text-2xl">Nombre del perro:</th>
-                            <th class="text-2xl">Genero:</th>
-                            <th class="text-2xl">Raza:</th>
+                            <th class="text-2xl">Usuario</th>
+                            <th class="text-2xl">Nombre del perro</th>
+                            <th class="text-2xl">Genero</th>
+                            <th class="text-2xl">Raza</th>
                             <th class="text-2xl">Descripción</th>
                             <th class="text-2xl">Edad</label>
                             <th class="text-2xl">Zona de pérdida</th>
@@ -120,12 +120,16 @@
                             <td class="w-36">
                                 @can('manage lost dog')
                                     @if (!$lostDog->reunited)
-                                    <form action="{{ route('lostDog.found', $lostDog) }}" method="POST">
-                                        @csrf
-                                        <button type="submit">
-                                            Lo encontré
-                                        </button>
-                                    </form>
+                                        @if (!$lostDog->wasRequestedBy(Auth::user()->id))
+                                            <form action="{{ route('lostDog.found', $lostDog) }}" method="POST">
+                                                @csrf
+                                                <button type="submit">
+                                                    Lo encontré
+                                                </button>
+                                            </form>
+                                        @else
+                                            Solicitud ya enviada
+                                        @endif
                                     @else
                                         ¡Este perro ya está con su dueño!
                                     @endif

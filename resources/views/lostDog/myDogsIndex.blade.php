@@ -13,17 +13,17 @@
 
     <div class="text-pages">
 
-        {{-- <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('lostDog.filterLost') }}"
+        <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('lostDog.filterMyDogs', $type) }}"
             method="GET" enctype="multipart/form-data">
             @csrf
             <div class="grid grid-cols-q grid-rows-6 gap-5 mr-20 text-2xl">
                 <label>Nombre del perro:</label>
                 <label>Genero:</label>
                 <label>Raza:</label>
-                <label>Descripción</label>
-                {{-- <label>Edad</label> --}}{{--
-                <label>Zona de pérdida</label>
-                <label>Estado</label>
+                <label>Descripción:</label>
+                {{-- <label>Edad</label> --}}
+                <label>Zona de pérdida:</label>
+                <label>Estado:</label>
             </div>
 
             <div class="grid grid-cols-q grid-rows-6 gap-5 w-10 text-black font-normal">
@@ -51,7 +51,7 @@
 
             <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Filtrar
             </button>
-        </form> --}}
+        </form>
 
         {{-- Sección vacia --}}
         @if ($lostDogs->isEmpty())
@@ -63,9 +63,9 @@
                 <thead>
                     <tr>
                         <div class="w-36 text-center">
-                            <th class="text-2xl">Nombre:</th>
-                            <th class="text-2xl">Genero:</th>
-                            <th class="text-2xl">Raza:</th>
+                            <th class="text-2xl">Nombre</th>
+                            <th class="text-2xl">Genero</th>
+                            <th class="text-2xl">Raza</th>
                             <th class="text-2xl">Descripción</th>
                             <th class="text-2xl">Edad</label>
                             <th class="text-2xl">Zona de pérdida</th>
