@@ -46,7 +46,7 @@
 
                 <input type="text" name="description" value="{{ $lostDog->description }}">
 
-                <input type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" value="{{ $lostDog->date_of_birth }}">
+                <input type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" required value="{{ $lostDog->date_of_birth }}">
 
                 <input type="text" name="place" value="{{ $lostDog->place }}">
 
