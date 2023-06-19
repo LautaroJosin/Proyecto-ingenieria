@@ -99,7 +99,14 @@ Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class
 /* ====================================== */
 
 /* ============== DonationCampaigns ============== */
+
 Route::resource('donation-campaign', DonationCampaignController::class)->only('index', 'create', 'store', 'edit', 'update')
     ->parameters([
         'donation-campaign' => 'campaign',
     ]);
+
+Route::get('donation-campaign/donate/{campaign_id}' , [DonationCampaignController::class, 'donate'])
+    ->name('donation-campaign.donate');
+
+Route::post('donation-campaign/process-donation' , [DonationCampaignController::class, 'processDonation'])
+    ->name('donation-campaign.processDonation');

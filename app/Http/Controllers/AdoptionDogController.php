@@ -19,7 +19,7 @@ class AdoptionDogController extends Controller
 
 
     /**
-     * Display a listing of the resource. The view receive all the dogs except the ones from the user if he is registered.	
+     Display a listing of the resource. The view receive all the dogs except the ones from the user if he is registered.	
      */
     public function index()
     {

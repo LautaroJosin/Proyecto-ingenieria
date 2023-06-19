@@ -51,4 +51,16 @@ class DonationCampaignController extends Controller
         }
         return $campaign;
     }
+
+
+    public function donate ($campaign_id)
+    {
+        return view('donationCampaign.paymentForm')->with($campaign_id);
+    }
+
+
+    public function processDonation (Request $request)
+    {
+
+    }
 }

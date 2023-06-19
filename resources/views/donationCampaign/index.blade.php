@@ -65,8 +65,8 @@
                                             </button>
                                         </a>
                                     @else
-                                        <button type="submit">
-                                            Donar
+                                        <button type="submit" >
+                                            <a href="{{ route('donation-campaign.donate', ['campaign_id' => $campaign->id]) }}"> Donar </a>
                                         </button>
                                     @endrole
                                 </td>
