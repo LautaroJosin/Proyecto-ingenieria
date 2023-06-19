@@ -53,12 +53,14 @@ class DonationCampaignController extends Controller
     }
 
 
+    /* Redirije a la vista del formulario para donar a una campaña */
     public function donate ($campaign_id)
     {
         return view('donationCampaign.paymentForm')->with($campaign_id);
     }
 
-
+    /* Procesa y valida una donacion */ 
+    
     public function processDonation (Request $request)
     {
 

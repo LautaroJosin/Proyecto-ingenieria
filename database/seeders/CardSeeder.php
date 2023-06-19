@@ -57,5 +57,16 @@ class CardSeeder extends Seeder
         	'expiration_date' => Carbon::create('2000', '01', '01'),
         	'balance' => '5000'
         ]);
+
+        /* Tarjetas que falla al conectarse al servidor */ 
+
+        Card::create([
+            'card_type' => 'C',
+            'cardholder' => '33203404',
+            'card_number' => '9999888877776666',
+            'cvv' => '343',
+            'expiration_date' => Carbon::create('2026', '02', '05'),
+            'balance' => '3000.30'
+        ]);
     }
 }

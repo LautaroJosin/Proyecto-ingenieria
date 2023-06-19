@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        /* Hay creadas 4 tarjetas : 
+        /* Hay creadas 5 tarjetas : 
 
-                2 validas
+                - 2 validas
 
-                1 sin saldo
+                - 1 sin saldo
 
-                1 con fecha de expiracion  2000-01-01
+                - 1 con fecha de expiracion  2000-01-01
+
+                - 1 que debe fallar al intentar conectar con el servidor
         */
 
         Schema::create('cards', function (Blueprint $table) {
