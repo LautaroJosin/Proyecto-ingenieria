@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('surname');
             $table->string('phone');
 
+            $table->decimal('credits', 10, 2)->unisgned()->default(0.00); 
+
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
