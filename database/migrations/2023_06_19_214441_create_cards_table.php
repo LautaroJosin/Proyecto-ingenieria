@@ -11,9 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /* Hay creadas 4 tarjetas : 
+
+                2 validas
+
+                1 sin saldo
+
+                1 con fecha de expiracion  2000-01-01
+        */
+
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->enum('card_type' , ['C','D']);
+            $table->bigInteger('cardholder')->unsigned();
+            $table->bigInteger('card_number')->unsigned();
+            $table->integer('cvv');
+            $table->date('expiration_date');
+            $table->double('balance', 8, 2); // precision (total digits) , scale (decimal digits)
         });
     }
 
