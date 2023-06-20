@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\User;
+use App\Models\Card;
+
 class DonationCampaignController extends Controller
 {
     public function index() {
@@ -63,6 +66,14 @@ class DonationCampaignController extends Controller
     
     public function processDonation (Request $request)
     {
+        // Se realiza la conexion con el servidor
 
+        if($request->input('card_number') == Card::where('card_number' , 9999888877776666)->first())
+            dd('Tarjeta no valida');
+        else dd('tarjeta valida');
+
+        // Se valida que la tarjeta existe, y si es asi, se continua validando los datos
+
+        //Por ultimo se valida si la tarjeta tiene el saldo para realizar la donacion
     }
 }

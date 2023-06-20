@@ -18,7 +18,8 @@ class CardFactory extends Factory
     {
         return [
             'card_type' => fake()->randomElement(['C','D']),
-            'cardholder' => fake()->numberBetween($min = 40000000, $max = 50000000),
+            //'cardholder' => fake()->numberBetween($min = 40000000, $max = 50000000),
+            'cardholder' => fake()->name(),
             'card_number' => fake()->randomNumber($nmMaxDecimals = 16 , $strict = true),
             'cvv' => fake()->randomNumber($nmMaxDecimals = 3 , $strict = true),
             'expiration_date' => fake()->dateTimeBetween($startDate = '+ 2 years', $endDate = '+ 4 years'),

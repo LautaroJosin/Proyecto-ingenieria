@@ -20,7 +20,7 @@ class CardSeeder extends Seeder
 
         Card::create([
         	'card_type' => 'C',
-        	'cardholder' => '43505906',
+        	'cardholder' => 'Lautaro Josin',
         	'card_number' => '1111222233334444',
         	'cvv' => '123',
         	'expiration_date' => Carbon::create('2025', '01', '01'),
@@ -29,7 +29,7 @@ class CardSeeder extends Seeder
 
         Card::create([
         	'card_type' => 'D',
-        	'cardholder' => '45202303',
+        	'cardholder' => 'Ezequiel Reale',
         	'card_number' => '6666777788889999',
         	'cvv' => '321',
         	'expiration_date' => Carbon::create('2027', '02', '03'),
@@ -40,7 +40,7 @@ class CardSeeder extends Seeder
 
        	Card::create([
         	'card_type' => 'C',
-        	'cardholder' => '43802503',
+        	'cardholder' => 'Lautaro Castro',
         	'card_number' => '3333444455556666',
         	'cvv' => '567',
         	'expiration_date' => Carbon::create('2026', '07', '05'),
@@ -51,7 +51,7 @@ class CardSeeder extends Seeder
 
         Card::create([
         	'card_type' => 'D',
-        	'cardholder' => '35606707',
+        	'cardholder' => 'Lionel Andres Messi',
         	'card_number' => '2222333344445555',
         	'cvv' => '222',
         	'expiration_date' => Carbon::create('2000', '01', '01'),
@@ -62,7 +62,7 @@ class CardSeeder extends Seeder
 
         Card::create([
             'card_type' => 'C',
-            'cardholder' => '33203404',
+            'cardholder' => 'Juan Gonzales',
             'card_number' => '9999888877776666',
             'cvv' => '343',
             'expiration_date' => Carbon::create('2026', '02', '05'),

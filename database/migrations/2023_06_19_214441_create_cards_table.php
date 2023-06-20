@@ -25,7 +25,7 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->enum('card_type' , ['C','D']);
-            $table->bigInteger('cardholder')->unsigned();
+            $table->string('cardholder');
             $table->bigInteger('card_number')->unsigned();
             $table->integer('cvv');
             $table->date('expiration_date');
