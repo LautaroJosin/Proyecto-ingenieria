@@ -96,7 +96,6 @@ Route::put('adoption/confirm-adoption/{dog_identifier}', [AdoptionDogController:
 
 Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class , 'update'])->name('myadoption.update');
 
-/* ====================================== */
 
 /* ============== DonationCampaigns ============== */
 
@@ -105,8 +104,8 @@ Route::resource('donation-campaign', DonationCampaignController::class)->only('i
         'donation-campaign' => 'campaign',
     ]);
 
+Route::put('donation-campaign/process-donation/{campaign_id}' , [DonationCampaignController::class, 'processDonation'])
+    ->name('donation-campaign.proccessDonation');
+
 Route::get('donation-campaign/donate/{campaign_id}' , [DonationCampaignController::class, 'donate'])
     ->name('donation-campaign.donate');
-
-Route::post('donation-campaign/process-donation' , [DonationCampaignController::class, 'processDonation'])
-    ->name('donation-campaign.processDonation');

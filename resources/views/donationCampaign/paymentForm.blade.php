@@ -15,7 +15,7 @@
     <br>
     <br>
 
-    <form class="grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('donation-campaign.processDonation') }}" method="POST" enctype="multipart/form-data">
+    <form class="grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('donation-campaign.proccessDonation' , $campaign_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -31,7 +31,7 @@
 
                 <label>Fecha de expiración:</label>
 
-                <label>Monto:</label>
+                <label>Monto a donar:</label>
 
             </div>
 

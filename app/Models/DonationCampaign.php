@@ -17,6 +17,7 @@ class DonationCampaign extends Model
         'end_date',
         'description',
         'photo',
+        'current_fundraised',
     ];
 
     protected $casts = [
