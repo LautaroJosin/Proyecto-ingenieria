@@ -26,7 +26,7 @@ return new class extends Migration
             $table->id();
             $table->enum('card_type' , ['C','D']);
             $table->string('cardholder');
-            $table->bigInteger('card_number')->unsigned();
+            $table->bigInteger('card_number')->unsigned()->unique();
             $table->integer('cvv');
             $table->date('expiration_date');
             $table->double('balance', 8, 2); // precision (total digits) , scale (decimal digits)

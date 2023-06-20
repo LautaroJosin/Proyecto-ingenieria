@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Validator;
+use Closure;
+
 use App\Models\User;
 use App\Models\Card;
 
@@ -90,33 +93,93 @@ class DonationCampaignController extends Controller
                 ->with('error server conection' , 'Error al conectar con el servidor');
         else {
 
-            /* Esta parte se deberia hacer usando validate... o creando reglas de validacion especificas para este tipo de request */
+            $card_found = Card::where('card_number',$request->input('card_number'))->first();
 
-            if(Card:where('card_number', request->input('card_number'))->exists()) 
-                $card_found = Card:where('card_number', request->input('card_number'))->get();
+            if($card_found == null) {
+                return redirect()->back()
+                    ->withErrors(['card_number' => 'La tarjeta ingresada no existe en el sistema'])
+                    ->withInput();
+            }
 
-            if($card_found->cardholder == $request->input('cardholder')
+            else {
 
-                if($card_found->card_type == $request->input('card_type')
+                $validator = Validator::make($request->all(), [
 
-                    if($card_found->cvv == $request->input('cvv')
+                    'card_number' => [
+                        'bail',
+                        'required',
+                        'exists:App\Models\Card,card_number'
+                    ],
 
-                        if($card_found->expiration_date == $request->input('expiration_date')
-                        {
-                            if($card_found->balance >= $request->input('amount')) {
+                    'card_type' => [
+                        'bail',
+                        'required',
+                        function (string $attribute, mixed $value, Closure $fail) use ($card_found) {
+                            if ($value != $card_found->card_type )
+                                $fail("El tipo de tarjeta ingresado no coincide");
+                            },
+                    ],
 
-                                $card_found->balance -= $request->input('amount'));
-                                $campaign = DonationCampaign::where('id' , $campaign_id)->first()->get();
-                                $campaign->current_fundraised += $request->input('amount');
-                                $campaign->save();
+                    'cardholder' => [
+                        'bail',
+                        'required',
+                        function (string $attribute, mixed $value, Closure $fail) use ($card_found){
+                            if ($value != $card_found->cardholder )
+                                $fail("El titular de la tarjeta ingresada no coincide");
+                            },
+                    ],
 
-                                return redirect()->route('donation-campaign.index')
-                                ->with('donation completed' , 'Se realizo la donacion con exito!');
+                    'cvv' => [
+                        'bail',
+                        'required',
+                        function (string $attribute, mixed $value, Closure $fail) use ($card_found){
+                            if ($value != $card_found->cvv )
+                                $fail("El cvv de la tarjeta ingresada no coincide");
+                            },
+                    ],
 
-                            }   
-                        }
+                    'expiration_date' => [
+                        'bail',
+                        'required',
+                        function (string $attribute, mixed $value, Closure $fail) use ($card_found) {
+                            if ($value != $card_found->expiration_date )
+                                $fail("La fecha de expiracion de la tarjeta ingresado no coincide");
+                            },
+                    ],
 
+                    'amount' => ['required','numeric'],
+
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+                else {
+
+                    if($card_found->balance >= $request->input('amount') ) {
+
+                        $card_found->balance -= $request->input('amount');
+
+                        $campaign = DonationCampaign::where('id' , $campaign_id)->first();
+
+                        $campaign->current_fundraised += $request->input('amount');
+
+                            $campaign->save();
+
+                        return redirect()->route('donation-campaign.index')
+                        ->with('donation completed' , 'Se realizo la donacion con exito!');
+
+                    } 
+                }
+
+                  
+            }
         }
 
+
     }
+
 }
+
