@@ -96,7 +96,7 @@ Route::put('adoption/confirm-adoption/{dog_identifier}', [AdoptionDogController:
 
 Route::put('adoption/{adoption}/{dog_identifier}', [AdoptionDogController::class , 'update'])->name('myadoption.update');
 
-//==========LostDog============
+//===========LostDog===========
 
 Route::resource('lostDog', LostDogController::class)->except('show', 'store');
 Route::name('lostDog')->group(function() {
@@ -112,10 +112,7 @@ Route::name('lostDog')->group(function() {
     Route::post('lostDog/{lostDog}/reunited', [LostDogController::class, 'reunited'])->name('.reunited');
 });
 
-//=============================
-/* ====================================== */
-
-/* ============== DonationCampaigns ============== */
+//===== DonationCampaigns ======
 Route::resource('donation-campaign', DonationCampaignController::class)->only('index', 'create', 'store', 'edit', 'update')
     ->parameters([
         'donation-campaign' => 'campaign',
