@@ -71,27 +71,19 @@ class DonationCampaignController extends Controller
 
 
 
-    /* Procesa y valida una donacion :
+    /* Procesa y valida una donacion */
 
-       - Se valida que la tarjeta no sea la tarjeta que genera el fallo con el servidor
-
-       - Se valida que la tarjeta existe
-
-       - Se validan los datos de la tarjeta
-
-       - Se valida que la tarjeta pueda realizar la donacion
-
-       - Finalmente se efectua la donacion y se actualiza el monto recaudado de la campaña
-
-    */ 
     public function processDonation ($campaign_id , Request $request)
     {
-        // Se realiza la conexion con el servidor
+        // Se realiza la conexion con el "servidor"
 
         if($request->input('card_number') == Card::where('card_number' , 9999888877776666)->first()->card_number)
             return redirect()->route('donation-campaign.index')
                 ->with('error server conection' , 'Error al conectar con el servidor');
+
         else {
+
+            // Se valida que la tarjeta existe y se validan el resto de datos
 
             $card_found = Card::where('card_number',$request->input('card_number'))->first();
 
@@ -158,15 +150,24 @@ class DonationCampaignController extends Controller
                 }
                 else {
 
+                    // Se valida que la tarjeta pueda realizar la donacion
+
+                    // Finalmente se efectua la donacion y se actualiza el monto recaudado de la campaña
+
+
                     if($card_found->balance >= $request->input('amount') ) {
 
                         $card_found->balance -= $request->input('amount');
+
+                            $card_found->save();
 
                         $campaign = DonationCampaign::where('id' , $campaign_id)->first();
 
                         $campaign->current_fundraised += $request->input('amount');
 
                             $campaign->save();
+
+                        // Agregar puntos de descuento al usuario en caso de estar registrado
 
                         return redirect()->route('donation-campaign.index')
                         ->with('donation completed' , 'Se realizo la donacion con exito!');
