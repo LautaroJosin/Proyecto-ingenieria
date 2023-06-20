@@ -100,7 +100,9 @@ class LostDogController extends Controller
         $lostDog->user_id = auth()->user()->id;
         $lostDog->type = $type;
 
-        if(LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->exists()) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
+        $tempDog = LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->orderBy('id', 'desc')->first();
+
+        if($tempDog && !$tempDog->reunited) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
 
         $this->setLostDog($request, $lostDog)->save();
 
@@ -121,7 +123,7 @@ class LostDogController extends Controller
      */
     public function update(Request $request, LostDog $lostDog)
     {
-        if(LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->exists()) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
+        if(LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->whereNotIn('name', [$lostDog->name])->exists()) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
         
         $this->setLostDog($request, $lostDog)->save();
         
