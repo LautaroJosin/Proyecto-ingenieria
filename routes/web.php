@@ -10,6 +10,7 @@ use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdoptionDogController;
 use App\Http\Controllers\LostDogController;
+use App\Http\Controllers\DonationCampaignController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,3 +113,10 @@ Route::name('lostDog')->group(function() {
 });
 
 //=============================
+/* ====================================== */
+
+/* ============== DonationCampaigns ============== */
+Route::resource('donation-campaign', DonationCampaignController::class)->only('index', 'create', 'store', 'edit', 'update')
+    ->parameters([
+        'donation-campaign' => 'campaign',
+    ]);
