@@ -27,9 +27,8 @@ class LostDogController extends Controller
             $lostDogs = $lostDogs->filter(function ($dog) {
                 return $dog->user_id != auth()->user()->id;
             });
-            return view('lostDog.index')->with('lostDogs', $lostDogs);
         }
-        else return view('lostDog.index')->with('lostDogs', $lostDogs);
+        return view('lostDog.index')->with('lostDogs', $lostDogs);
     }
 
     /**
@@ -43,9 +42,8 @@ class LostDogController extends Controller
             $lostDogs = $lostDogs->filter(function ($dog) {
                 return $dog->user_id != auth()->user()->id;
             });
-            return view('lostDog.foundIndex')->with('lostDogs', $lostDogs);
         }
-        else return view('lostDog.foundIndex')->with('lostDogs', $lostDogs);
+        return view('lostDog.foundIndex')->with('lostDogs', $lostDogs);
     }
 
     /**
