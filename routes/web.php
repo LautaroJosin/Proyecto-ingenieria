@@ -11,6 +11,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdoptionDogController;
 use App\Http\Controllers\LostDogController;
 use App\Http\Controllers\DonationCampaignController;
+use App\Http\Controllers\TinderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,3 +118,9 @@ Route::resource('donation-campaign', DonationCampaignController::class)->only('i
     ->parameters([
         'donation-campaign' => 'campaign',
     ]);
+
+//=========== Tinder ===========
+Route::resource('tinder', TinderController::class)->only('index', 'destroy');
+Route::get('tinder/filter', [TinderController::class, 'filter'])->name('tinder.filter');
+
+//==============================
