@@ -79,7 +79,7 @@ class DonationCampaignController extends Controller
 
         if($request->input('card_number') == Card::where('card_number' , 9999888877776666)->first()->card_number)
             return redirect()->route('donation-campaign.index')
-                ->with('error server conection' , 'Error al conectar con el servidor');
+                ->with('error server conection' , 'Ocurrio un error al intentar conectar con el servidor, vuelva a intentar más tarde');
 
         else {
 
