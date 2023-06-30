@@ -169,6 +169,10 @@ class DonationCampaignController extends Controller
                         ->with('donation completed' , 'Se realizo la donacion con exito!');
 
                     } 
+                    else {
+                        return redirect()->back()
+                        ->with('error card balance' , 'Su tarjeta no cuenta con el saldo suficiente para realizar la donación!');
+                    }
                 }
 
                   

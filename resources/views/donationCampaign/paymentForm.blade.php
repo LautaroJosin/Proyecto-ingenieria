@@ -10,6 +10,10 @@
 
     <x-mainMenu/>
 
+    @if(session('error card balance'))
+        <script> popUpMessageDelay('{{ session('error card balance') }}') </script>
+    @endif
+
     <div class="text-pages font-bold">
 
     <br>
