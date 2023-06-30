@@ -39,7 +39,12 @@ require __DIR__.'/auth.php';
 
 
 //=============Dog==============
-Route::resource('dog', DogController::class)->except('show'); 
+Route::resource('dog', DogController::class)->except('show');
+
+Route::name('dog')->group(function () {
+    Route::patch('dog/{dog}/enterTinder', [DogController::class, 'enterTinder'])->name('.enterTinder');
+    Route::patch('dog/{dog}/leaveTinder', [DogController::class, 'leaveTinder'])->name('.leaveTinder');
+});
 
 //==========Treatments==========
 Route::resource('appointment.treatment', TreatmentController::class)->only('create', 'store')->names([

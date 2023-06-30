@@ -19,6 +19,7 @@ class Dog extends Model
         'race',
         'date_of_birth',
         'description',
+        'is_on_tinder',
         'photo',
     ];
 

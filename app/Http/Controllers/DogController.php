@@ -114,4 +114,16 @@ class DogController extends Controller
         
         return $dog;
     }
+
+    public function enterTinder(Dog $dog) {
+        $dog->is_on_tinder = true;
+        $dog->save();
+        return redirect()->route('dog.index');
+    }
+
+    public function leaveTinder(Dog $dog) {
+        $dog->is_on_tinder = false;
+        $dog->save();
+        return redirect()->route('dog.index');
+    }
 }

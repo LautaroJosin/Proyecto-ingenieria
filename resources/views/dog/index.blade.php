@@ -72,6 +72,26 @@
                     </a>
                     @endcan
 
+                    @can('have dog')
+                        @if(!$dog->is_on_tinder)
+                            <form action="{{ route('dog.enterTinder', $dog) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button>
+                                    Buscar pareja
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route('dog.leaveTinder', $dog) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button>
+                                    Dejar de buscar pareja
+                                </button>
+                            </form>
+                        @endif
+                    @endcan
+
                     <a href="{{ route('treatment.index', $dog) }}">
                         <button>
                             Ver libreta sanitaria
