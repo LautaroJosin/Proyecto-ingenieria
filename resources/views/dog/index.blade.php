@@ -78,7 +78,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <button>
-                                    Buscar pareja
+                                    Ingresar a cruza
                                 </button>
                             </form>
                         @else
@@ -86,7 +86,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <button>
-                                    Dejar de buscar pareja
+                                    Quitar de cruza
                                 </button>
                             </form>
                         @endif

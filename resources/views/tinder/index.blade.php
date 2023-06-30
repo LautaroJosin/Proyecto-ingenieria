@@ -4,7 +4,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @endsection
     
-    @section('title','Perros admin')
+    @section('title','Cruza')
 
     @section('content')
 
@@ -12,13 +12,39 @@
 
     <div class="text-pages">
 
+        <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('tinder.filter') }}"
+            method="GET" enctype="multipart/form-data">
+            @csrf
+            <div class="grid grid-cols-q grid-rows-1 gap-5 mr-20 text-2xl">
+                <label>Perro:</label>
+            </div>
+
+            <div class="grid grid-cols-q grid-rows-1 gap-5 w-10 text-black font-normal">
+
+                <select name="dog_id">
+                    <option value=""></option>
+                    @foreach ($myDogs as $dog)
+                        <option value="{{ $dog->id }}">{{ $dog->name }}</option>
+                    @endforeach
+                </select>
+
+            </div>
+
+            <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Filtrar
+            </button>
+        </form>
+
+        <br>
+        
         {{-- Sección vacia --}}
         @if($dogs->isEmpty())
-            <h1>No hay recomendaciones para mostrar</h1>
+            <h1 class="text-4xl mb-6">No hay recomendaciones para mostrar</h1>
         @else
 
         {{-- Sección con contenido --}}
         
+        <h1 class="text-4xl mb-6">Perros recomendados:</h1>
+
         <table class="table-fixed border-2 ">
             <thead>
             <tr>
