@@ -21,7 +21,7 @@
                 <label>Genero:</label>
                 <label>Raza:</label>
                 <label>Descripción:</label>
-                {{-- <label>Edad</label> --}}
+                <label>Edad mínima:</label>
                 <label>Zona de pérdida:</label>
                 <label>Estado:</label>
             </div>
@@ -40,6 +40,8 @@
 
                 <input type="text" name="description">
 
+                <input type="number" name="age" min="0" max="100">
+
                 <input type="text" name="place">
 
                 <select name="reunited">
@@ -53,9 +55,10 @@
             </button>
         </form>
 
+        <br>
         {{-- Sección vacia --}}
         @if ($lostDogs->isEmpty())
-            <h1>No hay perros para mostrar</h1>
+            <h1 class="text-4xl mb-6">No hay perros para mostrar</h1>
         @else
             {{-- Sección con contenido --}}
 
