@@ -39,8 +39,8 @@
 			
 	            <select name="card_type" required>
 	            	<option value="">Seleccione una tarjeta</option>
-	                <option value="C">Tarjeta de debito</option>
-	                <option value="D">Tarjeta de credito </option>
+	                <option value="D">Tarjeta de debito</option>
+	                <option value="C">Tarjeta de credito </option>
 	            </select>
                 @error('card_type')
                     <small class="text-red-600"> {{$message}} </small>

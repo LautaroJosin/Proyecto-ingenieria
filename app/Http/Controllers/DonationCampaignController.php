@@ -97,12 +97,6 @@ class DonationCampaignController extends Controller
 
                 $validator = Validator::make($request->all(), [
 
-                    'card_number' => [
-                        'bail',
-                        'required',
-                        'exists:App\Models\Card,card_number'
-                    ],
-
                     'card_type' => [
                         'bail',
                         'required',
@@ -129,7 +123,8 @@ class DonationCampaignController extends Controller
                                 $fail("El cvv de la tarjeta ingresada no coincide");
                             },
                     ],
-
+                    
+                    /*
                     'expiration_date' => [
                         'bail',
                         'required',
@@ -138,6 +133,7 @@ class DonationCampaignController extends Controller
                                 $fail("La fecha de expiracion de la tarjeta ingresado no coincide");
                             },
                     ],
+                    */
 
                     'amount' => ['required','numeric'],
 

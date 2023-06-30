@@ -47,8 +47,8 @@ class CardSeeder extends Seeder
         	'balance' => '0'
         ]);
 
-        /* Tarjetas que ya expiro */ 
-
+        /* Tarjetas que ya expiro 
+		
         Card::create([
         	'card_type' => 'D',
         	'cardholder' => 'Lionel Andres Messi',
@@ -57,6 +57,8 @@ class CardSeeder extends Seeder
         	'expiration_date' => Carbon::create('2000', '01', '01'),
         	'balance' => '5000'
         ]);
+		
+		*/
 
         /* Tarjetas que falla al conectarse al servidor */ 
 
