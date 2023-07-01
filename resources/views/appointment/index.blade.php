@@ -101,18 +101,18 @@
                             @endcan
 
                             @can('edit appointment')
-                                <form id="appointment-cancelation-form" action="{{ route('admin.appointment.cancel', $appointment) }}" method="POST">
+                                <form id="appointment-cancelation-form{{ $appointment->id }}" action="{{ route('admin.appointment.cancel', $appointment) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea cancelar el turno? ', 'appointment-cancelation-form');">
+                                    <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea cancelar el turno? ', 'appointment-cancelation-form{{ $appointment->id }}');">
                                         Cancelar
                                     </button>                            
                                 </form>
 
-                                <form id="appointment-missing-form" action="{{ route('admin.appointment.missing', $appointment) }}" method="POST">
+                                <form id="appointment-missing-form{{ $appointment->id }}" action="{{ route('admin.appointment.missing', $appointment) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea marcar el turno como perdido? ', 'appointment-missing-form')">
+                                    <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea marcar el turno como perdido? ', 'appointment-missing-form{{ $appointment->id }}')">
                                         Turno perdido
                                     </button>
                                 </form>
