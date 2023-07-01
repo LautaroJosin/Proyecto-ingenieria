@@ -46,34 +46,40 @@
 	                <option value="D">Tarjeta de debito</option>
 	                <option value="C">Tarjeta de credito </option>
 	            </select>
-                @error('card_type')
-                    <small class="text-red-600"> {{$message}} </small>
-                @enderror
+                
 
                 <input type="number" name="card_number" class="form-control" required min="1">
-                @error('card_number')
-                    <small class="text-red-600"> {{$message}} </small>
-                @enderror
 
                 <input type="text" name="cardholder" class="form-control" pattern="[A-Za-z ]+" required>
-                @error('cardholder')
-                    <small class="text-red-600"> {{$message}} </small>
-                @enderror
 
-	            <input type="number" name="cvv" class="form-control" required min="100" max="999">
-                @error('cvv')
-                    <small class="text-red-600"> {{$message}} </small>
-                @enderror
+	            <input type="number" name="cvv" class="form-control" required min="0" max="999">
 
 	            <input type="date" name="expiration_date" class="form-control" min="{{  date('Y-m-d') }}" required>
-                @error('expiration_date')
-                    <small class="text-red-600"> {{$message}} </small>
+            
+                <input type="number" name="amount" class="form-control" required min="1">
+
+                @error('card_type')
+                    <small class="text-red-600 font-bold"> {{$message}} </small>
                 @enderror
 
-                <input type="number" name="amount" class="form-control" required min="1">
-                @error('amount')
-                    <small class="text-red-600"> {{$message}} </small>
+                @error('card_number')
+                    <small class="text-red-600 font-bold"> {{$message}} </small>
                 @enderror
+
+                @error('cardholder')
+                    <small class="text-red-600 font-bold"> {{$message}} </small>
+                @enderror
+
+                @error('cvv')
+                    <small class="text-red-600 font-bold"> {{$message}} </small>
+                @enderror
+
+                {{--
+                @error('expiration_date')
+                    <small class="text-red-600 font-bold"> {{$message}} </small>
+                @enderror
+                --}}
+
 
         	</div>
 

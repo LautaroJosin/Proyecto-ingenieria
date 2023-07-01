@@ -137,7 +137,7 @@ class DonationCampaignController extends Controller
 
                     'amount' => ['required','numeric'],
 
-                ]);
+                ])->stopOnFirstFailure();
 
                 if ($validator->fails()) {
                     return redirect()->back()
