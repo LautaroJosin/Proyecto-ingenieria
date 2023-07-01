@@ -56,7 +56,7 @@
 
 	            <input type="date" name="expiration_date" class="form-control" min="{{  date('Y-m-d') }}" required>
             
-                <input type="number" name="amount" class="form-control" required min="1">
+                <input type="number" name="amount" class="form-control" required min="1" step="any">
 
                 @error('card_type')
                     <small class="text-red-600 font-bold"> {{$message}} </small>

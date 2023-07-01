@@ -6,6 +6,7 @@ use App\Models\DonationCampaign;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Validator;
 use Closure;
@@ -163,7 +164,11 @@ class DonationCampaignController extends Controller
 
                             $campaign->save();
 
-                        // Agregar puntos de descuento al usuario en caso de estar registrado
+                        if(Auth::check()) {
+                            $user = Auth::user();
+                            $user->credits += ( 20 * $request->input('amount') ) / 100;
+                            $user->save();
+                        }
 
                         return redirect()->route('donation-campaign.index')
                         ->with('donation completed' , 'Se realizo la donacion con exito!');
