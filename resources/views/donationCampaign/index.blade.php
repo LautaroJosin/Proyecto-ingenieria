@@ -49,6 +49,7 @@
                                 <th class="text-2xl">Monto recaudado</th>
                                 <th class="text-2xl">Foto</th>
                                 <th class="text-2xl">Acciones</th>
+                                <th class="text-2xl">Estado</th>
                             </div>
                         </tr>
                     </thead>
@@ -65,6 +66,7 @@
                                 <td class="w-36 text-center">
                                     <img src="{{ asset($campaign->photo) }}" alt="" width="100" height="100">
                                 </td>
+                                <td class="w-3"
                                 <td class="w-36">
                                     @role('admin')
                                         <a href="{{ route('donation-campaign.edit', $campaign) }}">
@@ -78,6 +80,7 @@
                                         </button>
                                     @endrole
                                 </td>
+                                <td class="w-36 text-center">{{ $campaign->state->value }}</td>
                             </tr>
                         </tbody>
                     @endforeach
