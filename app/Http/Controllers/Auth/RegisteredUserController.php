@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'email' => $request->email,
             'phone' => $request->phone,
+            'credits' => 0.00,
             $pass = $this->random_password(),
             'password_to_show' => $pass,
             'password' => Hash::make($pass),

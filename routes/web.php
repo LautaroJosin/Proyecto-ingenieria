@@ -113,7 +113,16 @@ Route::name('lostDog')->group(function() {
 });
 
 //===== DonationCampaigns ======
+
+/* ============== DonationCampaigns ============== */
+
 Route::resource('donation-campaign', DonationCampaignController::class)->only('index', 'create', 'store', 'edit', 'update')
     ->parameters([
         'donation-campaign' => 'campaign',
     ]);
+
+Route::put('donation-campaign/process-donation/{campaign_id}' , [DonationCampaignController::class, 'processDonation'])
+    ->name('donation-campaign.proccessDonation');
+
+Route::get('donation-campaign/donate/{campaign_id}' , [DonationCampaignController::class, 'donate'])
+    ->name('donation-campaign.donate');

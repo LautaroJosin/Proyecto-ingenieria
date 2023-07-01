@@ -14,11 +14,19 @@
             <script> popUpMessageDelay('{{ session('success campaign register') }}') </script>
         @endif
 
+        @if(session('error server conection'))
+            <script> popUpMessageDelay('{{ session('error server conection') }}') </script>
+        @endif
+
+        @if(session('donation completed'))
+            <script> popUpMessageDelay('{{ session('donation completed') }}') </script>
+        @endif
+
 
         <div class="text-pages font-bold">
             @role('admin')
-                <a class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700" href="{{ route('donation-campaign.create') }}">
-                    <button>
+                <a class="p-5 text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700" href="{{ route('donation-campaign.create') }}">
+                    <button class="mb-10">
                         Cargar campaña
                     </button>
                 </a>
@@ -53,7 +61,7 @@
                                 <td class="w-36 text-center">{{ $campaign->start_date }}</td>
                                 <td class="w-36 text-center">{{ $campaign->end_date }}</td>
                                 <td class="w-36 text-center">{{ $campaign->fundraising_goal }}</td>
-                                <td class="w-36 text-center">{{ "Implementación a futuro" }}</td>
+                                <td class="w-36 text-center">{{ $campaign->current_fundraised }}</td>
                                 <td class="w-36 text-center">
                                     <img src="{{ asset($campaign->photo) }}" alt="" width="100" height="100">
                                 </td>
@@ -65,8 +73,8 @@
                                             </button>
                                         </a>
                                     @else
-                                        <button type="submit">
-                                            Donar
+                                        <button type="submit" >
+                                            <a href="{{ route('donation-campaign.donate', ['campaign_id' => $campaign->id]) }}"> Donar </a>
                                         </button>
                                     @endrole
                                 </td>

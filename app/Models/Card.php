@@ -5,22 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DonationCampaign extends Model
+class Card extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
     protected $fillable=[
-        'name',
-        'start_date',
-        'end_date',
-        'description',
-        'photo',
-        'current_fundraised',
+        'card_type',
+        'cardholder',
+        'card_number',
+        'cvv',
+        'expiration_date',
+        'balance',
+
     ];
 
     protected $casts = [
-        'date_of_birth' => 'date',
+        'expiration_date' => 'date:Y-m-d',
     ];
+
 }
