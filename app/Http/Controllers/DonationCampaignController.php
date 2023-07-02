@@ -44,29 +44,31 @@ class DonationCampaignController extends Controller
 
     private function setCampaign(DonationCampaign $campaign, Request $request): DonationCampaign
     {
+        $this->validation($request, $campaign);
         $campaign->name = $request->input('name');
         $campaign->start_date = Carbon::now()->toDateString();
         $campaign->end_date = $request->input('end_date');
         $campaign->description = $request->input('description');
         $campaign->fundraising_goal = $request->input('fundraising_goal');
         if ($request->hasFile('photo')) {
-            $request->validate([
-                'photo' => 'required|image',
-                'name' => Rule::unique('donation_campaigns')->where('state', DonationCampaignStatesEnum::ACTIVE->value),
-            ], 
-            [
-                'photo.image' => 'La foto debe ser una imagen',
-                'name.unique' => 'Ya existe una campaña vigente con ese nombre',
-            ]);
             $url = $request->file('photo')->store('public/donationCampaigns'); 
             $campaign->photo = Storage::url($url);
         }
         return $campaign;
     }
 
-
-
-
+    private function validation(Request $request, DonationCampaign $campaign) {
+        Validator::make($request->all(), [
+            'photo' => 'sometimes|image',
+            'name' => Rule::unique('donation_campaigns')
+                ->where('state', DonationCampaignStatesEnum::ACTIVE->value)
+                ->ignore($campaign->id, 'id'),
+        ], 
+        [
+            'photo.image' => 'La foto debe ser una imagen',
+            'name.unique' => 'Ya existe una campaña vigente con ese nombre',
+        ])->stopOnFirstFailure()->validate();
+    }
 
     /* Redirije a la vista del formulario para donar a una campaña */
     public function donate ($campaign_id)
