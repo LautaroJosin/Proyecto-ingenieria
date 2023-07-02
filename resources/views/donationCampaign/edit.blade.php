@@ -29,7 +29,7 @@
 
                     <input type="text" name="description" required value="{{ $campaign->description }}">
 
-                    <input type="date" name="end_date" min={{ now()->addDays(1)->format('Y-m-d') }} required value="{{ $campaign->end_date }}">
+                    <input type="date" name="end_date" min={{ now()->format('Y-m-d') }} required value="{{ $campaign->end_date }}">
 
                     <input type="number" min="1" max="99999999" required name="fundraising_goal" required value="{{ $campaign->fundraising_goal }}">
 
