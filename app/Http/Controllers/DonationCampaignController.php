@@ -42,6 +42,13 @@ class DonationCampaignController extends Controller
         return redirect()->route('donation-campaign.index')->with('success campaign register', 'La publicación ha sido exitosa');
     }
 
+    public function finish(DonationCampaign $campaign) {
+        $campaign->state = DonationCampaignStatesEnum::FINISHED->value;
+        $campaign->end_date = Carbon::now()->toDateString();
+        $campaign->save();
+        return redirect()->route('donation-campaign.index');
+    }
+
     private function setCampaign(DonationCampaign $campaign, Request $request): DonationCampaign
     {
         $this->validation($request, $campaign);

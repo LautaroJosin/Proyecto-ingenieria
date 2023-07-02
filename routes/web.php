@@ -112,14 +112,15 @@ Route::name('lostDog')->group(function() {
     Route::post('lostDog/{lostDog}/reunited', [LostDogController::class, 'reunited'])->name('.reunited');
 });
 
-//===== DonationCampaigns ======
-
 /* ============== DonationCampaigns ============== */
 
 Route::resource('donation-campaign', DonationCampaignController::class)->only('index', 'create', 'store', 'edit', 'update')
     ->parameters([
         'donation-campaign' => 'campaign',
     ]);
+
+Route::patch('donation-campaign/{campaign}/finish', [DonationCampaignController::class, 'finish'])
+    ->name('donation-campaign.finish');
 
 Route::put('donation-campaign/process-donation/{campaign_id}' , [DonationCampaignController::class, 'processDonation'])
     ->name('donation-campaign.proccessDonation');

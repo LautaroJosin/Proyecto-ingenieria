@@ -75,6 +75,14 @@
                                                 Modificar
                                             </button>
                                         </a>
+
+                                        <form id="finish-form{{ $campaign->id }}" action="{{ route('donation-campaign.finish', $campaign) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro de finalizar la campaña?', 'finish-form{{ $campaign->id }}')">
+                                                Finalizar campaña
+                                            </button>
+                                        </form>
                                     @else
                                         <button type="submit" >
                                             <a href="{{ route('donation-campaign.donate', ['campaign_id' => $campaign->id]) }}"> Donar </a>
