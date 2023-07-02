@@ -161,13 +161,18 @@ class DonationCampaignController extends Controller
 
                         $card_found->balance -= $request->input('amount');
 
-                            $card_found->save();
+                        $card_found->save();
 
                         $campaign = DonationCampaign::where('id' , $campaign_id)->first();
 
                         $campaign->current_fundraised += $request->input('amount');
 
-                            $campaign->save();
+                        if ($campaign->current_fundraised >= $campaign->fundraising_goal) {
+                            $campaign->state = DonationCampaignStatesEnum::FINISHED->value;
+                            //Actualizar fecha de finalizacion
+                        }
+
+                        $campaign->save();
 
                         if(Auth::check()) {
                             $user = Auth::user();
