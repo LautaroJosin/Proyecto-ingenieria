@@ -34,17 +34,23 @@
                     <input type="number" min="1" max="99999999" required name="fundraising_goal" required value="{{ $campaign->fundraising_goal }}">
 
                     <input type="file" name="photo" accept="image/*">
-                    @error('photo')
-                        <small class="text-danger text-red-600 font-bold text-xl"> {{$message}} </small>
-                    @enderror
-
                 </div>
 
             <button class="text-2xl border-2 border-solid border-white w-40 mt-5 hover:bg-sky-700" type="submit">
                 Confirmar
             </button>
 
-            </form>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+        </form>
 
     </div>
 
