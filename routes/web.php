@@ -122,6 +122,9 @@ Route::resource('donation-campaign', DonationCampaignController::class)->only('i
 Route::patch('donation-campaign/{campaign}/finish', [DonationCampaignController::class, 'finish'])
     ->name('donation-campaign.finish');
 
+Route::get('donation-campaign/filter', [DonationCampaignController::class, 'filter'])
+    ->name('donation-campaign.filter');
+
 Route::put('donation-campaign/process-donation/{campaign_id}' , [DonationCampaignController::class, 'processDonation'])
     ->name('donation-campaign.proccessDonation');
 

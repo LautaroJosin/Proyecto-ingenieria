@@ -24,6 +24,43 @@
 
 
         <div class="text-pages font-bold">
+            
+            <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('donation-campaign.filter') }}" method="GET" enctype="multipart/form-data">
+            @csrf
+                <div class="grid grid-cols-q grid-rows-5 gap-5 mr-20 text-2xl">
+                    <label>Nombre de Campaña:</label>
+                    <label>Código de campaña:</label>
+                    <label>Descripción:</label>
+                    <label>Fecha de ocurrencia:</label>
+                    <label>Estado</label>
+                </div>
+
+                <div class="grid grid-cols-q grid-rows-5 gap-5 w-10 text-black font-normal">
+
+                    <input type="text" name="name" pattern="[A-Za-z ]+">
+
+                    <input type="number" min="1" max="99999999" name="id">
+
+                    <input type="text" name="description">
+
+                    <input type="date" name="date">
+
+                    <select name="state">
+                        <option value=""></option>
+                        @foreach (App\Enums\DonationCampaignStatesEnum::values() as $state)
+                            <option value={{ $state }}> {{ $state }} </option>
+                        @endforeach
+                    </select>
+
+                </div>
+
+                <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">
+                    Filtrar
+                </button>
+            </form>
+            
+            <br> <br>
+
             @role('admin')
                 <a class="p-5 text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700" href="{{ route('donation-campaign.create') }}">
                     <button class="mb-10">

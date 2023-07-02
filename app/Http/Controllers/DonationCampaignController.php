@@ -14,7 +14,7 @@ use Closure;
 
 use App\Models\User;
 use App\Models\Card;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 class DonationCampaignController extends Controller
@@ -47,6 +47,21 @@ class DonationCampaignController extends Controller
         $campaign->end_date = Carbon::now()->toDateString();
         $campaign->save();
         return redirect()->route('donation-campaign.index');
+    }
+
+    public function filter(Request $request)
+    {
+        $query = DonationCampaign::query();
+
+        if ($request->filled('name')) $query->where('name', 'LIKE', '%' . $request->input('name') . '%');
+        if ($request->filled('description')) $query->where('description', 'LIKE', '%' . $request->input('description') . '%');
+        if ($request->filled('id')) $query->where('id', '=', $request->input('id'));
+        if ($request->filled('state')) $query->where('state', $request->input('state'));
+        if ($request->filled('date')) {
+            $query->whereDate('start_date', '<=', $request->input('date'))
+                ->whereDate('end_date', '>=', $request->input('date'));
+        }
+        return view('donationCampaign.index')->with('campaigns', $query->get());
     }
 
     private function setCampaign(DonationCampaign $campaign, Request $request): DonationCampaign
