@@ -125,7 +125,7 @@ Route::resource('donation-campaign', DonationCampaignController::class)->only('i
     ]);
 
 //=========== Tinder ===========
-Route::resource('tinder', TinderController::class)->only('index', 'destroy');
+Route::resource('tinder', TinderController::class)->only('index');
 Route::get('tinder/filter', [TinderController::class, 'filter'])->name('tinder.filter');
 
 //==============================

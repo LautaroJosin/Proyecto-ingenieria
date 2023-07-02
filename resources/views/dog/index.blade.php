@@ -74,18 +74,18 @@
 
                     @can('have dog')
                         @if(!$dog->is_on_tinder)
-                            <form action="{{ route('dog.enterTinder', $dog) }}" method="POST">
+                            <form id="enter-tinder-{{ $dog->id }}" action="{{ route('dog.enterTinder', $dog) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button>
-                                    Ingresar a cruza
+                                <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea cruzar este perro?', 'enter-tinder-{{ $dog->id }}');">
+                                    Publicar en cruza
                                 </button>
                             </form>
                         @else
-                            <form action="{{ route('dog.leaveTinder', $dog) }}" method="POST">
+                            <form id="leave-tinder-{{ $dog->id }}" action="{{ route('dog.leaveTinder', $dog) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button>
+                                <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro que desea quitar de cruza a este perro?', 'leave-tinder-{{ $dog->id }}');">
                                     Quitar de cruza
                                 </button>
                             </form>
