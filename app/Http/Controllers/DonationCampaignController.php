@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DonationCampaignStatesEnum;
 use App\Models\DonationCampaign;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use Closure;
 
 use App\Models\User;
 use App\Models\Card;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Validation\Rule;
 
 class DonationCampaignController extends Controller
 {
@@ -49,9 +52,11 @@ class DonationCampaignController extends Controller
         if ($request->hasFile('photo')) {
             $request->validate([
                 'photo' => 'required|image',
+                'name' => Rule::unique('donation_campaigns')->where('state', DonationCampaignStatesEnum::ACTIVE->value),
             ], 
             [
                 'photo.image' => 'La foto debe ser una imagen',
+                'name.unique' => 'Ya existe una campaña vigente con ese nombre',
             ]);
             $url = $request->file('photo')->store('public/donationCampaigns'); 
             $campaign->photo = Storage::url($url);

@@ -36,9 +36,6 @@
                     <input type="number" min="1" max="99999999" required name="fundraising_goal" required value="{{ old('fundraising_goal') }}">
 
                     <input type="file" name="photo" accept="image/*" required>
-                    @error('photo')
-                        <small class="text-danger text-red-600 font-bold text-xl"> {{$message}} </small>
-                    @enderror
 
                 </div>
 
@@ -46,8 +43,17 @@
                 Publicar
             </button>
 
-            </form>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
+        </form>
     </div>
 
 @endsection

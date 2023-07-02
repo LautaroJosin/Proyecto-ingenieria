@@ -66,7 +66,6 @@
                                 <td class="w-36 text-center">
                                     <img src="{{ asset($campaign->photo) }}" alt="" width="100" height="100">
                                 </td>
-                                <td class="w-3"
                                 <td class="w-36">
                                     @role('admin')
                                         <a href="{{ route('donation-campaign.edit', $campaign) }}">
