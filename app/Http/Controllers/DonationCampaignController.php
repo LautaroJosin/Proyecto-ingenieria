@@ -14,7 +14,6 @@ use Closure;
 
 use App\Models\User;
 use App\Models\Card;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 class DonationCampaignController extends Controller
@@ -193,7 +192,7 @@ class DonationCampaignController extends Controller
 
                         if ($campaign->current_fundraised >= $campaign->fundraising_goal) {
                             $campaign->state = DonationCampaignStatesEnum::FINISHED->value;
-                            //Actualizar fecha de finalizacion
+                            $campaign->end_date = Carbon::now()->toDateString();
                         }
 
                         $campaign->save();
