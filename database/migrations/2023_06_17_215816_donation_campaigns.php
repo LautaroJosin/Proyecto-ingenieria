@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('fundraising_goal');
             $table->string('description');
             $table->string('photo');
-            $table->decimal('current_fundraised', 10, 2)->unisgned()->default(0.00);
+            $table->decimal('current_fundraised', 10, 2)->unsigned()->default(0.00);
         });
     }
 
