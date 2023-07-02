@@ -42,6 +42,7 @@
                         <tr>
                             <div class="w-36 text-center">
                                 <th class="text-2xl">Nombre</th>
+                                <th class="text-2xl">Código de campaña</th>
                                 <th class="text-2xl">Descripcion</th>
                                 <th class="text-2xl">Fecha de inicio</th>
                                 <th class="text-2xl">Fecha de finalización</th>
@@ -58,6 +59,7 @@
                         <tbody>
                             <tr>
                                 <td class="w-36 text-center">{{ $campaign->name }}</td>
+                                <td class="w-36 text-center">{{ $campaign->id }}</td>
                                 <td class="w-36 text-center">{{ $campaign->description }}</td>
                                 <td class="w-36 text-center">{{ $campaign->start_date }}</td>
                                 <td class="w-36 text-center">{{ $campaign->end_date }}</td>
