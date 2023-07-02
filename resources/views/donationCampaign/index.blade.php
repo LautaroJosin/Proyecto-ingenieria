@@ -69,25 +69,27 @@
                                     <img src="{{ asset($campaign->photo) }}" alt="" width="100" height="100">
                                 </td>
                                 <td class="w-36">
-                                    @role('admin')
-                                        <a href="{{ route('donation-campaign.edit', $campaign) }}">
-                                            <button type="submit">
-                                                Modificar
-                                            </button>
-                                        </a>
+                                    @if($campaign->state->value == App\Enums\DonationCampaignStatesEnum::ACTIVE->value)
+                                        @role('admin')
+                                            <a href="{{ route('donation-campaign.edit', $campaign) }}">
+                                                <button type="submit">
+                                                    Modificar
+                                                </button>
+                                            </a>
 
-                                        <form id="finish-form{{ $campaign->id }}" action="{{ route('donation-campaign.finish', $campaign) }}" method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro de finalizar la campaña?', 'finish-form{{ $campaign->id }}')">
-                                                Finalizar campaña
+                                            <form id="finish-form{{ $campaign->id }}" action="{{ route('donation-campaign.finish', $campaign) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro de finalizar la campaña?', 'finish-form{{ $campaign->id }}')">
+                                                    Finalizar campaña
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button type="submit" >
+                                                <a href="{{ route('donation-campaign.donate', ['campaign_id' => $campaign->id]) }}"> Donar </a>
                                             </button>
-                                        </form>
-                                    @else
-                                        <button type="submit" >
-                                            <a href="{{ route('donation-campaign.donate', ['campaign_id' => $campaign->id]) }}"> Donar </a>
-                                        </button>
-                                    @endrole
+                                        @endrole
+                                    @endif
                                 </td>
                                 <td class="w-36 text-center">{{ $campaign->state->value }}</td>
                             </tr>
