@@ -11,7 +11,7 @@ class LostDog extends Model
 
     public $timestamps = false;
 
-    protected $fillable=[
+    protected $fillable = [
         'name', //y vamo a ver qué dice Tadeo
         'type',
         'found',
@@ -21,7 +21,6 @@ class LostDog extends Model
         'date_of_birth',
         'description',
         'place',
-        //fecha de perdida no es mala idea. Me la dió copilot
         'photo',
     ];
 
@@ -29,26 +28,31 @@ class LostDog extends Model
         'date_of_birth' => 'date:Y-m-d',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function lostRequests() {
+    public function lostRequests()
+    {
         return $this->hasMany(LostRequest::class, 'dog_requested', 'id');
     }
-    
-    public function ageForHumans() {
+
+    public function ageForHumans()
+    {
         return $this->date_of_birth->longAbsoluteDiffForHumans();
     }
 
-    public function wasRequestedBy(int $user_id) {
-    	return LostRequest::where('user_id', $user_id)
+    public function wasRequestedBy(int $user_id)
+    {
+        return LostRequest::where('user_id', $user_id)
             ->where('dog_requested', $this->id)
             ->exists();
     }
 
-    public function wasRequested () {
+    public function wasRequested()
+    {
 
-    	return LostRequest::where('dog_requested', $this->id)->exists();
+        return LostRequest::where('dog_requested', $this->id)->exists();
     }
 }

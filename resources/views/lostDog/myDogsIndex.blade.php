@@ -13,6 +13,17 @@
 
     <div class="text-pages">
 
+        @if($type == 'L')
+            <form action="{{ route('lostDog.foundIndex') }}" method="GET" enctype="multipart/form-data">
+                @csrf
+                <h1 class="text-2xl mb-6"> Antes de publicar un perro perdido, comprueba si ya ha sido encontrado por alguien.
+                </h1>
+                <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Ir a perros encontrados</button>
+            </form>
+
+            <br><br>
+        @endif
+
         <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('lostDog.filterMyDogs', $type) }}"
             method="GET" enctype="multipart/form-data">
             @csrf
@@ -21,7 +32,7 @@
                 <label>Genero:</label>
                 <label>Raza:</label>
                 <label>Descripción:</label>
-                {{-- <label>Edad</label> --}}
+                {{--<label>Edad mínima:</label>--}}
                 <label>Zona de pérdida:</label>
                 <label>Estado:</label>
             </div>
@@ -40,6 +51,8 @@
 
                 <input type="text" name="description">
 
+                {{--<input type="number" name="age" min="0" max="100">--}}
+
                 <input type="text" name="place">
 
                 <select name="reunited">
@@ -53,9 +66,10 @@
             </button>
         </form>
 
+        <br>
         {{-- Sección vacia --}}
         @if ($lostDogs->isEmpty())
-            <h1>No hay perros para mostrar</h1>
+            <h1 class="text-4xl mb-6">No hay perros para mostrar</h1>
         @else
             {{-- Sección con contenido --}}
 

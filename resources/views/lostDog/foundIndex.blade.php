@@ -20,10 +20,10 @@
                 <label>Nombre del perro:</label>
                 <label>Genero:</label>
                 <label>Raza:</label>
-                <label>Descripción</label>
-                {{-- <label>Edad</label> --}}
-                <label>Zona de pérdida</label>
-                <label>Estado</label>
+                <label>Descripción:</label>
+                {{--<label>Edad minima:</label>--}}
+                <label>Zona de pérdida:</label>
+                <label>Estado:</label>
             </div>
 
             <div class="grid grid-cols-q grid-rows-6 gap-5 w-10 text-black font-normal">
@@ -40,6 +40,8 @@
 
                 <input type="text" name="description">
 
+                {{--<input type="number" name="age" min="0" max="100">--}}
+
                 <input type="text" name="place">
 
                 <select name="reunited">
@@ -54,14 +56,17 @@
         </form>
 
         @if (Auth::check())
-            <button class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700"><a
-                    href="{{ route('lostDog.myFoundDogsIndex') }}">Mis perros encontrados</a>
-            </button>
+            <div>
+                <button class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700"><a
+                        href="{{ route('lostDog.myFoundDogsIndex') }}">Mis perros encontrados</a>
+                </button>
+            </div>
         @endif
 
+        <br>
         {{-- Sección vacia --}}
         @if ($lostDogs->isEmpty())
-            <h1>No hay perros para mostrar</h1>
+            <h1 class="text-4xl mb-6">No hay perros para mostrar</h1>
         @else
             {{-- Sección con contenido --}}
 
