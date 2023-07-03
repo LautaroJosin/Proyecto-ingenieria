@@ -39,5 +39,19 @@ class UserSeeder extends Seeder
             'password_to_show' => 'user',
             'remember_token' => Str::random(10),
         ])->assignRole('user');
+
+        User::create([
+            'dni' => '40221319',
+            'surname' => 'Castro',
+            'phone' => '19399584',
+            'name' => 'Lautaro',
+            'email' => 'lautaro.castro.est@gmail.com',
+            'email_verified_at' => now(),
+            'password'=> Hash::make('12345678'),
+            'password_to_show' => '12345678',
+            'remember_token' => Str::random(10),
+        ])->assignRole('user');
+
+
     }
 }
