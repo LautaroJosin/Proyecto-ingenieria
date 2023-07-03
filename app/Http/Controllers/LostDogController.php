@@ -232,7 +232,7 @@ class LostDogController extends Controller
         if ($request->filled('name')) $query->where('name' , 'like' , '%' . $request->input('name') . '%');
         if ($request->filled('gender')) $query->where('gender' , 'like' , '%' . $request->input('gender') . '%');
         if ($request->filled('race')) $query->where('race' , 'like' , '%' . $request->input('race') . '%');
-        if ($request->filled('description')) $query->where('description' , 'like' , '%' . $request->input('description') . '%');
+        //if ($request->filled('description')) $query->where('description' , 'like' , '%' . $request->input('description') . '%');
         if ($request->filled('place')) $query->where('place' , 'like' , '%' . $request->input('place') . '%');
         if ($request->filled('reunited')) $query->where('reunited' , '=' , $request->input('reunited'));
         /*if ($request->filled('age')) {

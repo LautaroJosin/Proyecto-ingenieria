@@ -27,17 +27,17 @@
         <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('lostDog.filterMyDogs', $type) }}"
             method="GET" enctype="multipart/form-data">
             @csrf
-            <div class="grid grid-cols-q grid-rows-6 gap-5 mr-20 text-2xl">
+            <div class="grid grid-cols-q grid-rows-5 gap-5 mr-20 text-2xl">
                 <label>Nombre del perro:</label>
                 <label>Genero:</label>
                 <label>Raza:</label>
-                <label>Descripción:</label>
+                {{--<label>Descripción:</label>--}}
                 {{--<label>Edad mínima:</label>--}}
                 <label>Zona de pérdida:</label>
                 <label>Estado:</label>
             </div>
 
-            <div class="grid grid-cols-q grid-rows-6 gap-5 w-10 text-black font-normal">
+            <div class="grid grid-cols-q grid-rows-5 gap-5 w-10 text-black font-normal">
 
                 <input type="text" name="name" pattern="[A-Za-z ]+">
 
@@ -49,7 +49,7 @@
 
                 <input type="text" name="race" pattern="[A-Za-z ]+">
 
-                <input type="text" name="description">
+                {{--<input type="text" name="description">--}}
 
                 {{--<input type="number" name="age" min="0" max="100">--}}
 
