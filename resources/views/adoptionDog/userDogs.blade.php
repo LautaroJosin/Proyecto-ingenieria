@@ -151,10 +151,10 @@
 					@else
 
 						@can('delete adoption')
-							<form id="destroy-adoption-dog-form" action="{{ route('adoption.destroy', $my_dog) }}" method="POST">
+							<form id="destroy-adoption-form{{ $my_dog->id }}" action="{{ route('adoption.destroy', $my_dog) }}" method="POST">
 								@csrf
 								@method('DELETE')
-								<button type="submit" onclick="event.preventDefault(); confirmDeleteAdoptionDog();">
+								<button type="submit" onclick="event.preventDefault(); confirmationPopUp('Está seguro que desea eliminar este perro?', 'destroy-adoption-form{{ $my_dog->id }}');">
 									Eliminar
 								</button>
 							</form>
@@ -170,10 +170,10 @@
 						
 						@if( $my_dog->wasRequested() )
 							@can('confirm adoption')
-							<form id="confirm-adoption" action="{{ route('adoption.confirm' , $my_dog->temp_name) }}" method="POST">
+							<form id="confirm-adoption{{ $my_dog->id }}" action="{{ route('adoption.confirm' , $my_dog->temp_name) }}" method="POST">
 							@method('PUT')
 							@csrf
-									<button onclick="event.preventDefault(); confirmationPopUp('Está seguro que desea confirmar la adopción?', 'confirm-adoption');">
+									<button onclick="event.preventDefault(); confirmationPopUp('Está seguro que desea confirmar la adopción?', 'confirm-adoption{{ $my_dog->id }}');">
 										Confirmar adopción
 									</button>
 							</form>
