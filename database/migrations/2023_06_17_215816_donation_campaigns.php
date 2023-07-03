@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\DonationCampaignStatesEnum;
 
 return new class extends Migration
 {
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->integer('fundraising_goal');
             $table->string('description');
             $table->string('photo');
+            $table->enum('state', DonationCampaignStatesEnum::values())->default(DonationCampaignStatesEnum::ACTIVE->value);
             $table->decimal('current_fundraised', 10, 2)->unsigned()->default(0.00);
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DonationCampaignStatesEnum;
 use App\Models\DonationCampaign;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Closure;
 
 use App\Models\User;
 use App\Models\Card;
+use Illuminate\Validation\Rule;
 
 class DonationCampaignController extends Controller
 {
@@ -39,29 +41,55 @@ class DonationCampaignController extends Controller
         return redirect()->route('donation-campaign.index')->with('success campaign register', 'La publicación ha sido exitosa');
     }
 
+    public function finish(DonationCampaign $campaign) {
+        $campaign->state = DonationCampaignStatesEnum::FINISHED->value;
+        $campaign->end_date = Carbon::now()->toDateString();
+        $campaign->save();
+        return redirect()->route('donation-campaign.index');
+    }
+
+    public function filter(Request $request)
+    {
+        $query = DonationCampaign::query();
+
+        if ($request->filled('name')) $query->where('name', 'LIKE', '%' . $request->input('name') . '%');
+        if ($request->filled('description')) $query->where('description', 'LIKE', '%' . $request->input('description') . '%');
+        if ($request->filled('id')) $query->where('id', '=', $request->input('id'));
+        if ($request->filled('state')) $query->where('state', $request->input('state'));
+        if ($request->filled('date')) {
+            $query->whereDate('start_date', '<=', $request->input('date'))
+                ->whereDate('end_date', '>=', $request->input('date'));
+        }
+        return view('donationCampaign.index')->with('campaigns', $query->get());
+    }
+
     private function setCampaign(DonationCampaign $campaign, Request $request): DonationCampaign
     {
+        $this->validation($request, $campaign);
         $campaign->name = $request->input('name');
         $campaign->start_date = Carbon::now()->toDateString();
         $campaign->end_date = $request->input('end_date');
         $campaign->description = $request->input('description');
         $campaign->fundraising_goal = $request->input('fundraising_goal');
         if ($request->hasFile('photo')) {
-            $request->validate([
-                'photo' => 'required|image',
-            ], 
-            [
-                'photo.image' => 'La foto debe ser una imagen',
-            ]);
             $url = $request->file('photo')->store('public/donationCampaigns'); 
             $campaign->photo = Storage::url($url);
         }
         return $campaign;
     }
 
-
-
-
+    private function validation(Request $request, DonationCampaign $campaign) {
+        Validator::make($request->all(), [
+            'photo' => 'sometimes|image',
+            'name' => Rule::unique('donation_campaigns')
+                ->where('state', DonationCampaignStatesEnum::ACTIVE->value)
+                ->ignore($campaign->id, 'id'),
+        ], 
+        [
+            'photo.image' => 'La foto debe ser una imagen',
+            'name.unique' => 'Ya existe una campaña vigente con ese nombre',
+        ])->stopOnFirstFailure()->validate();
+    }
 
     /* Redirije a la vista del formulario para donar a una campaña */
     public function donate ($campaign_id)
@@ -156,13 +184,18 @@ class DonationCampaignController extends Controller
 
                         $card_found->balance -= $request->input('amount');
 
-                            $card_found->save();
+                        $card_found->save();
 
                         $campaign = DonationCampaign::where('id' , $campaign_id)->first();
 
                         $campaign->current_fundraised += $request->input('amount');
 
-                            $campaign->save();
+                        if ($campaign->current_fundraised >= $campaign->fundraising_goal) {
+                            $campaign->state = DonationCampaignStatesEnum::FINISHED->value;
+                            $campaign->end_date = Carbon::now()->toDateString();
+                        }
+
+                        $campaign->save();
 
                         if(Auth::check()) {
                             $user = Auth::user();

@@ -31,14 +31,11 @@
 
                     <input type="text" name="description" required value="{{ old('description') }}">
 
-                    <input  type="date" name="end_date" min={{ now()->addDays(1)->format('Y-m-d') }} required value="{{ old('end_date') }}">
+                    <input  type="date" name="end_date" min={{ now()->format('Y-m-d') }} required value="{{ old('end_date') }}">
 
                     <input type="number" min="1" max="99999999" required name="fundraising_goal" required value="{{ old('fundraising_goal') }}">
 
                     <input type="file" name="photo" accept="image/*" required>
-                    @error('photo')
-                        <small class="text-danger text-red-600 font-bold text-xl"> {{$message}} </small>
-                    @enderror
 
                 </div>
 
@@ -46,8 +43,17 @@
                 Publicar
             </button>
 
-            </form>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
+        </form>
     </div>
 
 @endsection

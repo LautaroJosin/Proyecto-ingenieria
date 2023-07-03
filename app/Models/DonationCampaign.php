@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DonationCampaignStatesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,9 +19,11 @@ class DonationCampaign extends Model
         'description',
         'photo',
         'current_fundraised',
+        'state',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date',
+        'state' => DonationCampaignStatesEnum::class,
     ];
 }
