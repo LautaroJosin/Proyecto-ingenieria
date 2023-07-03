@@ -17,7 +17,13 @@ return new class extends Migration
             $table->enum('state', AppointmentStatesEnum::values());
             $table->date('date');
             $table->time('time');
-            //Salvo que se me ocurra algo mejor, acá va a ir un atributo derivado "precioConDescuento" en el futuro
+
+            $table->double('priceWithDiscount', 10,2)->unisgned()->default(0.00);
+
+            $table->double('credits_to_show', 10,2)->unisgned()->default(0.00); /*Almacena los creditos aplicados al precio del turno*/
+
+            $table->boolean('discount_applied')->default(false);
+
             $table->unsignedBigInteger('reason_id')->nullable();
             $table->unsignedBigInteger('dog_id')->nullable();
 

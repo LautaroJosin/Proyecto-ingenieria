@@ -30,4 +30,11 @@ class Appointment extends Model
     public function dog() {
         return $this->belongsTo(Dog::class, 'dog_id', 'id');
     }
+
+    
+    public function discountAlreadyApplied() {
+        if($this->discount_applied == 1) return true;
+        else return false;
+    }
+    
 }

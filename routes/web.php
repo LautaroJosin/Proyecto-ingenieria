@@ -52,6 +52,7 @@ Route::resource('dog.treatment', TreatmentController::class)->only('index')->nam
 //========Appointments==========
 Route::name('user.')->group(function () {
     Route::resource('user/appointment', UserAppointmentController::class)->only('index', 'create', 'store');
+    Route::post('user/appointment/applyDiscount/{appointment}', [UserAppointmentController::class , 'applyDiscount'])->name('appointment.discount');
 });
 
 Route::get('appointment/filter', [AppointmentController::class, 'filter'])->name('appointment.filter');

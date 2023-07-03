@@ -29,7 +29,7 @@ return new class extends Migration
             $table->bigInteger('card_number')->unsigned()->unique();
             $table->integer('cvv');
             $table->date('expiration_date');
-            $table->double('balance', 8, 2); // precision (total digits) , scale (decimal digits)
+            $table->double('balance', 10, 2); // precision (total digits) , scale (decimal digits)
         });
     }
 
