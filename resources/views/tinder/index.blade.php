@@ -19,7 +19,8 @@
                 En el mundo hay unos 500 millones de perros sin hogar, y te invitamos a que puedas brindarle cobijo a uno de
                 ellos.
             </h1>
-            <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Ir a adopción
+            <button type="submit" class="text-2xl border-2 border-solid border-white w-40 mt-1 hover:bg-sky-700">Ir a
+                adopción
             </button>
         </form>
 
@@ -68,25 +69,34 @@
                             <th class="text-2xl">Edad</th>
                             <th class="text-2xl">Foto</th>
                             <th class="text-2xl">Mail del dueño</th>
+                            <th class="text-2xl">Recomendación para</th>
                         </div>
                     </tr>
                 </thead>
 
-                @foreach ($dogs as $dog)
+                @foreach ($dogs as $groupId => $group)
                     <tbody>
                         <tr>
-                            <td class="w-36 text-center">{{ $dog->name }}</td>
-                            <td class="w-36 text-center">{{ $dog->gender }}</td>
-                            <td class="w-36 text-center">{{ $dog->race }}</td>
-                            <td class="w-36 text-center">{{ $dog->description }}</td>
-                            <td class="w-36 text-center">{{ $dog->ageForHumans() }}</td>
+                            <td class="w-36 text-center">{{ $group[0]->name }}</td>
+                            <td class="w-36 text-center">{{ $group[0]->gender }}</td>
+                            <td class="w-36 text-center">{{ $group[0]->race }}</td>
+                            <td class="w-36 text-center">{{ $group[0]->description }}</td>
+                            <td class="w-36 text-center">{{ $group[0]->ageForHumans() }}</td>
                             <td class="w-36 text-center">
-                                <img src="{{ asset($dog->photo) }}" alt="" width="100" height="100">
+                                <img src="{{ asset($group[0]->photo) }}" alt="" width="100" height="100">
                             </td>
-                            <td class="w-36 text-center">{{ $dog->user->email }}</td>
+                            <td class="w-36 text-center">{{ $group[0]->user->email }}</td>
+                            <td class="w-36 text-center">
+                                @foreach ($group as $dog)
+                                    @foreach ($dog->ownerDogNames as $ownerDogName)
+                                        {{ $ownerDogName }}<br>
+                                    @endforeach
+                                @endforeach
+                            </td>
                         </tr>
                     </tbody>
                 @endforeach
+
 
             </table>
         @endif
