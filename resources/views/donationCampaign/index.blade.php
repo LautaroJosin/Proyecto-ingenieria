@@ -71,7 +71,7 @@
 
             {{-- Sección vacia --}}
             @if($campaigns->isEmpty())
-                <h1>No hay campañas vigentes para mostrar</h1>
+                <h1>No hay campañas para mostrar</h1>
             @else
                 {{-- Sección con contenido --}}
                 <table class="table-fixe border-separate border-spacing-6 border-2">
