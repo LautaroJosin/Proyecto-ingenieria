@@ -11,6 +11,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdoptionDogController;
 use App\Http\Controllers\LostDogController;
 use App\Http\Controllers\DonationCampaignController;
+use App\Http\Controllers\TinderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,12 @@ require __DIR__.'/auth.php';
 
 
 //=============Dog==============
-Route::resource('dog', DogController::class)->except('show'); 
+Route::resource('dog', DogController::class)->except('show');
+
+Route::name('dog')->group(function () {
+    Route::patch('dog/{dog}/enterTinder', [DogController::class, 'enterTinder'])->name('.enterTinder');
+    Route::patch('dog/{dog}/leaveTinder', [DogController::class, 'leaveTinder'])->name('.leaveTinder');
+});
 
 //==========Treatments==========
 Route::resource('appointment.treatment', TreatmentController::class)->only('create', 'store')->names([
@@ -130,3 +136,9 @@ Route::put('donation-campaign/process-donation/{campaign_id}' , [DonationCampaig
 
 Route::get('donation-campaign/donate/{campaign_id}' , [DonationCampaignController::class, 'donate'])
     ->name('donation-campaign.donate');
+
+//=========== Tinder ===========
+Route::resource('tinder', TinderController::class)->only('index');
+Route::get('tinder/filter', [TinderController::class, 'filter'])->name('tinder.filter');
+
+//==============================

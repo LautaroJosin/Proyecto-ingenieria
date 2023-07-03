@@ -34,6 +34,8 @@ class TreatmentController extends Controller
     {
         TreatmentFactory::create($appointment->reason->reason)->store($request, $appointment);
         $appointment->state = AppointmentStatesEnum::ACOMPLISHED;
+        if ($appointment->reason->id == '4') $appointment->dog->is_on_tinder = false;
+        $appointment->dog->save();
         $appointment->save();
         return redirect()->route('appointment.index');
     }
