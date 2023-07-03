@@ -21,8 +21,8 @@
                 <label>Genero:</label>
                 <label>Raza:</label>
                 <label>Descripción:</label>
-                <label>Edad mínima:</label>
-                <label>Zona de pérdida</label>
+                {{--<label>Edad mínima:</label>--}}
+                <label>Zona de pérdida:</label>
                 <label>Estado:</label>
             </div>
 
@@ -40,7 +40,7 @@
 
                 <input type="text" name="description">
 
-                <input type="number" name="age" min="0" max="100">
+                {{--<input type="number" name="age" min="0" max="100">--}}
 
                 <input type="text" name="place">
 
