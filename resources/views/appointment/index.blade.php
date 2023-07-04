@@ -11,6 +11,10 @@
         <div class="text-pages">
             <x-mainMenu/>
 
+            @if(session('cero credits'))
+                <script> popUpMessageDelay('{{ session('cero credits') }}') </script>
+            @endif
+
             <form class="mb-5 grid grid-cols-20-80 grid-rows-1 justify-center" action="{{ route('appointment.filter') }}"
                 method="GET" enctype="multipart/form-data">
                 @csrf
@@ -68,7 +72,25 @@
                     <td>{{ $appointment->state->value }}</td>
                     <td>{{ $appointment->date->format('Y-m-d') }}</td>
                     <td>{{ $appointment->time->format('H:i') }}
-                    <td>{{ $appointment->reason->price }}</td>
+                    <td>
+                        @if( !$appointment->discountAlreadyApplied() ) {{ $appointment->reason->price }} <br>
+                            @can('apply discount')
+                            @if($appointment->state->value == App\Enums\AppointmentStatesEnum::CONFIRMED->value)
+                                <form action="{{ route('user.appointment.discount', $appointment) }}" method="POST">
+                                    @csrf
+                                    <button type="submit">
+                                        Aplicar descuento
+                                    </button>
+                                </form>
+                            @endif
+                            @endcan
+                        
+                        @else {{ $appointment->priceWithDiscount }}<br>
+                        @role('user')<small>Usted ya aplico un descuento a este turno!</small>@endrole
+                        @endif 
+
+                        
+                    </td>
                     <td>
                         @if($appointment->state->value == App\Enums\AppointmentStatesEnum::PENDING->value)
                             @can('delete appointment')

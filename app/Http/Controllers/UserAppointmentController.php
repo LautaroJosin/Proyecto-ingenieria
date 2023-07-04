@@ -100,4 +100,34 @@ class UserAppointmentController extends Controller
         return $dog->hasThisDateTimeAppointment($date,$time);
     }
 
+    /* Aplica el descuento a un turno y le quita al usuario sus creditos */
+    public function applyDiscount (Appointment $appointment) {
+
+        $user = Auth::user();
+
+        if($user->credits == 0) 
+            return redirect()->back()
+            ->with('cero credits' , 'Usted no posee creditos para realizar un descuento!');
+        else {
+
+            $final_price = $appointment->reason->price - $user->credits;
+
+            if($final_price > 0)
+                $appointment->priceWithDiscount = $final_price;
+            else if($final_price <= 0) 
+                $appointment->priceWithDiscount = 0;
+
+            $appointment->discount_applied = 1;
+            $appointment->credits_to_show = $user->credits;
+
+            $user->credits = 0;
+
+            $user->save();
+            $appointment->save();
+
+            return redirect()->back();
+        }
+
+    }
+
 }

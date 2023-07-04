@@ -74,11 +74,10 @@
                     <small class="text-red-600 font-bold"> {{$message}} </small>
                 @enderror
 
-                {{--
                 @error('expiration_date')
                     <small class="text-red-600 font-bold"> {{$message}} </small>
                 @enderror
-                --}}
+                
 
 
         	</div>

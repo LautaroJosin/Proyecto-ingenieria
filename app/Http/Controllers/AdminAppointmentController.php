@@ -34,6 +34,7 @@ class AdminAppointmentController extends Controller
     public function cancel(Appointment $appointment)
     {
         $appointment->state = AppointmentStatesEnum::CANCELLED;
+        if($appointment->discountAlreadyApplied) $this->revertDiscount($appointment);
         $appointment->save();
         return redirect()->route('appointment.index');
     }
@@ -41,6 +42,7 @@ class AdminAppointmentController extends Controller
     public function missing(Appointment $appointment)
     {
         $appointment->state = AppointmentStatesEnum::MISSING;
+        if($appointment->discountAlreadyApplied) $this->revertDiscount($appointment);
         $appointment->save();
         return redirect()->route('appointment.index');
     }
@@ -62,5 +64,18 @@ class AdminAppointmentController extends Controller
         $appointment->save();
         return redirect()->route('appointment.index');
         
+    }
+
+    /* Recibe un turno y revierte el descuento aplicado */
+    
+    private function revertDiscount(Appointment $appointment) {
+        $user = $appointment->dog->user;
+
+        $user->credits = $appointment->credits_to_show;
+
+        $user->save();
+
+        $appointment->discount_applied = 0;
+
     }
 }

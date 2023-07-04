@@ -33,6 +33,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // role's permissions for appointments
         Permission::create(['name' => 'create appointment'])->syncRoles('user');
+        Permission::create(['name' => 'apply discount'])->syncRoles('user');
         Permission::create(['name' => 'delete appointment'])->syncRoles('admin');
         Permission::create(['name' => 'edit appointment'])->syncRoles('admin');
         Permission::create(['name' => 'show appointment'])->syncRoles('user', 'admin');

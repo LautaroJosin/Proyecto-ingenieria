@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('photo');
             $table->enum('state', DonationCampaignStatesEnum::values())->default(DonationCampaignStatesEnum::ACTIVE->value);
-            $table->decimal('current_fundraised', 10, 2)->unsigned()->default(0.00);
+            $table->double('current_fundraised', 10, 2)->unsigned()->default(0.00);
         });
     }
 
