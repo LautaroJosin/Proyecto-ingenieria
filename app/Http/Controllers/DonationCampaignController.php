@@ -125,7 +125,7 @@ class DonationCampaignController extends Controller
                             },
                     ],
                     
-                    //Modificar que solo se valide mes y año
+                    
                     'expiration_date' => [
                         'bail',
                         'required',
