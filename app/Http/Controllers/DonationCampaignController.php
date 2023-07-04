@@ -80,7 +80,7 @@ class DonationCampaignController extends Controller
 
         if($request->input('card_number') == Card::where('card_number' , 9999888877776666)->first()->card_number)
             return redirect()->route('donation-campaign.index')
-                ->with('error server conection' , 'Ocurrio un error al intentar conectar con el servidor, vuelva a intentar más tarde');
+                ->with('error server conection' , 'Falló la conexión con el sistema de pagos, inténtelo nuevamente más tarde');
 
         else {
 
@@ -90,7 +90,7 @@ class DonationCampaignController extends Controller
 
             if($card_found == null) {
                 return redirect()->back()
-                    ->withErrors(['card_number' => 'La tarjeta ingresada no existe en el sistema'])
+                    ->withErrors(['card_number' => 'La tarjeta ingresada es invalida'])
                     ->withInput();
             }
 
@@ -103,7 +103,7 @@ class DonationCampaignController extends Controller
                         'required',
                         function (string $attribute, mixed $value, Closure $fail) use ($card_found) {
                             if ($value != $card_found->card_type )
-                                $fail("El tipo de tarjeta ingresado no coincide");
+                                $fail("La tarjeta ingresada es invalida");
                             },
                     ],
 
@@ -112,7 +112,7 @@ class DonationCampaignController extends Controller
                         'required',
                         function (string $attribute, mixed $value, Closure $fail) use ($card_found){
                             if ($value != $card_found->cardholder )
-                                $fail("El titular de la tarjeta ingresada no coincide");
+                                $fail("La tarjeta ingresada es invalida");
                             },
                     ],
 
@@ -121,20 +121,20 @@ class DonationCampaignController extends Controller
                         'required',
                         function (string $attribute, mixed $value, Closure $fail) use ($card_found){
                             if ($value != $card_found->cvv )
-                                $fail("El cvv de la tarjeta ingresada no coincide");
+                                $fail("La tarjeta ingresada es invalida");
                             },
                     ],
                     
-                    /*
+                    //Modificar que solo se valide mes y año
                     'expiration_date' => [
                         'bail',
                         'required',
                         function (string $attribute, mixed $value, Closure $fail) use ($card_found) {
                             if ($value != $card_found->expiration_date )
-                                $fail("La fecha de expiracion de la tarjeta ingresado no coincide");
+                                $fail("La tarjeta ingresada es invalida");
                             },
                     ],
-                    */
+                    
 
                     'amount' => ['required','numeric'],
 
@@ -156,27 +156,35 @@ class DonationCampaignController extends Controller
 
                         $card_found->balance -= $request->input('amount');
 
-                            $card_found->save();
+                        $card_found->save();
 
                         $campaign = DonationCampaign::where('id' , $campaign_id)->first();
 
                         $campaign->current_fundraised += $request->input('amount');
 
-                            $campaign->save();
+                        $campaign->save();
 
+                        // Si el usuario esta logueado se le acredita el 20% de su donacion
                         if(Auth::check()) {
                             $user = Auth::user();
-                            $user->credits += ( 20 * $request->input('amount') ) / 100;
+                            $credits = ( 20 * $request->input('amount') ) / 100;
+                            $user->credits += $credits;
                             $user->save();
+
+                            return redirect()->route('donation-campaign.index')
+                            ->with('donation completed' , 'La donación se realizó exitosamente, se le otorgó el 20% del monto de su donación en créditos para utilizar en la veterinaria. Gracias por su aporte');
+                        }
+                        else {
+                            return redirect()->route('donation-campaign.index')
+                            ->with('donation completed' , 'La donación se realizó exitosamente. Gracias por su aporte'); 
                         }
 
-                        return redirect()->route('donation-campaign.index')
-                        ->with('donation completed' , 'Se realizo la donacion con exito!');
+                        
 
                     } 
                     else {
                         return redirect()->back()
-                        ->with('error card balance' , 'Su tarjeta no cuenta con el saldo suficiente para realizar la donación!');
+                        ->with('error card balance' , 'Pago fallido, saldo insuficiente');
                     }
                 }
 
