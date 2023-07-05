@@ -118,7 +118,7 @@ class UserAppointmentController extends Controller
                 $appointment->priceWithDiscount = 0;
 
             $appointment->discount_applied = 1;
-            $appointment->credits_to_show = $user->credits;
+            $appointment->credits_to_show = $user->credits; /* Se almacena en el turno el descuento aplicado al monto del turno */
 
             $user->credits = 0;
 
