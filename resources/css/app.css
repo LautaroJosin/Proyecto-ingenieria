@@ -12,10 +12,11 @@
 
 .grid-sub-menu {
     display: grid;
-    grid-template-columns: repeat(7,150px);
-    grid-template-rows: 200px;
+    grid-template-columns: repeat(6,150px);
+    grid-template-rows: 85px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 50px;
 }
 
 .text-main-menu {
