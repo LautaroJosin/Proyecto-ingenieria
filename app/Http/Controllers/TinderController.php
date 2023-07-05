@@ -47,15 +47,14 @@ class TinderController extends Controller
 
     private function getRecommendedDogs(Dog $myDog)
     {
-        $currentDogYear = $myDog->date_of_birth->format('Y');
-        $twoYearsAgo = $currentDogYear - 2;
-        $twoYearsLater = $currentDogYear + 2;
+        $twoYearsAgo = $myDog->date_of_birth->subYears(2);
+        $twoYearsLater = $myDog->date_of_birth->addYears(2);
 
         return Dog::where('is_on_tinder', true)
             ->where('user_id', '!=', auth()->user()->id)
             ->where('race', $myDog->race)
             ->where('gender', '!=', $myDog->gender)
-            ->whereRaw("YEAR(date_of_birth) BETWEEN $twoYearsAgo AND $twoYearsLater")
+            ->whereBetween('date_of_birth', [$twoYearsAgo, $twoYearsLater])
             ->get();
     }
 
