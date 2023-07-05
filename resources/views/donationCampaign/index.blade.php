@@ -105,11 +105,11 @@
                                 <td class="w-36 text-center">
                                     <img src="{{ asset($campaign->photo) }}" alt="" width="100" height="100">
                                 </td>
-                                <td class="w-36">
+                                <td class="w-36 text-center">
                                     @if($campaign->state->value == App\Enums\DonationCampaignStatesEnum::ACTIVE->value)
                                         @role('admin')
                                             <a href="{{ route('donation-campaign.edit', $campaign) }}">
-                                                <button type="submit">
+                                                <button class="mb-5" type="submit">
                                                     Modificar
                                                 </button>
                                             </a>
@@ -117,10 +117,16 @@
                                             <form id="finish-form{{ $campaign->id }}" action="{{ route('donation-campaign.finish', $campaign) }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro de finalizar la campaña?', 'finish-form{{ $campaign->id }}')">
+                                                <button class="mb-5" type="submit" onclick="event.preventDefault(); confirmationPopUp('¿Está seguro de finalizar la campaña?', 'finish-form{{ $campaign->id }}')">
                                                     Finalizar campaña
                                                 </button>
                                             </form>
+
+                                            <a class="mb-5" href="{{ route('donation-campaign.records', $campaign) }}">
+                                                <button type="submit">
+                                                    Ver historial de donaciones
+                                                </button>
+                                            </a>
                                         @else
                                             <button type="submit" >
                                                 <a href="{{ route('donation-campaign.donate', ['campaign_id' => $campaign->id]) }}"> Donar </a>

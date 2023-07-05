@@ -97,6 +97,9 @@ class DonationCampaignController extends Controller
         return view('donationCampaign.paymentForm')->with('campaign_id',$campaign_id);
     }
 
+    public function records (DonationCampaign $campaign) {
+        return view('donationCampaign.record')->with('campaign', $campaign);
+    }
 
 
 
