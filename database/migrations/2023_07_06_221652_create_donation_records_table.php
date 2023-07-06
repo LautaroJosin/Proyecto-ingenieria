@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('donations_records', function (Blueprint $table) {
+        Schema::create('donation_records', function (Blueprint $table) {
             $table->id();
 
             
@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('campaign_id')->nullable();
 
             $table->boolean('was_registered');
-            $table->timestamp('donation_time',$precision = 0);
-            $table->date('donation_date');
+            $table->timestamp('donation_time',$precision = 0)->useCurrent();
+            $table->date('donation_date')->useCurrent();
             $table->double('amount', 10, 2)->unsigned()->default(0.00);
 
 
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('donations_records');
+        Schema::dropIfExists('donation_records');
     }
 };

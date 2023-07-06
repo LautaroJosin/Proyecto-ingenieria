@@ -14,6 +14,7 @@ use Closure;
 
 use App\Models\User;
 use App\Models\Card;
+use App\Models\DonationRecord;  
 use Illuminate\Validation\Rule;
 
 class DonationCampaignController extends Controller
@@ -161,9 +162,10 @@ class DonationCampaignController extends Controller
                         'bail',
                         'required',
                         function (string $attribute, mixed $value, Closure $fail) use ($card_found) {
-                            if ($value != $card_found->expiration_date )
+                            if ($value != $card_found->expiration_date->format('Y-m-d') ){
                                 $fail("La tarjeta ingresada es invalida");
-                            },
+                            }
+                        }
                     ],
                     
 
@@ -200,6 +202,12 @@ class DonationCampaignController extends Controller
 
                         $campaign->save();
 
+                        $donationRecord = new DonationRecord;
+
+                        $donationRecord->campaign_id = $campaign->id;
+                        $donationRecord->amount = $request->input('amount');
+
+
                         // Si el usuario esta logueado se le acredita el 20% de su donacion
                         if(Auth::check()) {
                             $user = Auth::user();
@@ -207,10 +215,21 @@ class DonationCampaignController extends Controller
                             $user->credits += $credits;
                             $user->save();
 
+                            $donationRecord->user_id = $user->id;
+                            $donationRecord->was_registered = true;
+
+                            $donationRecord->save();
+
+
                             return redirect()->route('donation-campaign.index')
                             ->with('donation completed' , 'La donación se realizó exitosamente, se le otorgó el 20% del monto de su donación en créditos para utilizar en la veterinaria. Gracias por su aporte');
                         }
                         else {
+                            
+                            $donationRecord->was_registered = false;
+
+                            $donationRecord->save();
+
                             return redirect()->route('donation-campaign.index')
                             ->with('donation completed' , 'La donación se realizó exitosamente. Gracias por su aporte'); 
                         }
