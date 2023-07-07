@@ -206,6 +206,9 @@ class DonationCampaignController extends Controller
 
                         $donationRecord->campaign_id = $campaign->id;
                         $donationRecord->amount = $request->input('amount');
+                        
+                        $donationRecord->donation_time = Carbon::now()->format('H:i:s');
+                        $donationRecord->donation_date = Carbon::now()->format('Y-m-d');
 
 
                         // Si el usuario esta logueado se le acredita el 20% de su donacion

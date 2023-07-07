@@ -9,6 +9,8 @@ class DonationRecord extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
 
     protected $fillable=[
         'campaign_id',
@@ -18,4 +20,5 @@ class DonationRecord extends Model
         'user_id',
         'was_registered',
     ];
+
 }
