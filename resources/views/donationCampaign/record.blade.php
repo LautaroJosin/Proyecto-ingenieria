@@ -13,13 +13,13 @@
 
     <div class="text-pages font-bold">
 
-    <h1>Historial de donaciones a campaña</h1>
+    <h1>Historial de donaciones a campaña {{$campaign_name}}</h1>
 
     <br>
     <br>
     <br>
 
-    @if(empty($records)) Esta vacio!
+    @if( $records->isEmpty() ) <h1>No hay donaciones para mostrar</h1>
 
     @else
 

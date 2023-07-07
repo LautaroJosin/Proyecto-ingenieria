@@ -102,6 +102,7 @@ class DonationCampaignController extends Controller
         $records = DonationRecord::where('campaign_id',$campaign->id)->get();
         $users = User::all();
         return view('donationCampaign.record')
+            ->with('campaign_name',$campaign->name)
             ->with('records', $records)
             ->with('users', $users);
     }
