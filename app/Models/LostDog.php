@@ -12,7 +12,7 @@ class LostDog extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name', //y vamo a ver qué dice Tadeo
+        'name',
         'type',
         'found',
         'reunited',
@@ -52,7 +52,6 @@ class LostDog extends Model
 
     public function wasRequested()
     {
-
         return LostRequest::where('dog_requested', $this->id)->exists();
     }
 }

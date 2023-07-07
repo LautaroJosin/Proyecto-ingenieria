@@ -45,7 +45,7 @@
 
                 <input type="text" name="description" required value="{{ old('description') }}">
 
-                <input type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" required value="{{ old('date_of_birth') }}">
+                <input type="date" name="date_of_birth" min="2000-01-01" required value="{{ old('date_of_birth') }}">
 
                 <input type="text" name="place" required value="{{ old('place') }}">
 

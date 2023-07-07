@@ -137,6 +137,10 @@ class LostDogController extends Controller
         $lostDog->description = $request->input('description');
         $lostDog->date_of_birth = $request->input('date_of_birth');
         $lostDog->place = $request->input('place');
+        if ($request->hasFile('photo')) {
+            $url = $request->file('photo')->store('public/lostDogs');
+            $lostDog->photo = Storage::url($url);
+        }
 
         return $lostDog;
     }

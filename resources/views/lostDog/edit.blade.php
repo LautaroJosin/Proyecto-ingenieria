@@ -35,20 +35,20 @@
 
             <div class="grid grid-cols-q grid-rows-7 gap-5 w-10 text-black font-normal">
 
-                <input type="text" name="name" pattern="[A-Za-z ]+" value="{{ $lostDog->name }}">
+                <input type="text" name="name" pattern="[A-Za-z ]+" required value="{{ $lostDog->name }}">
 
                 <select name="gender" value="{{ $lostDog->gender }}">
                     <option value="M">Macho</option>
                     <option value="H">Hembra</option>
                 </select>
 
-                <input type="text" name="race" pattern="[A-Za-z ]+" value="{{ $lostDog->race }}">
+                <input type="text" name="race" pattern="[A-Za-z ]+" required value="{{ $lostDog->race }}">
 
-                <input type="text" name="description" value="{{ $lostDog->description }}">
+                <input type="text" name="description" required value="{{ $lostDog->description }}">
 
-                <input type="date" name="date_of_birth" min="2000-01-01" max="{{  date('Y-m-d') }}" required value="{{ $lostDog->date_of_birth }}">
+                <input type="date" name="date_of_birth" min="2000-01-01" required value="{{ $lostDog->date_of_birth }}">
 
-                <input type="text" name="place" value="{{ $lostDog->place }}">
+                <input type="text" name="place" required value="{{ $lostDog->place }}">
 
                 <input type="file" name="photo" accept="image/*" >
 
