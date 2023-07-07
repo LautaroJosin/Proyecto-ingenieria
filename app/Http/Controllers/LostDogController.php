@@ -130,7 +130,7 @@ class LostDogController extends Controller
     private function setLostDog(Request $request, LostDog $lostDog): LostDog
     {
         $this->validation($request, $lostDog);
-        
+
         $lostDog->name = $request->input('name');
         $lostDog->gender = $request->input('gender');
         $lostDog->race = $request->input('race');
@@ -138,14 +138,6 @@ class LostDogController extends Controller
         $lostDog->date_of_birth = $request->input('date_of_birth');
         $lostDog->place = $request->input('place');
 
-        if ($request->hasFile('photo')) {
-            $request->validate([
-                'photo' => 'required|image',
-            ]);
-            $url = $request->file('photo')->store('public/lostDogs');
-            $lostDog->photo = Storage::url($url);
-        }
-         
         return $lostDog;
     }
 
