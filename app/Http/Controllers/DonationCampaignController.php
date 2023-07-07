@@ -99,7 +99,11 @@ class DonationCampaignController extends Controller
     }
 
     public function records (DonationCampaign $campaign) {
-        return view('donationCampaign.record')->with('campaign', $campaign);
+        $records = DonationRecord::where('campaign_id',$campaign->id)->get();
+        $users = User::all();
+        return view('donationCampaign.record')
+            ->with('records', $records)
+            ->with('users', $users);
     }
 
 
