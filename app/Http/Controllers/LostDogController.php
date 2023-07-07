@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
+
 
 class LostDogController extends Controller
 {
@@ -98,17 +102,6 @@ class LostDogController extends Controller
         $lostDog->user_id = auth()->user()->id;
         $lostDog->type = $type;
 
-        /*$tempDog = LostDog::where('user_id', Auth::user()->id)
-            ->where('type', $type)
-            ->where('name', $request->input('name'))
-            ->orderBy('id', 'desc')
-            ->first();
-        */
-
-        $tempDog = $this->queryForExistingDogName($request->input('name'), $type);
-
-        if($tempDog) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
-
         $this->setLostDog($request, $lostDog)->save();
 
         if ($lostDog->type == 'L') return redirect()->route('lostDog.myLostDogsIndex');
@@ -128,16 +121,50 @@ class LostDogController extends Controller
      */
     public function update(Request $request, LostDog $lostDog)
     {        
-        $tempDog = $this->queryForExistingDogName($request->input('name'), $lostDog->type);
-
-        if($tempDog && ($tempDog->id != $lostDog->id)) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
-
         $this->setLostDog($request, $lostDog)->save();
         
         if ($lostDog->type == 'L') return redirect()->route('lostDog.myLostDogsIndex');
         else return redirect()->route('lostDog.myFoundDogsIndex');
     }
 
+    private function setLostDog(Request $request, LostDog $lostDog): LostDog
+    {
+        $this->validation($request, $lostDog);
+        
+        $lostDog->name = $request->input('name');
+        $lostDog->gender = $request->input('gender');
+        $lostDog->race = $request->input('race');
+        $lostDog->description = $request->input('description');
+        $lostDog->date_of_birth = $request->input('date_of_birth');
+        $lostDog->place = $request->input('place');
+
+        if ($request->hasFile('photo')) {
+            $request->validate([
+                'photo' => 'required|image',
+            ]);
+            $url = $request->file('photo')->store('public/lostDogs');
+            $lostDog->photo = Storage::url($url);
+        }
+         
+        return $lostDog;
+    }
+
+    private function validation(Request $request, LostDog $lostDog) {
+        Validator::make($request->all(), [
+            'photo' => 'sometimes|image',
+            'name' => Rule::unique('lost_dogs')
+                ->where('user_id', Auth::user()->id)
+                ->where('type', $lostDog->type)
+                ->where('reunited', false)
+                ->ignore($lostDog->id, 'id'),
+        ], 
+        [
+            'photo.image' => 'La foto debe ser una imagen',
+            'name.unique' => 'Ya tienes un perro publicado con ese nombre',
+        ])->stopOnFirstFailure()->validate();
+    }
+   
+    /*
     private function queryForExistingDogName($name, $type)
     {
         return $tempDog = LostDog::where('user_id', Auth::user()->id)
@@ -147,6 +174,7 @@ class LostDogController extends Controller
             ->orderBy('id', 'desc')
             ->first();
     }
+    */
 
     /**
      * Remove the specified resource from storage.
@@ -264,23 +292,5 @@ class LostDogController extends Controller
         return $query->get();
     }
 
-    private function setLostDog(Request $request, LostDog $lostDog): LostDog
-    {
-        $lostDog->name = $request->input('name');
-        $lostDog->gender = $request->input('gender');
-        $lostDog->race = $request->input('race');
-        $lostDog->description = $request->input('description');
-        $lostDog->date_of_birth = $request->input('date_of_birth');
-        $lostDog->place = $request->input('place');
 
-        if ($request->hasFile('photo')) {
-            $request->validate([
-                'photo' => 'required|image',
-            ]);
-            $url = $request->file('photo')->store('public/lostDogs');
-            $lostDog->photo = Storage::url($url);
-        }
-         
-        return $lostDog;
-    }
 }
