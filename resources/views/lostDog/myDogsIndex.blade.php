@@ -29,7 +29,7 @@
             @csrf
             <div class="grid grid-cols-q grid-rows-5 gap-5 mr-20 text-2xl">
                 <label>Nombre del perro:</label>
-                <label>Genero:</label>
+                <label>Sexo:</label>
                 <label>Raza:</label>
                 {{--<label>Descripción:</label>--}}
                 {{--<label>Edad mínima:</label>--}}
@@ -78,7 +78,7 @@
                     <tr>
                         <div class="w-36 text-center">
                             <th class="text-2xl">Nombre</th>
-                            <th class="text-2xl">Genero</th>
+                            <th class="text-2xl">Sexo</th>
                             <th class="text-2xl">Raza</th>
                             <th class="text-2xl">Descripción</th>
                             <th class="text-2xl">Edad</label>

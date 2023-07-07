@@ -98,9 +98,16 @@ class LostDogController extends Controller
         $lostDog->user_id = auth()->user()->id;
         $lostDog->type = $type;
 
-        $tempDog = LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->orderBy('id', 'desc')->first();
+        /*$tempDog = LostDog::where('user_id', Auth::user()->id)
+            ->where('type', $type)
+            ->where('name', $request->input('name'))
+            ->orderBy('id', 'desc')
+            ->first();
+        */
 
-        if($tempDog && !$tempDog->reunited) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
+        $tempDog = $this->queryForExistingDogName($request->input('name'), $type);
+
+        if($tempDog) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
 
         $this->setLostDog($request, $lostDog)->save();
 
@@ -120,13 +127,25 @@ class LostDogController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, LostDog $lostDog)
-    {
-        if(LostDog::where('user_id', Auth::user()->id)->where('name', $request->input('name'))->whereNotIn('name', [$lostDog->name])->exists()) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
-        
+    {        
+        $tempDog = $this->queryForExistingDogName($request->input('name'), $lostDog->type);
+
+        if($tempDog && ($tempDog->id != $lostDog->id)) return redirect()->back()->withErrors('Ya tienes un perro publicado con ese nombre');
+
         $this->setLostDog($request, $lostDog)->save();
         
         if ($lostDog->type == 'L') return redirect()->route('lostDog.myLostDogsIndex');
         else return redirect()->route('lostDog.myFoundDogsIndex');
+    }
+
+    private function queryForExistingDogName($name, $type)
+    {
+        return $tempDog = LostDog::where('user_id', Auth::user()->id)
+            ->where('type', $type)
+            ->where('name', $name)
+            ->where('reunited', false)
+            ->orderBy('id', 'desc')
+            ->first();
     }
 
     /**
@@ -136,6 +155,7 @@ class LostDogController extends Controller
     {
         $dogType = $lostDog->type;
 
+        $lostDog->lostRequests()->delete();
         $lostDog->delete();
 
         if ($dogType == 'L') return redirect()->route('lostDog.myLostDogsIndex');

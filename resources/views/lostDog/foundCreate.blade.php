@@ -23,7 +23,7 @@
             @csrf
             <div class="grid grid-cols-q grid-rows-7 gap-5 mr-20 text-2xl">
                 <label>Nombre del perro:</label>
-                <label>Genero:</label>
+                <label>Sexo:</label>
                 <label>Raza:</label>
                 <label>Descripción:</label>
                 <label>Fecha de nacimiento aproximada:</label>
