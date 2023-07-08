@@ -19,7 +19,7 @@ class AdoptionDogFactory extends Factory
         return [
             'temp_name' => fake()->firstName(null),
             'gender' => fake()->randomElement(['M','H']),
-            'race' => fake()-word(),
+            'race' => fake()->randomElement(['Pug','Labrador', 'Caniche', 'Beagle', 'Mestizo', 'Boxer', 'Terrier',]),
             'date_of_birth' => $this->faker->date('Y-m-d', 'now'),
             'size' => fake()->randomElement(['P','M','G']),
             'description' => fake()->sentence(),
