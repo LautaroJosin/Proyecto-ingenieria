@@ -21,6 +21,7 @@ class AppointmentFactory extends Factory
             'date' => fake()->date('Y-m-d', '01/01/2025'),
             'time' => fake()->time('H:i:s', 'now'),
             'reason_id' => fake()->numberBetween('1','5'),
+            'dog_id' => 666
         ];
     }
 }

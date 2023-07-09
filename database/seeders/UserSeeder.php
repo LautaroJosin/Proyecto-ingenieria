@@ -54,10 +54,10 @@ class UserSeeder extends Seeder
 
 
         User::create([
-            'dni' => '100',
-            'surname' => 'AA',
+            'dni' => '43505906',
+            'surname' => 'Josin',
             'phone' => '19399584',
-            'name' => 'AAA',
+            'name' => 'Lautaro',
             'email' => 'lauj32@gmail.com',
             'email_verified_at' => now(),
             'password'=> Hash::make('666'),

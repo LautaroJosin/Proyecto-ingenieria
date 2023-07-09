@@ -19,14 +19,15 @@ class LostDogFactory extends Factory
         return [
             'name' => fake()->firstName(null),
             'type' => fake()->randomElement(['L','F']),
-            'found' => fake()->boolean(50),
-            'reunited'=> fake()->boolean(50),
+            'found' => fake()->boolean(73),
+            'reunited'=> fake()->boolean(35),
             'gender' => fake()->randomElement(['M', 'H']),
             'race' => fake()->randomElement(['Pug','Labrador', 'Caniche', 'Beagle', 'Mestizo', 'Boxer', 'Terrier',]),
             'date_of_birth' => fake()->date('Y-m-d', 'now'),
             'description' => fake()->sentence(),
             'place' => fake()->address(),
             'photo' => fake()->imageUrl(1080, 720, 'dog'),
+            'user_id' => 4
         ];
     }
 }

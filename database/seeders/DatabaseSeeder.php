@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ReasonSeeder::class,
             ParkSeeder::class,
             CardSeeder::class,
+            DogSeeder::class,
         ]);
     }
 }
