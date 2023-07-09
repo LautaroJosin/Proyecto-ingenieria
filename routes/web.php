@@ -150,4 +150,6 @@ Route::get('tinder/filter', [TinderController::class, 'filter'])->name('tinder.f
 
 /* ============== Statistics ============== */
 
-Route::get('statistics' , [StatisticsController::class,'index'])->name('statistics.index');
+Route::get('statistics/AdoptionDog' , [StatisticsController::class,'index'])->name('statistics.index');
+Route::get('statistics/Appointment' , [StatisticsController::class,'index2'])->name('statistics.index2');
+Route::get('statistics/LostDog' , [StatisticsController::class,'index3'])->name('statistics.index3');
