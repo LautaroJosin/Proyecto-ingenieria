@@ -146,3 +146,7 @@ Route::resource('tinder', TinderController::class)->only('index');
 Route::get('tinder/filter', [TinderController::class, 'filter'])->name('tinder.filter');
 
 //==============================
+
+/* ============== Statistics ============== */
+
+Route::get('statistics' , [StatisticsController::class,'index'])->name(statistics.index);
