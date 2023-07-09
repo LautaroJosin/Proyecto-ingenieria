@@ -10,15 +10,40 @@
 
     <x-mainMenu />
 
-    <div class="text-pages">
+    <div class="text-pages text-center mt-30">
 
-        {!! $chart->container() !!}
+    <h1 class="text-2xl">Seleccione el tipo de estadistica que desea observar</h1>
+
+    <br>
+    <br>
+    <br>
+
+    <a class="emb-2" href="{{ route('statistics.index1') }}">
+        <button type="submit">
+            Ver estadisticas del servicio de adopción
+        </button>
+    </a>
+
+    <br>
+    <br>
+    <br>
+
+    <a class="mb-2" href="{{ route('statistics.index2') }}">
+        <button type="submit">
+            Ver estadisticas del servicio de turnos
+        </button>
+    </a>
+
+    <br>
+    <br>
+    <br>
+
+    <a class="mb-2" href="{{ route('statistics.index3') }}">
+        <button type="submit">
+            Ver estadisticas del servicio de perdida y busqueda
+        </button>
+    </a>
        
     </div>
-
-
-    <script src="{{ $chart->cdn() }}"></script>
-
-    {{ $chart->script() }}
 
 @endsection
