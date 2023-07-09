@@ -22,6 +22,12 @@ class DatabaseSeeder extends Seeder
             ParkSeeder::class,
             CardSeeder::class,
             DogSeeder::class,
+
+            //=========== Seeders para mostrar estadisticas =================
+
+            AdoptionDogSeeder::class,
+            AppointmentSeeder::class,
+            LostDogSeeder::class,
         ]);
     }
 }

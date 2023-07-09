@@ -17,7 +17,7 @@ class AdoptionDogFactory extends Factory
     public function definition(): array
     {
         return [
-            'temp_name' => fake()->firstName(null),
+            'temp_name' => fake()->unique()->firstName(null),
             'gender' => fake()->randomElement(['M','H']),
             'race' => fake()->randomElement(['Pug','Labrador', 'Caniche', 'Beagle', 'Mestizo', 'Boxer', 'Terrier',]),
             'date_of_birth' => $this->faker->date('Y-m-d', 'now'),
