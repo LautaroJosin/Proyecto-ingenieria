@@ -12,6 +12,7 @@ use App\Http\Controllers\AdoptionDogController;
 use App\Http\Controllers\LostDogController;
 use App\Http\Controllers\DonationCampaignController;
 use App\Http\Controllers\TinderController;
+use App\Http\Controllers\StatisticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,4 +150,4 @@ Route::get('tinder/filter', [TinderController::class, 'filter'])->name('tinder.f
 
 /* ============== Statistics ============== */
 
-Route::get('statistics' , [StatisticsController::class,'index'])->name(statistics.index);
+Route::get('statistics' , [StatisticsController::class,'index'])->name('statistics.index');
