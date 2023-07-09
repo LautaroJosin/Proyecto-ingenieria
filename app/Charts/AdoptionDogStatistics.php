@@ -4,6 +4,8 @@ namespace App\Charts;
 
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 
+use App\Models\AdoptionDog;
+
 class AdoptionDogStatistics
 {
     protected $chart;
@@ -13,11 +15,15 @@ class AdoptionDogStatistics
         $this->chart = $chart;
     }
 
-    public function build(): \ArielMejiaDev\LarapexCharts\PieChart
+    public function build(): \ArielMejiaDev\LarapexCharts\DonutChart
     {
-        return $this->chart->pieChart()
+        return $this->chart->donutChart()
             ->setTitle('Cantidad de perros en adopción publicados')
-            ->addData([40, 50, 30])
-            ->setLabels(['Player 7', 'Player 10', 'Player 9']);
+            ->addData([
+                \App\Models\AdoptionDog::where('state', 'A')->count(),
+                \App\Models\AdoptionDog::where('state', 'S')->count(),
+            ])
+            ->setLabels(['Cantidad de perros adoptados','Cantidad de perros sin adoptar'])
+            ->setFontColor('#ffffff');
     }
 }
