@@ -43,6 +43,22 @@
             Ver estadisticas del servicio de perdida y busqueda
         </button>
     </a>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <form  method="POST" action="{{ route('statistics.destroy') }}">
+        @csrf
+        @method('DELETE')
+        <button class="mb-2 border p-5 hover:bg-red-700" type="submit">
+            Eliminar datos
+        </button>
+    </form>
        
     </div>
 

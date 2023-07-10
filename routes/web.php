@@ -154,3 +154,4 @@ Route::get('statistics' , [StatisticsController::class,'index'])->name('statisti
 Route::get('statistics/AdoptionDog' , [StatisticsController::class,'showStatisticsAdopDog'])->name('statistics.index1');
 Route::get('statistics/Appointment' , [StatisticsController::class,'showStatisticsAppoint'])->name('statistics.index2');
 Route::get('statistics/LostDog' , [StatisticsController::class,'showStatisticsLostDog'])->name('statistics.index3');
+Route::delete('statistics/destroy' , [StatisticsController::class,'destroyAll'])->name('statistics.destroy');

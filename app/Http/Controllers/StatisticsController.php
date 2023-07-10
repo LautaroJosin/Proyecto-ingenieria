@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+
 use App\Charts\AdoptionDogStatistics;
 use App\Charts\AppointmentStatistics;
 use App\Charts\LostDogStatistics;
+
+
+use App\Models\Appointment;
+use App\Models\AdoptionDog;
+use App\Models\LostDog;
+use App\Models\AdoptionRequested;
 
 class StatisticsController extends Controller
 {
@@ -78,5 +86,24 @@ class StatisticsController extends Controller
         }
         return false;
 
+    }
+
+    /* Elimina de la base de datos todas las tuplas de :
+        - Turnos
+        - Perros en adopcion
+        - Perros perdidos
+    */
+    public function destroyAll() {
+        
+        Appointment::truncate();
+
+        Schema::disableForeignKeyConstraints();
+
+        AdoptionDog::truncate();
+        LostDog::truncate();
+
+        Schema::enableForeignKeyConstraints();
+
+        return redirect()->route('statistics.index');
     }
 }
