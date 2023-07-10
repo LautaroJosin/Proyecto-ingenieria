@@ -24,10 +24,11 @@ class DatabaseSeeder extends Seeder
             DogSeeder::class,
 
             //=========== Seeders para mostrar estadisticas =================
-
+            
             AdoptionDogSeeder::class,
             AppointmentSeeder::class,
             LostDogSeeder::class,
+            
         ]);
     }
 }

@@ -12,13 +12,21 @@
 
     <div class="text-pages">
 
-        {!! $chart->container() !!}
+        @if(!empty($msj))
+            <h1 class="text-2xl text-center">{{$msj}}</h1>
+        @else
+            {!! $chart->container() !!}
+
+
+            <script src="{{ $chart->cdn() }}"></script>
+
+            {{ $chart->script() }}
+
+        @endif
        
     </div>
 
 
-    <script src="{{ $chart->cdn() }}"></script>
-
-    {{ $chart->script() }}
+    
 
 @endsection
