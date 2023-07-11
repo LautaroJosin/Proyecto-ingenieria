@@ -14,6 +14,7 @@ use App\Models\Appointment;
 use App\Models\AdoptionDog;
 use App\Models\LostDog;
 use App\Models\AdoptionRequested;
+use App\Models\LostRequest;
 
 class StatisticsController extends Controller
 {
@@ -93,13 +94,16 @@ class StatisticsController extends Controller
         - Perros en adopcion
         - Perros perdidos
     */
-    public function destroyAll() {
-        
-        Appointment::truncate();
-
+    public function destroyAll()
+    {
         Schema::disableForeignKeyConstraints();
 
+        Appointment::truncate();
+
+        AdoptionRequested::truncate();
         AdoptionDog::truncate();
+
+        LostRequest::truncate();
         LostDog::truncate();
 
         Schema::enableForeignKeyConstraints();
